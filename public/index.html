@@ -5,33 +5,33 @@
     <meta charset="utf-8">
     <title>Shower tracker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" />
-    <link rel="stylesheet" href="/assets/argon-dashboard.css">
-    <link rel="stylesheet" href="/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="/assets/mobileclient.css">
+    <link rel="stylesheet" href="./assets/argon-dashboard.css">
+    <link rel="stylesheet" href="./fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="./assets/mobileclient.css">
     <!-- generics -->
-    <link rel="icon" href="/assets/favicon-color/favicon-32.png" sizes="32x32">
-    <link rel="icon" href="/assets/favicon-color/favicon-57.png" sizes="57x57">
-    <link rel="icon" href="/assets/favicon-color/favicon-76.png" sizes="76x76">
-    <link rel="icon" href="/assets/favicon-color/favicon-96.png" sizes="96x96">
-    <link rel="icon" href="/assets/favicon-color/favicon-128.png" sizes="128x128">
-    <link rel="icon" href="/assets/favicon-color/favicon-196.png" sizes="196x196">
-    <link rel="icon" href="/assets/favicon-color/favicon-228.png" sizes="228x228">
+    <link rel="icon" href="./assets/favicon-color/favicon-32.png" sizes="32x32">
+    <link rel="icon" href="./assets/favicon-color/favicon-57.png" sizes="57x57">
+    <link rel="icon" href="./assets/favicon-color/favicon-76.png" sizes="76x76">
+    <link rel="icon" href="./assets/favicon-color/favicon-96.png" sizes="96x96">
+    <link rel="icon" href="./assets/favicon-color/favicon-128.png" sizes="128x128">
+    <link rel="icon" href="./assets/favicon-color/favicon-196.png" sizes="196x196">
+    <link rel="icon" href="./assets/favicon-color/favicon-228.png" sizes="228x228">
     <!-- Android -->
-    <link rel="shortcut icon" href="/assets/favicon-color/favicon-196.png" sizes="196x196">
+    <link rel="shortcut icon" href="./assets/favicon-color/favicon-196.png" sizes="196x196">
     <!-- iOS -->
-    <link rel="apple-touch-icon" href="/assets/favicon-color/favicon-120.png" sizes="120x120">
-    <link rel="apple-touch-icon" href="/assets/favicon-color/favicon-152.png" sizes="152x152">
-    <link rel="apple-touch-icon" href="/assets/favicon-color/favicon-180.png" sizes="180x180">
+    <link rel="apple-touch-icon" href="./assets/favicon-color/favicon-120.png" sizes="120x120">
+    <link rel="apple-touch-icon" href="./assets/favicon-color/favicon-152.png" sizes="152x152">
+    <link rel="apple-touch-icon" href="./assets/favicon-color/favicon-180.png" sizes="180x180">
     <!-- Windows -->
     <meta name="msapplication-TileColor" content="#FFFFFF">
-    <meta name="msapplication-TileImage" content="/assets/favicon-color/favicon-144.png">
+    <meta name="msapplication-TileImage" content="./assets/favicon-color/favicon-144.png">
 </head>
 
 <body>
     <div class="container-fluid">
         <div class="row align-items-center border-bottom" id="header-row">
             <div class="col-auto mt-3 mb-3 pr-0">
-                <img src="/assets/mark.svg">
+                <img src="./assets/mark.svg">
             </div>
             <div class="col align-middle">
                 <h1 class="text-dark mb-0 border-left pl-4"><i class="fas fa-shower mr-2"></i> Shower tracker</h1>
@@ -76,10 +76,10 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="/assets/recorder.js"></script>
-    <script type="text/javascript" src="/assets/js/microphone.js"></script>
-    <script type="text/javascript" src="/model/edge-impulse-standalone.js"></script>
-    <script type="text/javascript" src="/model/classifier.js"></script>
+    <script type="text/javascript" src="./assets/recorder.js"></script>
+    <script type="text/javascript" src="./assets/js/microphone.js"></script>
+    <script type="text/javascript" src="./model/edge-impulse-standalone.js"></script>
+    <script type="text/javascript" src="./model/classifier.js"></script>
     <script>
         const sensor = new MicrophoneSensor();
         const grantPermissions = document.querySelector('#grant-permissions-button');
