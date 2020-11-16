@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Shower tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/assets/argon-dashboard.css">
+    <link rel="stylesheet" href="/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/assets/mobileclient.css">
+    <!-- generics -->
+    <link rel="icon" href="/assets/favicon-color/favicon-32.png" sizes="32x32">
+    <link rel="icon" href="/assets/favicon-color/favicon-57.png" sizes="57x57">
+    <link rel="icon" href="/assets/favicon-color/favicon-76.png" sizes="76x76">
+    <link rel="icon" href="/assets/favicon-color/favicon-96.png" sizes="96x96">
+    <link rel="icon" href="/assets/favicon-color/favicon-128.png" sizes="128x128">
+    <link rel="icon" href="/assets/favicon-color/favicon-196.png" sizes="196x196">
+    <link rel="icon" href="/assets/favicon-color/favicon-228.png" sizes="228x228">
+    <!-- Android -->
+    <link rel="shortcut icon" href="/assets/favicon-color/favicon-196.png" sizes="196x196">
+    <!-- iOS -->
+    <link rel="apple-touch-icon" href="/assets/favicon-color/favicon-120.png" sizes="120x120">
+    <link rel="apple-touch-icon" href="/assets/favicon-color/favicon-152.png" sizes="152x152">
+    <link rel="apple-touch-icon" href="/assets/favicon-color/favicon-180.png" sizes="180x180">
+    <!-- Windows -->
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="/assets/favicon-color/favicon-144.png">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row align-items-center border-bottom" id="header-row">
+            <div class="col-auto mt-3 mb-3 pr-0">
+                <img src="/assets/mark.svg">
+            </div>
+            <div class="col align-middle">
+                <h1 class="text-dark mb-0 border-left pl-4"><i class="fas fa-shower mr-2"></i> Shower tracker</h1>
+            </div>
+        </div>
+
+        <div class="row mt-4" id="permission-view">
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-body text-center card-icon">
+                        <i class="fas fa-mobile text-light">
+                            <i class="fas fa-lock text-dark"></i>
+                        </i>
+                    </div>
+                    <div class="card-body text-center pb-0">
+                        <h2>Permission required</h2>
+                    </div>
+                    <div class="card-body text-center mb-4">
+                        <button type="button" class="btn btn-primary" id="grant-permissions-button">Give access to the microphone</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4" id="inferencing-in-progress" style="display: none">
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-body text-center mt-5">
+                        <div class="col text-center mb--4">
+                            <div class="sampling-circle"></div>
+                            <div class="sampling-seconds-left text-gray" id="inferencing-time-left">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="card-body text-center pb-0 pt-0">
+                        <h2 id="inferencing-recording-data-message">Listening...</h2>
+                    </div>
+                    <div class="card-body text-center text-lg" id="inferencing-result">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/assets/recorder.js"></script>
+    <script type="text/javascript" src="/assets/js/microphone.js"></script>
+    <script type="text/javascript" src="/model/edge-impulse-standalone.js"></script>
+    <script type="text/javascript" src="/model/classifier.js"></script>
+    <script>
+        const sensor = new MicrophoneSensor();
+        const grantPermissions = document.querySelector('#grant-permissions-button');
+
+        const views = {
+            permission: document.querySelector('#permission-view'),
+            inference: document.querySelector('#inferencing-in-progress'),
+            inferenceResult: document.querySelector('#inferencing-result')
+        };
+
+        // store results here so we don't invoke the classifier again for the same window
+        const classifyCache = {};
+
+        grantPermissions.onclick = ev => {
+            ev.preventDefault();
+
+            if (!sensor.hasSensor()) {
+                return alert('Your device does not seem to have a microphone');
+            }
+
+            sensor.checkPermissions(true).then(async (result) => {
+                if (result) {
+                    const classifier = window.classifier = new EdgeImpulseClassifier();
+                    await classifier.init();
+
+                    views.permission.style.display = 'none';
+                    views.inference.style.display = '';
+
+                    let allData = [];
+                    let allClassifications = [];
+                    let showerStarted = null;
+
+                    const onSampleComplete = (obj) => {
+                        sensor.takeSample(1000, 16000, () => {}).then(onSampleComplete);
+
+                        allData = allData.concat(obj.values);
+                        console.log(Date.now(), 'allData is', allData.length / 16000, 'seconds');
+
+                        const windowSize = 5 * 16000;
+                        const windowStep = 1 * 16000;
+                        const classifyWindowLength = 1 * 16000;
+                        const classifyWindowOverlap = 0.25 * 16000;
+
+                        // if we have at least one window of data...
+                        if (allData.length >= windowSize) {
+                            let window = allData.slice(allData.length - windowSize, allData.length);
+
+                            let noiseCount = 0;
+                            let showerCount = 0;
+                            let uncertainCount = 0;
+
+                            // in here we'll take 1 second slices, with 300 ms. overlap that we then classify (total 14 windows)
+                            console.time('classifyWindow');
+                            for (let wx = 0; wx <= windowSize - classifyWindowLength; wx += classifyWindowOverlap) {
+                                const cacheKey = allData.length - windowSize + wx;
+
+                                let classifyResult;
+                                if (!classifyCache[cacheKey]) {
+                                    let slice = window.slice(wx, wx + classifyWindowLength);
+
+                                    classifyCache[cacheKey] = classifier.classify(slice, false);
+                                }
+
+                                classifyResult = classifyCache[cacheKey];
+                                let noise = classifyResult.results.find(r => r.label === 'noise').value;
+                                let shower = classifyResult.results.find(r => r.label === 'shower').value;
+
+                                if (noise >= 0.6) {
+                                    noiseCount++;
+                                }
+                                else if (shower >= 0.6) {
+                                    showerCount++;
+                                }
+                                else {
+                                    uncertainCount++;
+                                }
+                            }
+                            console.timeEnd('classifyWindow');
+
+                            let totalCount = noiseCount + showerCount + uncertainCount;
+                            let conclusion = 'uncertain';
+                            if (noiseCount / totalCount >= 0.6) {
+                                allClassifications.push('noise');
+                                conclusion = 'noise';
+                            }
+                            else if (showerCount / totalCount >= 0.8) {
+                                allClassifications.push('shower');
+                                conclusion = 'shower';
+                            }
+                            else {
+                                allClassifications.push('uncertain');
+                                // totalUncertain++;
+                            }
+
+                            console.log('at position', (allData.length / 16000) + 's',
+                                'noise', noiseCount, 'shower', showerCount, 'uncertain', uncertainCount, '(' + conclusion + ')');
+
+                            let begin = allClassifications.length - 5;
+                            if (begin < 0) begin = 0;
+                            if (allClassifications.slice(begin).filter(f => f === 'shower').length >= 3) {
+                                views.inferenceResult.innerHTML = '<i class="fas fa-shower mr-2"></i> Showering';
+                                if (!showerStarted) {
+                                    showerStarted = Date.now();
+                                }
+                            }
+                            else if (showerStarted) {
+                                if (allClassifications.slice(begin).filter(f => f === 'shower').length === 0) {
+                                    views.inferenceResult.textContent = 'Not showering';
+                                    alert('You showered for ' + (Math.floor((Date.now() - showerStarted) / 1000) + 3) + ' seconds');
+                                    showerStarted = null;
+                                }
+                            }
+                            else if (allClassifications.length >= 5) {
+                                views.inferenceResult.textContent = 'Not showering';
+                            }
+                        }
+                    };
+                    // start up the sensor
+                    await sensor.takeSample(200, 16000, () => {});
+
+                    // then take 1s of data
+                    sensor.takeSample(1000, 16000, () => {}).then(onSampleComplete);
+                }
+                else {
+                    alert('User has rejected microphone permissions');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
