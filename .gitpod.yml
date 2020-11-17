@@ -5,7 +5,11 @@ image:
 ports:
   - port: 6080
     onOpen: ignore 
-  
+  - port: 5900
+    onOpen: ignore 
+  - port: 8001
+    onOpen: open-browser
+    
 tasks:
   - init:    pip3 install --upgrade pip                                             &&
              apachectl start
