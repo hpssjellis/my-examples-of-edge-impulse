@@ -1,0 +1,22 @@
+## Customized platform.local.txt to compile for mbed targets under Windows
+## This recipe works around the Windows limit of 32k characters in a cmd line by calling .o files from a text file during linking
+## Install: put file under your mbed sub-directory - ie: C:\Users\MYUSER\AppData\Local\Arduino15\packages\arduino\hardware\mbed\1.1.4
+## You can also find the local arduino folder in the IDE under File -> Preferences -> see preferences.txt location in the bottom part of the window
+
+## hooks
+
+# create a txt file with all object file paths from libraries and sketch folders (core\variant.cpp.o needed too for linking)
+recipe.hooks.linking.prelink.1.pattern=cmd /c dir /b /s {build.path}\sketch\*.o > {build.path}\obj_files_tmp.txt
+recipe.hooks.linking.prelink.2.pattern=cmd /c "dir /b /s {build.path}\libraries\*.o >> {build.path}\obj_files_tmp.txt 2>nul & exit 0"
+recipe.hooks.linking.prelink.3.pattern=cmd /c echo "{build.path}\core\variant.cpp.o" >> {build.path}\obj_files_tmp.txt
+
+# replace \ by \\ in file paths (otherwise escaped by linker) and save in new txt file
+recipe.hooks.linking.prelink.4.pattern=cmd /v /c "@echo off && for /f %a in ({build.path}\obj_files_tmp.txt) do (set line=%a && set line=!line:\=\\! && echo !line! >> {build.path}\obj_files.txt)"
+
+# delete txt file after linking
+recipe.hooks.linking.postlink.1.pattern=cmd /c del {build.path}\obj_files.txt
+
+
+## modify compile patterns (@{build.path}\obj_files.txt)
+
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}"  "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "@{compiler.mbed.ldflags}" "-T{build.variant.path}/{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" --specs=nano.specs --specs=nosys.specs {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" @{build.path}\obj_files.txt -Wl,--whole-archive "{build.path}/{archive_file}" {compiler.mbed} -Wl,--no-whole-archive -Wl,--start-group {compiler.mbed.extra_ldflags} {compiler.libraries.ldflags} -Wl,--end-group
