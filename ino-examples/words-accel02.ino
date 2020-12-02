@@ -83,7 +83,7 @@ void loop()
 {
     //ei_printf("\nStarting inferencing in 2 seconds...\n");
     digitalWrite(LEDB, HIGH);  //off
-    delay(400);
+    delay(1000);            //wait a second
     digitalWrite(LEDB, LOW);
     //ei_printf("Sampling...\n");
 
@@ -128,13 +128,9 @@ void loop()
     for (size_t ix = 0; ix < EI_CLASSIFIER_LABEL_COUNT; ix++) {
 
        if (result.classification[ix].value > 0.3){ 
-          if (result.classification[ix].label != "unknown"){
-            
-            // if (result.classification[ix].label = "W"){myWords   += "W";}
-            // if (result.classification[ix].label == "O"){myWords  += "O";}
-            // if (result.classification[ix].label == "R"){myWords  += "R";}
-            // if (result.classification[ix].label == "D"){myWords  += "D";}
-            // if (result.classification[ix].label == "S"){myWords  += "S";}
+          if (result.classification[ix].label == "unknown"){
+               myWords.remove(myWords.length()-1);
+             } else{
              myWords  += result.classification[ix].label;
              char copy[50];
              myWords.toCharArray(copy, 50);
