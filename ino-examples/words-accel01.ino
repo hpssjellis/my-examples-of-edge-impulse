@@ -83,7 +83,7 @@ void loop()
 {
     //ei_printf("\nStarting inferencing in 2 seconds...\n");
 
-    //delay(2000);
+    delay(400);
 
     //ei_printf("Sampling...\n");
 
