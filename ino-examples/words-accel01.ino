@@ -129,8 +129,8 @@ void loop()
 
        if (result.classification[ix].value > 0.5){ 
           if (result.classification[ix].label != "unknown"){
-             myWords += String(result.classification[ix].label);
-             ei_printf(String(myWords)); 
+             myWords += result.classification[ix].label;
+             ei_printf("    %s:",myWords); 
           }
         }  //Only print the label if the classification is greater than 50%
 
