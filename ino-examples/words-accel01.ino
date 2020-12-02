@@ -124,13 +124,13 @@ void loop()
    // ei_printf("Predictions ");
    // ei_printf("(DSP: %d ms., Classification: %d ms., Anomaly: %d ms.)",
      //   result.timing.dsp, result.timing.classification, result.timing.anomaly);
-    ei_printf(": \n");
+   // ei_printf(": \n");
     for (size_t ix = 0; ix < EI_CLASSIFIER_LABEL_COUNT; ix++) {
 
        if (result.classification[ix].value > 0.5){ 
           if (result.classification[ix].label != "unknown"){
-             myWords += result.classification[ix].label;
-             ei_printf("    %s:",myWords); 
+            // myWords += result.classification[ix].label;
+             ei_printf("%s",result.classification[ix].label); 
           }
         }  //Only print the label if the classification is greater than 50%
 
