@@ -3,6 +3,7 @@
 <img  src="../images/twitter-edge01.png" >
                                           
 <h2>Blog: Jeremy Ellis aka <a href="https://twitter.com/rocksetta">@Rocksetta</a> About Edge Impulse Group Data Collection</h2>
+ Date: 2 weeks during the end of  Nov, 2020
 
 
 Sharing of your Edge impulse projects live to other people needs a Pro paid account. 
@@ -145,27 +146,30 @@ It can be changed later but it is best to remember to change the label BEFORE ta
    
 <br><br><img  src="../images/blog/a110-spectralAnalysis.png"><br><br> 
     
-    
+     <br><br><li>  Now it is time to train your Neural Network using the "NN Classifier" The default values should be fine, my students changed things which may not have helped much.
+    Click "Start Training" and go have a break. The confusion matrix can then show you that this model has some issue. So back to data collection, and repeat.
+    Great for my students to realise that actually making a Neural Netork is not all Science, their is a bit of an Art to getting hyperparameters and the data just right.<br>
+    Note that Edge Impuls allows you to edit your model design and somewhere you can actually write the code for the model if you must.
     
     
     
    
 <br><br><img  src="../images/blog/a120-NN.png"><br><br> 
     
+        <br><br><li> Next deployment. We downloaded an Arduino Library, but you have several other options. Then hold your breath to see if it works.<br>
+    Actually this last step is easy for Arduino users, but a bit confusing if you are new to it. You download the zipped file to your computer
+    Tell the Arduino Sketch-->Library Manager where to find the file. The go to examples --> Find your Impulse Named same as your prioject 
+    (even though the library had ie- infront of the name). In our case we loaded the acceleration static example and it worked. Just not very well for some letters.
     
+    Back to the drawing board. We also need to change the given code file so that we can start using our Nano 33 BLE Snese to write words on the serial monitor just by moving the arduino in the shape fo the 
+    letters. Still work to do
+    
+    
+<br><br><img  src="../images/blog/a130-deploy.png"><br><br>
     
   </ol>   
    
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-These images will be used when I have written about them:<br><br>
-
-
-<br><br><img  src="../images/blog/a110-spectralAnalysis.png"><br><br>
-
-<br><br><img  src="../images/blog/a130-deploy.png"><br><br>
-<br><br><img  src="../images/blog/"><br><br>
 
   
 
