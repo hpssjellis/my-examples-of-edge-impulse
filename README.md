@@ -1,7 +1,7 @@
 # my-examples-of-edge-impulse
 My examples of using Edge Impulse for machine Learning for High School Students
 
-#  Demo of WebAssembly   
+#  Website for this Repository Index of pages   
 https://hpssjellis.github.io/my-examples-of-edge-impulse/public/index.html
 
 
