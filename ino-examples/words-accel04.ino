@@ -21,11 +21,14 @@
  */
 
 /* Includes ---------------------------------------------------------------- */
-#include <words_inference.h>
+#include <w4-words_inference.h>
 #include <Arduino_LSM9DS1.h>
 
 /* Constant defines -------------------------------------------------------- */
 #define CONVERT_G_TO_MS2    9.80665f
+String myWords ="";
+
+
 
 /* Private variables ------------------------------------------------------- */
 static bool debug_nn = false; // Set this to true to see e.g. features generated from the raw signal
@@ -33,14 +36,11 @@ static bool debug_nn = false; // Set this to true to see e.g. features generated
 /**
 * @brief      Arduino setup function
 */
-
-
-String myWords ="";
-
 void setup()
 {
     // put your setup code here, to run once:
     Serial.begin(115200);
+    delay(10000);
     Serial.println("Edge Impulse Inferencing Demo");
 
     if (!IMU.begin()) {
@@ -81,7 +81,8 @@ void ei_printf(const char *format, ...) {
 */
 void loop()
 {
-    //ei_printf("\nStarting inferencing in 2 seconds...\n");
+   // ei_printf("\nStarting inferencing in 2 seconds...\n");
+
     digitalWrite(LEDB, HIGH);  //off
     delay(2000);            //wait a second
     digitalWrite(LEDB, LOW);    
@@ -90,6 +91,8 @@ void loop()
     delay(200);            //wait a second
     digitalWrite(LEDB, LOW);
     //ei_printf("Sampling...\n");
+
+   //ei_printf("Sampling...\n");
 
     // Allocate a buffer here for the values we'll read from the IMU
     float buffer[EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE] = { 0 };
@@ -125,40 +128,42 @@ void loop()
     }
 
     // print the predictions
-   // ei_printf("Predictions ");
-   // ei_printf("(DSP: %d ms., Classification: %d ms., Anomaly: %d ms.)",
-     //   result.timing.dsp, result.timing.classification, result.timing.anomaly);
-   // ei_printf(": \n");
+    ei_printf("Predictions ");
+    ei_printf("(DSP: %d ms., Classification: %d ms., Anomaly: %d ms.)",
+        result.timing.dsp, result.timing.classification, result.timing.anomaly);
+    ei_printf(": \n");
     for (size_t ix = 0; ix < EI_CLASSIFIER_LABEL_COUNT; ix++) {
-
-       if (result.classification[ix].value > 0.2){ 
-          if (result.classification[ix].label == "erase"){
-               myWords.remove(myWords.length()-1);
-               
-             Serial.println("Deleting one letter");
-             } else if (result.classification[ix].label == "unknown"){
-                  ei_printf("Predictions ");
-                  ei_printf("(DSP: %d ms., Classification: %d ms., Anomaly: %d ms.)",
-                      result.timing.dsp, result.timing.classification, result.timing.anomaly);
-                  ei_printf(": \n");
-             }
-             
-             else{
-             myWords  += result.classification[ix].label;
-             char copy[50];
-             myWords.toCharArray(copy, 50);
-             ei_printf(copy); 
-             ei_printf("\n"); 
-          }
-        }  //Only print the label if the classification is greater than 30%
-
-      
       //  ei_printf("    %s: %.5f\n", result.classification[ix].label, result.classification[ix].value);
+      
+      if (result.classification[ix].value > 0.2){ 
+        
+        if (result.classification[ix].label == "erase"){
+               myWords.remove(myWords.length()-1); 
+               Serial.println("Deleting one letter");
+        }
+        if (result.classification[ix].label == "unknown"){
+                  ei_printf("Predictions ");
+                  ei_printf("(DSP: %d ms., Classification: %d ms., Anomaly: %d ms.)", result.timing.dsp, result.timing.classification, result.timing.anomaly);
+                  ei_printf(": \n");
+        }
+        if (result.classification[ix].label == "still"){
+               Serial.println(" ");  // writing a space
+        }
+        const char* L = result.classification[ix].label;
+        if (L == "W" ||L == "O" ||L == "R" ||L == "D" ||L == "S" ){
+            myWords += L;
+            Serial.print(myWords);
+        }
+
+      } // if over 0.2  
     }
+
+}  
+
 #if EI_CLASSIFIER_HAS_ANOMALY == 1
     ei_printf("    anomaly score: %.3f\n", result.anomaly);
 #endif
-}
+
 
 #if !defined(EI_CLASSIFIER_SENSOR) || EI_CLASSIFIER_SENSOR != EI_CLASSIFIER_SENSOR_ACCELEROMETER
 #error "Invalid model for current sensor"
