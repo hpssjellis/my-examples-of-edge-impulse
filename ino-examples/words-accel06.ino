@@ -80,7 +80,7 @@ void loop()
 {
    // ei_printf("\nStarting inferencing in 2 seconds...\n");
 
-    delay(2000);    digitalWrite(LEDB, HIGH);  //off
+    digitalWrite(LEDB, HIGH);  //off
     delay(2000);            
     digitalWrite(LEDB, LOW);  // on  
     delay(200);    
@@ -130,7 +130,7 @@ void loop()
     for (size_t ix = 0; ix < EI_CLASSIFIER_LABEL_COUNT; ix++) {
     //    ei_printf("    %s: %.5f\n", result.classification[ix].label, result.classification[ix].value);
   if (result.classification[ix].value > 0.3){ 
-        // do thing if "still"
+
         if (result.classification[ix].label == "erase"){
                myWords.remove(myWords.length()-1); 
                Serial.println("Deleting one letter");
@@ -143,15 +143,20 @@ void loop()
         if (result.classification[ix].label == "space"){
               myWords += " ";   // add a space
               Serial.println(myWords + ".");
+        }        
+        if (result.classification[ix].label == "still"){
+              Serial.print(myWords + ".");
         }
         const char* L = result.classification[ix].label;
         if (L == "W" ||L == "O" ||L == "R" ||L == "D" ||L == "S" ){
             myWords += L;
-            Serial.println(myWords);
+            Serial.print(myWords + ": "+ String(result.classification[ix].value) + ", ");
         }
 
       } // if over 0.3  
-    }
+    } 
+    
+    Serial.println();
 
 
 }
