@@ -19,7 +19,9 @@ Starting with a 5 x 4 array but as a 20 element linear array. Pick a subset 3 x 
   
   //Show the main arrray on the webpage
   document.getElementById('myArea01').value = document.myIntArray
-                                         
+  
+              
+  // show main array as a table            
   myTemp = '<table border=1><tr>' 
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){ 
       myTemp +='<td>'+myLoop + '</td>'  
@@ -40,7 +42,8 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
 <input type=button value="Crop" onClick="{
                                          
   myW = document.getElementById('myInWidth').value     
-  myH = document.getElementById('myInHeight').value    
+  myH = document.getElementById('myInHeight').value 
+  mySmallMax = myW * myH                                       
   myX = document.getElementById('myInStartWidth').value - 1   
   myY = document.getElementById('myInStartHeight').value                                      
                                          
@@ -61,13 +64,29 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
      }                                     
                                          
   } 
-   document.getElementById('myArea02').value = document.myCropArray                                    
+                                         
+   // show smaller array in textarea                                     
+   document.getElementById('myArea02').value = document.myCropArray 
+                                         
+                                         
+  // show smaller array as a table                                       
+   myTemp2 = '<table border=1><tr>' 
+  for (myLoop2 = 0; myLoop2 <= mySmallMax-1; myLoop2++){ 
+      myTemp2 +='<td>'+myLoop2 + '</td>'  
+      if (myLoop2 % myY == myY-1) { myTemp2 +='</tr><tr>'    } 
+  }
+  myTemp2 += '</tr></table>'
+  document.getElementById('myDiv02').innerHTML = myTemp2                                          
+                                         
+                                         
+                                         
+                                         
 }"><br><br>
 
-<textarea id="myArea01" rows=3 cols=100>...</textarea><br>
-<div id="myDiv01">...</div><br>
-<div id="myDiv02">...</div><br>
-<textarea id="myArea02" rows=3 cols=100>...</textarea><br>
+<textarea id="myArea01" rows=3 cols=100>...</textarea><br><br>
+<div id="myDiv01">...</div><br><br>
+<div id="myDiv02">...</div><br><br>
+<textarea id="myArea02" rows=3 cols=100>...</textarea><br><br>
 
 
 
