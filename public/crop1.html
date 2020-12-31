@@ -11,7 +11,6 @@ Starting with a 5 x 4 array but as a 20 element linear array. Pick a subset 3 x 
   
   // setup the main array
   document.myIntArray = new Array()
-  document.myCropArray = new Array()
   for (myLoop = 0; myLoop <= document.myMax - 1; myLoop++){
      document.myIntArray[myLoop] = myLoop
   }
@@ -47,7 +46,10 @@ Crop Height: <input type=text id="myInHeight" value=2 size=4><br><br>
   //alert(document.myIntArray)  
   //alert(myW + ', ' + myH + ', '+ myX + ', '+ myY)
 
-  //Fake 2D array then extract out the data into new smaller array                                       
+  //Fake 2D array then extract out the data into new smaller array
+  
+  document.myCropArray = new Array()                                    
+                                         
   myRow = 0;
   myCol = 0
   myCropLoop = -1;                                       
