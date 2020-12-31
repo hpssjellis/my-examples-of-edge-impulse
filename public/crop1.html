@@ -55,7 +55,7 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
      if (myLoop % document.myOriginalRow == document.myOriginalRow-1){myRow += 1} 
      myCol = myLoop - (myRow * document.myOriginalRow) + 1
     // alert(myRow + ', ' + myCol)
-     if (myRow > myX && myCol > myY && myRow < (myX+myW) && myCol <  (myY+myH) ){
+     if (myRow >= myX && myCol > myY && myRow < (myX+myW) && myCol <  (myY+myH) ){
         myCropLoop +=1
         document.myCropArray[myCropLoop] =  document.myIntArray[myLoop]                                 
      }                                     
