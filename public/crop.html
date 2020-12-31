@@ -16,8 +16,10 @@ Crop Start X: <input type=text id="myInStartWidth" value=0 size=4><br>
 Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br>
 
 <input type=button value="Crop" onClick="{
-   alert(document.myIntArray)
-   // document.getElementById('myOut01').value = document.myIntArray
+  // alert(document.myIntArray)
+  document.getElementById('myOut01').value = document.myIntArray
+   
+  for (myLoop = 0; myLoop <= 20; myLoop++){                                      
 }"><br>
 
 <textarea id="myOut01" rows=10 cols=70>...</textarea>
