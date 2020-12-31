@@ -30,5 +30,16 @@ Forum
 https://forum.edgeimpulse.com/
 
 
+# image conversions online
 
+https://lvgl.io/tools/imageconverter
+
+http://www.barth-dev.de/online/rgb565-color-picker/
+
+https://rawpixels.net/
+
+https://javl.github.io/image2cpp/
+
+
+https://www.online-utility.org/image_converter.jsp
 
