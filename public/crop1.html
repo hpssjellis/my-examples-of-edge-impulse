@@ -33,14 +33,14 @@ Starting with a 5 x 4 array but as a 20 element linear array. Pick a subset 3 x 
 
 
 Crop Start X: <input type=text id="myInStartWidth" value=0 size=4><br>
-Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
+Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br>
 Crop Width: <input type=text id="myInWidth" value=3 size=4><br>
-Crop Height: <input type=text id="myInHeight" value=2 size=4><br>
+Crop Height: <input type=text id="myInHeight" value=2 size=4><br><br>
 
 <input type=button value="Crop" onClick="{
                                              
   myX = document.getElementById('myInStartWidth').value    
-  myY = document.getElementById('myInStartHeight').value - 1 
+  myY = document.getElementById('myInStartHeight').value  
   myW = document.getElementById('myInWidth').value     
   myH = document.getElementById('myInHeight').value                                     
                                          
@@ -55,9 +55,10 @@ Crop Height: <input type=text id="myInHeight" value=2 size=4><br>
      if (myLoop % document.myOriginalRow == document.myOriginalRow-1){myRow += 1} 
      myCol = myLoop - (myRow * document.myOriginalRow) + 1
     // alert(myRow + ', ' + myCol)
-     if (myRow >= myX     &&     myCol >= myY    &&     myRow < (myX+myH)    &&    myCol <  (myY+myW) ){
+     if (myRow >= myX     &&     myCol > myY    &&     myRow < (myX+myW)    &&    myCol <  (myY+myH) ){
         myCropLoop +=1
-        document.myCropArray[myCropLoop] =  document.myIntArray[myLoop]                                 
+        document.myCropArray[myCropLoop] =  document.myIntArray[myLoop]
+        alert(myCropLoop + ', '+ myLoop + ', '+ document.myIntArray[myLoop])
      }                                     
                                          
   } 
