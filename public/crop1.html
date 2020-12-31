@@ -22,7 +22,7 @@ Starting with a 5 x 4 array but as a 20 element linear array. Pick a subset 3 x 
   myTemp = '<table border=1><tr>' 
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){ 
       myTemp +='<td>'+myLoop + '</td>'  
-      if (myLoop % document.myOriginalRow == document.myOriginalRow-1) { myTemp +='</tr><tr>'    } 
+      if (myLoop % document.myOriginalRow == document.myOriginalCol) { myTemp +='</tr><tr>'    } 
   }
   myTemp += '</tr></table>'
   document.getElementById('myDiv01').innerHTML = myTemp  
