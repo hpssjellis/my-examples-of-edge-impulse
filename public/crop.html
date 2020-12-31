@@ -44,7 +44,7 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
   myCol = 0
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){                                       
      if (myLoop % document.myOriginalRow == document.myOriginalRow-1){myRow += 1} 
-     myCol = myLoop - (myRow * document.myOriginalRow)
+     myCol = myLoop - (myRow * document.myOriginalRow) + 1
      alert(myRow + ', ' + myCol)
   } 
    //document.getElementById('myArea02').value = myRow + myCol                                     
