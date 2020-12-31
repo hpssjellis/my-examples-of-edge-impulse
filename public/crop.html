@@ -23,7 +23,7 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
   myTemp = '<table border=1><tr>' 
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){ 
       myTemp +='<td>'+myLoop + '</td>'  
-      if (myLoop % 4 == 0) { myTemp +='</tr><tr>'    } 
+      if (myLoop % 5 == 4) { myTemp +='</tr><tr>'    } 
   }
   myTemp += '</tr></table>'
   document.getElementById('myDiv01').innerHTML = myTemp                                       
