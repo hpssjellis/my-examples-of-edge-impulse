@@ -3,7 +3,10 @@
 Starting with a 5 x 4 array but as a 20 element linear array. Pick a subset 3 x 2 or other smaller array and extract the data.<br><br><br>
 
 <script>
-  document.myMax = 20
+  document.myOriginalRow = 5
+  document.myOriginalCol = 4
+  
+  document.myMax = document.myOriginalRow * document.myOriginalCol
   document.myIntArray = new Array()
   document.myCropArray = new Array()
   for (myLoop = 0; myLoop <= document.myMax - 1; myLoop++){
@@ -32,7 +35,7 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
   myTemp = '<table border=1><tr>' 
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){ 
       myTemp +='<td>'+myLoop + '</td>'  
-      if (myLoop % 5 == 4) { myTemp +='</tr><tr>'    } 
+      if (myLoop % document.myOriginalRow == document.myOriginalRow-1) { myTemp +='</tr><tr>'    } 
   }
   myTemp += '</tr></table>'
   document.getElementById('myDiv01').innerHTML = myTemp  
@@ -40,8 +43,8 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
   myRow = 0;
   myCol = 0
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){                                       
-     if (myLoop % 5 == 4){myRow += 1} 
-     myCol = myLoop - (myRow * 5)
+     if (myLoop % document.myOriginalRow == document.myOriginalRow-1){myRow += 1} 
+     myCol = myLoop - (myRow * document.myOriginalRow)
      alert(myRow + ', ' + myCol)
   } 
    //document.getElementById('myArea02').value = myRow + myCol                                     
