@@ -3,16 +3,32 @@
 Starting with a 5 x 4 array but as a 20 element linear array. Pick a subset 3 x 2 or other smaller array and extract the data.<br><br><br>
 
 <script>
+  //Globals
   document.myOriginalRow = 5
   document.myOriginalCol = 4
-  
   document.myMax = document.myOriginalRow * document.myOriginalCol
+  
+  
+  // setup the main array
   document.myIntArray = new Array()
   document.myCropArray = new Array()
   for (myLoop = 0; myLoop <= document.myMax - 1; myLoop++){
      document.myIntArray[myLoop] = myLoop
   }
-  console.log(document.myIntArray)
+  //console.log(document.myIntArray)
+  
+  //Show the main arrray on the webpage
+  document.getElementById('myArea01').value = document.myIntArray
+                                         
+  myTemp = '<table border=1><tr>' 
+  for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){ 
+      myTemp +='<td>'+myLoop + '</td>'  
+      if (myLoop % document.myOriginalRow == document.myOriginalRow-1) { myTemp +='</tr><tr>'    } 
+  }
+  myTemp += '</tr></table>'
+  document.getElementById('myDiv01').innerHTML = myTemp  
+  
+  
 </script>
 
 
@@ -29,25 +45,21 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
   myY = document.getElementById('myInStartHeight').value                                      
                                          
   //alert(document.myIntArray)  
-  alert(myW + ', ' + myH + ', '+ myX + ', '+ myY)
-  document.getElementById('myArea01').value = document.myIntArray
-                                         
-  myTemp = '<table border=1><tr>' 
-  for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){ 
-      myTemp +='<td>'+myLoop + '</td>'  
-      if (myLoop % document.myOriginalRow == document.myOriginalRow-1) { myTemp +='</tr><tr>'    } 
-  }
-  myTemp += '</tr></table>'
-  document.getElementById('myDiv01').innerHTML = myTemp  
-                                         
+  //alert(myW + ', ' + myH + ', '+ myX + ', '+ myY)
+
+  //Fake 2D array then extract out the data into new smaller array                                       
   myRow = 0;
   myCol = 0
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){                                       
      if (myLoop % document.myOriginalRow == document.myOriginalRow-1){myRow += 1} 
      myCol = myLoop - (myRow * document.myOriginalRow) + 1
-     alert(myRow + ', ' + myCol)
+    // alert(myRow + ', ' + myCol)
+     if (myRow >= myX && myCol >= myY){
+        document.myCropArray[myRow*myCol] =  document.myIntArray[myLoop]                                 
+     }                                     
+                                         
   } 
-   //document.getElementById('myArea02').value = myRow + myCol                                     
+   document.getElementById('myArea02').value = document.myCropArray                                    
 }"><br>
 
 <textarea id="myArea01" rows=7 cols=70>...</textarea><br>
