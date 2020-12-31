@@ -41,7 +41,7 @@ Crop Height: <input type=text id="myInHeight" value=2 size=4><br><br>
   myX = document.getElementById('myInStartWidth').value    
   myY = document.getElementById('myInStartHeight').value  
   myW = document.getElementById('myInWidth').value     
-  myH = document.getElementById('myInHeight').value                                     
+  myH = parseInt(document.getElementById('myInHeight').value) + 1                                     
                                          
   //alert(document.myIntArray)  
   //alert(myW + ', ' + myH + ', '+ myX + ', '+ myY)
