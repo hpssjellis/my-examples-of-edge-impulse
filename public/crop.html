@@ -19,7 +19,7 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
 
 <input type=button value="Crop" onClick="{
   // alert(document.myIntArray)
-  document.getElementById('myOut01').value = document.myIntArray
+  document.getElementById('myArea01').value = document.myIntArray
   myTemp = '<table border=1><tr>' 
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){ 
       myTemp +='<td>'+myLoop + '</td>'  
@@ -29,9 +29,10 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
   document.getElementById('myDiv01').innerHTML = myTemp                                       
 }"><br>
 
-<textarea id="myArea" rows=70 cols=7>...</textarea><br>
+<textarea id="myArea01" rows=7 cols=70>...</textarea><br>
 <div id="myDiv01">...</div><br>
 <div id="myDiv02">...</div><br>
+<textarea id="myArea02" rows=7 cols=70>...</textarea><br>
 
 
 
