@@ -13,7 +13,8 @@ Crop Start X: <input type=text id="myInStartWidth" value=0><br>
 Crop Start Y: <input type=text id="myInStartHeight" value=1><br>
 
 <input type=button value="Crop" onClick="{
-   alert()
+   alert(document.myIntArray)
+   // document.getElementById('myOut01').value = document.myIntArray
 }">
 
 <textarea id="myOut01" rows=10 cols=10>...</textarea>
