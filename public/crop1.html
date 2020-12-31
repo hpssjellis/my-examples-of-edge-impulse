@@ -57,7 +57,7 @@ Crop Height: <input type=text id="myInHeight" value=2 size=4><br><br>
      if (myLoop % document.myOriginalRow == document.myOriginalRow-1){myRow += 1} 
      myCol = myLoop - (myRow * document.myOriginalRow) + 1
     // alert(myRow + ', ' + myCol)
-     if (myRow >= myX     &&     myCol > myY    &&     myRow < (myX+myW)    &&    myCol <  (myY+myH) ){
+     if ( (myRow >= myY)     &&    ( myCol > myX)    &&     (myRow < (myY+myH))    &&    (myCol <  (myX+myW))  ){
         myCropLoop +=1
         document.myCropArray[myCropLoop] =  document.myIntArray[myLoop]
      //   alert(myCropLoop + ', '+ myLoop + ', '+ document.myIntArray[myLoop])
