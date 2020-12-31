@@ -50,17 +50,19 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br><br>
   //Fake 2D array then extract out the data into new smaller array                                       
   myRow = 0;
   myCol = 0
+  myCropLoop = -1;                                       
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){                                       
      if (myLoop % document.myOriginalRow == document.myOriginalRow-1){myRow += 1} 
      myCol = myLoop - (myRow * document.myOriginalRow) + 1
     // alert(myRow + ', ' + myCol)
      if (myRow >= myX && myCol >= myY){
-        document.myCropArray[myRow*myCol] =  document.myIntArray[myLoop]                                 
+        myCropLoop +=1
+        document.myCropArray[myCropLoop] =  document.myIntArray[myLoop]                                 
      }                                     
                                          
   } 
    document.getElementById('myArea02').value = document.myCropArray                                    
-}"><br>
+}"><br><br>
 
 <textarea id="myArea01" rows=7 cols=70>...</textarea><br>
 <div id="myDiv01">...</div><br>
