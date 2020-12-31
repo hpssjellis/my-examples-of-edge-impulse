@@ -20,10 +20,12 @@ Crop Start Y: <input type=text id="myInStartHeight" value=1 size=4><br>
 <input type=button value="Crop" onClick="{
   // alert(document.myIntArray)
   //document.getElementById('myOut01').value = document.myIntArray
-  myTemp = '' 
+  myTemp = '<table border=1><tr>' 
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){ 
-      myTemp += myLoop + ', '                                      
+      myTemp +='<td>'+myLoop + '</td>'  
+      if (myLoop % 5 == 0) { myTemp +='</tr><tr>'    } 
   }
+  myTemp += </tr></table>
   document.getElementById('myDiv01').innerHTML = myTemp                                       
 }"><br>
 
