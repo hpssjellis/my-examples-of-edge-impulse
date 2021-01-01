@@ -43,3 +43,11 @@ https://javl.github.io/image2cpp/
 
 https://www.online-utility.org/image_converter.jsp
 
+
+
+#Dominic Pajak gist for cropping
+
+https://gist.github.com/8bitkick/35b88c3a5928508abe73dc91e6777bd5#file-arduino_image_provider-cpp-L53
+
+tweet at https://twitter.com/DominicPajak/status/1345105077137096705?s=20
+
