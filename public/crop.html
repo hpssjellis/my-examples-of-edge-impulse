@@ -1,6 +1,12 @@
 <h3 align=center>Crop image data test</h3>
 
-Starting with a 5 x 4 array but as a 20 element linear array. Pick a subset 3 x 2 or other smaller array and extract the data.<br><br><br>
+Starting with a 5 x 4 array but as a 20 element 1D array. Pick a subset 3 x 2 or other smaller array and extract the data, but also as a 1D Array.<br><br><br>
+
+I am trying to visualize the issue of cropping a RGB565 byte image, I will try to crop a 160 x 120 x 2bytes raw data array, into a 32 x 32 x2bytes raw data array
+The crop coordinates can be in the top left but would be nice to crop from anywhere.
+
+The following is an integer equivalent to get an understanding of the issues.<br><br>
+
 
 <body onload="{
   //Globals
