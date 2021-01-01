@@ -31,6 +31,42 @@ Starting with a 5 x 4 array but as a 20 element linear array. Pick a subset 3 x 
   
 }">
 
+ 
+Make Array Col: <input type=text id="myInStartHeight" value=1 size=5><br>
+Make Array Row: <input type=text id="myInStartWidth" value=0 size=4><br> 
+
+<input type=button value="Make random Array" onClick="{
+                                                      
+                                                      
+  document.myOriginalRow = document.getElementById('myInStartWidth').value    
+  document.myOriginalCol = document.getElementById('myInStartHeight').value  
+  document.myMax = document.myOriginalRow * document.myOriginalCol
+  
+  
+  // setup the main array
+  document.myIntArray = new Array()
+  for (myLoop = 0; myLoop <= document.myMax - 1; myLoop++){
+     document.myIntArray[myLoop] = Math.floor(Math.random() * 99);
+  }
+  //console.log(document.myIntArray)
+  
+  //Show the main arrray on the webpage
+  document.getElementById('myArea01').value = document.myIntArray
+                                         
+  myTemp = '<table border=1><tr>' 
+  for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){ 
+      myTemp +='<td>'+document.myIntArray[myLoop] + '</td>'  
+      let myBreak = parseInt(document.myOriginalRow) - 1
+      if (myLoop % document.myOriginalRow == myBreak) { myTemp +='</tr><tr>'    } 
+  }
+  myTemp += '</tr></table>'
+  document.getElementById('myDiv01').innerHTML = myTemp                                          
+                                         
+}">  
+  
+  
+  
+  
 
 Crop Start Col: <input type=text id="myInStartHeight" value=1 size=4><br>
 Crop Start Row: <input type=text id="myInStartWidth" value=0 size=4><br>
