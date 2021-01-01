@@ -87,7 +87,7 @@ Crop Height: <input type=text id="myInHeight" value=2 size=4><br><br>
   myTemp2 = '<table border=1><tr>' 
   for (myLoop2 = 0; myLoop2 <= document.myMax2-1; myLoop2++){ 
       myTemp2 +='<td>'+document.myCropArray[myLoop2] + '</td>'  
-      if (myLoop2 % myW == myH) { myTemp2 +='</tr><tr>'    } 
+      if (myLoop2 % myH == myW) { myTemp2 +='</tr><tr>'    } 
   }
   myTemp2 += '</tr></table>'
   document.getElementById('myDiv02').innerHTML = myTemp2                                       
