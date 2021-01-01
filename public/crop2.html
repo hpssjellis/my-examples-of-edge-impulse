@@ -45,6 +45,10 @@ Make Array Row: <input type=text id="myInStartWidth" value=0 size=4><br>
   
   // setup the main array
   //document.myIntArray = new Array()
+  //zero the array
+  document.myIntArray.length = 0;                                                    
+                                                      
+                                                      
   for (myLoop = 0; myLoop <= document.myMax - 1; myLoop++){
      document.myIntArray[myLoop] = Math.floor(Math.random() * 99);
   }
