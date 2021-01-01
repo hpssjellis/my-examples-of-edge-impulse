@@ -57,7 +57,7 @@ Crop Height: <input type=text id="myInHeight" value=2 size=4><br><br>
                                          
   for (let myLoop1=myX; myLoop1 <= myH; myLoop1++){
      for (let myLoop2=myY; myLoop2 <= myW; myLoop2++){
-        mySmallerCounter +=1
+        mySmallerCounter += 1
         myMainCounter = (myLoop1*myW) + myLoop2                                 
         document.myCropArray[mySmallerCounter] =  document.myIntArray[myMainCounter]   
         alert('mySmallerCounter:' + mySmallerCounter + ', myCropArray: + myCropArray[mySmallerCounter] + ', myMainCounter: ' + myMainCounter + ', myIntArray: '+ document.myIntArray[myMainCounter]  )
