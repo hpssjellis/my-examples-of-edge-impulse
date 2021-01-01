@@ -56,12 +56,12 @@ Crop Height: <input type=text id="myInHeight" value=2 size=4><br><br>
   mySmallerCounter = -1;  
   myMainCounter = 0
                                          
-  for (let myLoop1=myX; myLoop1 <= myW; myLoop1++){
-     for (let myLoop2=myY; myLoop2 <= myH; myLoop2++){
+  for (let myLoop1=myX; myLoop1 <= (myLoop1+myW); myLoop1++){
+     for (let myLoop2=myY; myLoop2 <= (myLoop2+myH); myLoop2++){
         mySmallerCounter += 1
         myMainCounter = parseInt(myLoop1*myW) + parseInt(myLoop2)                                 
         document.myCropArray[mySmallerCounter] =  document.myIntArray[myMainCounter]   
-        alert('myLoop1: ' + myLoop1 + ', myLoop2: ' + myLoop2 +   '\nmySmallerCounter:' + mySmallerCounter + ', myCropArray: ' + myCropArray[mySmallerCounter] + '\nmyMainCounter: ' + myMainCounter + ', myIntArray: '+ document.myIntArray[myMainCounter]  )
+        //alert('myLoop1: ' + myLoop1 + ', myLoop2: ' + myLoop2 +   '\nmySmallerCounter:' + mySmallerCounter + ', myCropArray: ' + myCropArray[mySmallerCounter] + '\nmyMainCounter: ' + myMainCounter + ', myIntArray: '+ document.myIntArray[myMainCounter]  )
      }                                       
   }                                       
                                          
