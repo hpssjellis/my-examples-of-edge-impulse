@@ -22,7 +22,8 @@ Starting with a 5 x 4 array but as a 20 element linear array. Pick a subset 3 x 
   myTemp = '<table border=1><tr>' 
   for (myLoop = 0; myLoop <= document.myMax-1; myLoop++){ 
       myTemp +='<td>'+document.myIntArray[myLoop] + '</td>'  
-      if (myLoop % document.myOriginalRow == document.myOriginalCol) { myTemp +='</tr><tr>'    } 
+      let myBreak = parseInt(document.myOriginalRow) - 1
+      if (myLoop % document.myOriginalRow == myBreak) { myTemp +='</tr><tr>'    } 
   }
   myTemp += '</tr></table>'
   document.getElementById('myDiv01').innerHTML = myTemp  
@@ -87,9 +88,9 @@ Crop Height: <input type=text id="myInHeight" value=2 size=4><br><br>
   myTemp2 = '<table border=1><tr>' 
   for (myLoop2 = 0; myLoop2 <= document.myMax2-1; myLoop2++){ 
       myTemp2 +='<td>'+document.myCropArray[myLoop2] + '</td>' 
-                                  
-      if (myLoop2 % myW == myH) {  // test for new row
-         console.log('myW: ' + myW + 'myH:'+myH)                                 
+      let myBreak2 = parseInt(myW)-1                            
+      if (myLoop2 % myW == myBreak2) {  // test for new row
+         console.log('myW: ' + myW + ', myH:'+myH)                                 
          myTemp2 +='</tr><tr>'    
       }  
   }
