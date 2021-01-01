@@ -75,8 +75,26 @@ Crop Height: <input type=text id="myInHeight" value=2 size=4><br><br>
   }                                       
                                          
                                          
-     
-   document.getElementById('myArea02').value = document.myCropArray                                    
+   // show new array in textarea2  
+   document.getElementById('myArea02').value = document.myCropArray  
+                                         
+  // show new array in a table
+
+  document.myMax2 = myW * myH
+  console.log('document.myMax2')    
+  console.log(document.myMax2)                                       
+                                             
+  myTemp2 = '<table border=1><tr>' 
+  for (myLoop2 = 0; myLoop2 <= document.myMax2-1; myLoop2++){ 
+      myTemp2 +='<td>'+myLoop2 + '</td>'  
+      if (myLoop2 % myW == myH) { myTemp2 +='</tr><tr>'    } 
+  }
+  myTemp2 += '</tr></table>'
+  document.getElementById('myDiv02').innerHTML = myTemp2                                       
+                                         
+                                         
+                                         
+                                         
 }"><br><br>
 
 <textarea id="myArea01" rows=3 cols=100>...</textarea><br><br>
