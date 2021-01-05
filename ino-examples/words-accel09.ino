@@ -150,18 +150,19 @@ void loop()
         if (result.classification[ix].label == "erase"){
                myWords.remove(myWords.length()-1); 
                Serial.println("Deleting one letter");
-               Serial.println(myWords);
+              // Serial.println(myWords);
         }
         if (result.classification[ix].label == "unknown"){
               Serial.println("Clear All");
               myWords = "";
         }
         if (result.classification[ix].label == "space"){
+              Serial.println("Adding a space");
               myWords += " ";   // add a space
-              Serial.println(myWords + ".");
+             // Serial.println(myWords + ".");
         }        
         if (result.classification[ix].label == "still"){
-              Serial.println(myWords + ".");
+              //Serial.println(myWords + ".");
         }
         const char* L = result.classification[ix].label;
         if (L == "W" ||L == "O" ||L == "R" ||L == "D" ){  // "S" already dealt with
@@ -180,7 +181,7 @@ void loop()
     
     myWords += tempLetter; //update myWords
     Serial.println();
-    Serial.println(myWords);
+    Serial.println(myWords + ".");
 
 
 }
