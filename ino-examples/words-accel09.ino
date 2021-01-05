@@ -127,10 +127,13 @@ void loop()
    // ei_printf("(DSP: %d ms., Classification: %d ms., Anomaly: %d ms.)",
     //    result.timing.dsp, result.timing.classification, result.timing.anomaly);
    // ei_printf(": \n");
+
+   
+    String tempLetter = "";
+    int bestPercent = 0;
     for (size_t ix = 0; ix < EI_CLASSIFIER_LABEL_COUNT; ix++) {
     //    ei_printf("    %s: %.5f\n", result.classification[ix].label, result.classification[ix].value);
-      String tempLetter = "";
-      int bestPercent = 0;
+
 
    // important that S is the 4th  (3) element
   // hack for "S" being badly trained grabs S even if other label in loop and stops loop
@@ -162,20 +165,22 @@ void loop()
         }
         const char* L = result.classification[ix].label;
         if (L == "W" ||L == "O" ||L == "R" ||L == "D" ){  // "S" already dealt with
-  
-            if (result.classification[ix].value > bestPercent){
-              bestPercent = result.classification[ix].value;
-              tempLetter = L;
+            int myPercent = result.classification[ix].value * 100;
+            if ( myPercent > bestPercent){
+              bestPercent = myPercent;
+              tempLetter = String(L);
+              Serial.print(tempLetter + ": "+ String(myPercent) + "%, ");
             }
-            Serial.println(tempLetter + ": "+ String(result.classification[ix].value*100) + "%, ");
         }
 
       } // if over 0.3 
     } // end little "S" hack 
-       myWords += tempLetter; //update myWords
+    
     } 
     
-   // Serial.println(myWords);
+    myWords += tempLetter; //update myWords
+    Serial.println();
+    Serial.println(myWords);
 
 
 }
