@@ -129,15 +129,18 @@ void loop()
    // ei_printf(": \n");
     for (size_t ix = 0; ix < EI_CLASSIFIER_LABEL_COUNT; ix++) {
     //    ei_printf("    %s: %.5f\n", result.classification[ix].label, result.classification[ix].value);
+      String tempLetter = "";
+      int bestPercent = 0;
 
-
-
-  // hack for "S" being badly trained
-  if (result.classification[ix].label == "S" && result.classification[ix].value > 0.1){
+   // important that S is the 4th  (3) element
+  // hack for "S" being badly trained grabs S even if other label in loop and stops loop
+  if (result.classification[3].label == "S" && result.classification[3].value > 0.1){
          myWords += "S";
-         Serial.print(myWords + ": "+ String(result.classification[ix].value*100) + "%, note ix: "+ ix);
+        // Serial.print(myWords + ": "+ String(result.classification[3].value*100) + "%, note ix: "+ ix);
+         Serial.print(myWords + ": "+ String(result.classification[3].value*100) + "%, ");
+         break; //to finish this loop
     } else  {
-      
+
       if (result.classification[ix].value > 0.3){ 
     
 
@@ -155,19 +158,24 @@ void loop()
               Serial.println(myWords + ".");
         }        
         if (result.classification[ix].label == "still"){
-              Serial.print(myWords + ".");
+              Serial.println(myWords + ".");
         }
         const char* L = result.classification[ix].label;
         if (L == "W" ||L == "O" ||L == "R" ||L == "D" ){  // "S" already dealt with
-            myWords += L;
-            Serial.print(myWords + ": "+ String(result.classification[ix].value*100) + "%, ");
+  
+            if (result.classification[ix].value > bestPercent){
+              bestPercent = result.classification[ix].value;
+              tempLetter = L;
+            }
+            Serial.println(tempLetter + ": "+ String(result.classification[ix].value*100) + "%, ");
         }
 
       } // if over 0.3 
     } // end little "S" hack 
+       myWords += tempLetter; //update myWords
     } 
     
-    Serial.println();
+    Serial.println(myWords);
 
 
 }
