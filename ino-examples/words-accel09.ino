@@ -137,7 +137,7 @@ void loop()
   if (result.classification[3].label == "S" && result.classification[3].value > 0.1){
          myWords += "S";
         // Serial.print(myWords + ": "+ String(result.classification[3].value*100) + "%, note ix: "+ ix);
-         Serial.println(S + ": "+ String(result.classification[3].value*100) + "%, ");
+         Serial.println("S: "+ String(result.classification[3].value*100) + "%, ");
          break; //to finish this loop
     } else  {
 
