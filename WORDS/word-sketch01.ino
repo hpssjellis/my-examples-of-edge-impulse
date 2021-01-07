@@ -144,32 +144,36 @@ void loop()
   //       break; //to finish this loop
   //  } else  {
 
-      if (result.classification[ix].value > 0.15){ 
+      if (result.classification[ix].value > 0.05){ 
     
 
-        if (result.classification[ix].label == "erase"){
+        if (result.classification[ix].label == "erase" && result.classification[6].value < 0.2){   // only if "space" less than 50%
                myWords.remove(myWords.length()-1); 
-               Serial.println("Deleting one letter:"+ String(result.classification[ix].value*100)+"%");
+              // Serial.println("Deleting one letter:"+ String(result.classification[ix].value*100)+"%, ix: "+ ix );
+               Serial.println("Deleting one letter:"+ String(result.classification[ix].value*100)+"%, ");
               // Serial.println(myWords);
         }
         if (result.classification[ix].label == "unknown"){
-              Serial.println("Clear All: "+ String(result.classification[ix].value*100)+"%");
+              //Serial.println("Clear All: "+ String(result.classification[ix].value*100)+"%, ix: "+ ix );
+              Serial.println("Clear All: "+ String(result.classification[ix].value*100)+"%, " );
               myWords = "";
         }
-        if (result.classification[ix].label == "space"){
-              Serial.println("Adding a space: "+ String(result.classification[ix].value*100)+"%");
+        if (result.classification[ix].label == "space" && result.classification[5].value < 0.2){ // only if erase less than 50%
+             // Serial.println("Adding a space: "+ String(result.classification[ix].value*100)+"%, ix: "+ ix);
+              Serial.println("Adding a space: "+ String(result.classification[ix].value*100)+"%, ");
               myWords += " ";   // add a space
              // Serial.println(myWords + ".");
         }        
-        if (result.classification[ix].label == "still"){
+        if (result.classification[ix].label == "still"){  // do nothing
               //Serial.println(myWords + ".");
         }
-        const char* L = result.classification[ix].label;
-        if (L == "W" ||L == "O" ||L == "R" ||L == "D" ){  // "S" already dealt with
+        const char* L = result.classification[ix].label;  // L for letter
+        if (L == "W" || L == "O" || L == "R" || L == "D" || L == "S"){  
             int myPercent = result.classification[ix].value * 100;
             if ( myPercent > bestPercent){
               bestPercent = myPercent;
               tempLetter = String(L);
+              //Serial.print(tempLetter + ": "+ String(myPercent) + "%, ix: "+ ix +", ");
               Serial.print(tempLetter + ": "+ String(myPercent) + "%, ");
             }
         }
