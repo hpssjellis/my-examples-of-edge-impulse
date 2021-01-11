@@ -68,18 +68,31 @@ uint16_t rgb_to_565(uint8_t r, uint8_t g, uint8_t b) {
 
 void r565_to_rgb(uint16_t color, uint8_t *r, uint8_t *g, uint8_t *b) {
 
+  *r = byte(((color & 0xF800) >> 11) << 3);
+  *g = byte(((color & 0x7E0) >> 5) << 2);
+  *b = byte(((color & 0x1F)) << 3);
+}
+  
      // *r = ((((color >> 3) & 0x1F) * 527) + 23) >> 6;
       //*g = ((((((color & 0xE0) >> 5) | ((color & 0x03) << 3)) & 0x3F) * 259) + 33) >> 6;
      // *b = (((color & 0x1F) * 527) + 23) >> 6;
 //}
 
-    *r = (color & 0xF800) >> 8;
-    *g = (color & 0x07E0) >> 3;
-    *b = (color & 0x1F) << 3;
-}
+  //  *r = (((color & 0xF800) >> 11)*255)/31;
+  //  *g = (((color & 0x07E0) >> 5)*255)/63;
+  //  *b = (((color & 0x1F)))*255/31;
+//}
 
+ //   *r = (color & 0xF800) >> 8;
+ //   *g = (color & 0x07E0) >> 3;
+ //   *b = (color & 0x1F) << 3;
+//}
 
+//*r = ((((color >> 11) & 0x1F) * 527) + 23) >> 6;
+//*g = ((((color >> 5) & 0x3F) * 259) + 33) >> 6;
+//*b = (((color & 0x1F) * 527) + 23) >> 6;
 
+//}
 
 
 
@@ -120,6 +133,7 @@ int cutout_get_data(size_t offset, size_t length, float *out_ptr) {
 
         // then convert to out_ptr format
         float pixel_f = (r << 16) + (g << 8) + b;
+       //  float pixel_f = (r << 16) | (g << 8) | b;
         out_ptr[out_ptr_ix] = pixel_f;
 
         // and go to the next pixel
