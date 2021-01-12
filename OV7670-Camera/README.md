@@ -3,10 +3,8 @@ Started Jan 4th, 2021
 All files to use the OV7670 camera with the Nano33 BLE SENSE and hopefully later the Porttenta Vision Shield
 
 
+The main file to run is the nanoCam.ino
 
-interesting
 
+The other files were used to get the camera working properly.
 
-    int r = ((p >> 11) & 0x1f) << 3;
-    int g = ((p >> 5) & 0x3f) << 2;
-    int b = ((p >> 0) & 0x1f) << 3;
