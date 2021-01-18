@@ -1,5 +1,6 @@
 /* 
  *  By Jeremy Elis @rocksetta
+ *  From Edge Impulse Static_buffer example
  *  Hopefully this sketch is still at
  *  https://github.com/hpssjellis/my-examples-of-edge-impulse/blob/main/OV7670-Camera/nanoCamOV7670.ino
 
