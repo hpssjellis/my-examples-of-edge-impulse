@@ -1,6 +1,8 @@
 /* 
  *  By Jeremy Elis @rocksetta
  *  From Edge Impulse Static_buffer example
+ *  and RGB565 conversions from https://github.com/edgeimpulse/example-signal-from-rgb565-frame-buffer
+ *  
  *  Hopefully this sketch is still at
  *  https://github.com/hpssjellis/my-examples-of-edge-impulse/blob/main/OV7670-Camera/nanoCamOV7670.ino
 
