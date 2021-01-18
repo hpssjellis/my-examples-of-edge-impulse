@@ -122,7 +122,7 @@ void setup()
     Serial.begin(115200);
     //while (!Serial); // Don't trap the serial port unless debugging
 
-    if (!Camera.begin(QQVGA, RGB565, 5)) { //Resolution, Byte Format, FPS 1 or 5
+    if (!Camera.begin(QQVGA, RGB565, 1)) { //Resolution, Byte Format, FPS 1 or 5
        Serial.println("Failed to initialize camera!");
        while (1);
     }
