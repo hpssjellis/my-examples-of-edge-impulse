@@ -64,12 +64,12 @@ myMax = 0;
          digitalWrite(LEDR, LOW);
       }
 
-          if(myMax  >= 2000 &&  myMax < 6000){   
+          if(myMax  >= 2000 &&  myMax < 8000){   
          digitalWrite(LEDG, LOW);  // medium pitch
       }
 
 
-          if(myMax  >= 6000){   // high pitch
+          if(myMax  >= 8000){   // high pitch
          digitalWrite(LEDB, LOW);
       }
    delay(100);
