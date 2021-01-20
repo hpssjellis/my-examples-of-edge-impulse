@@ -14,7 +14,7 @@ Looks like the M4 core mcrophone test failed. Might be easy to fix
 
      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-C:\Users\jeremy.ellis\AppData\Local\Arduino15\packages\arduino\hardware\mbed\1.3.1\libraries\PDM\src\stm32\PDM.cpp:142:5: error: 'SCB_CleanDCache_by_Addr' was not declared in this scope
+C:\Users\me.windows\AppData\Local\Arduino15\packages\arduino\hardware\mbed\1.3.1\libraries\PDM\src\stm32\PDM.cpp:142:5: error: 'SCB_CleanDCache_by_Addr' was not declared in this scope
 
      SCB_CleanDCache_by_Addr((uint32_t*)_doubleBuffer.data(), AUDIO_IN_PDM_BUFFER_SIZE * 2);
 
