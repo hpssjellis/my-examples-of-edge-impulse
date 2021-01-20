@@ -12,7 +12,10 @@
 /* Includes ---------------------------------------------------------------- */
 //  Hopefully my included library is at the github repository
 //  https://github.com/hpssjellis/my-examples-of-edge-impulse/tree/main/OV7670-Camera
-#include <ov7670-08-detect-micro-restored_inference.h>
+
+
+//// #include <ov7670-08-detect-micro-restored_inference.h>
+#include <ei-ov7670-10-detect-micro-48x48_inference.h>
 
 #include <Arduino_OV767X.h>
 
