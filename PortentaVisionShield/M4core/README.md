@@ -25,6 +25,17 @@ C:\Users\me.windows\AppData\Local\Arduino15\packages\arduino\hardware\mbed\1.3.1
 
 
 
+Running another color test [m4-camera-color-test.ino](m4-camera-color-test.ino) this time using the camera I got these issues
+
+```
+error: 'SCB_InvalidateDCache_by_Addr' was not declared in this scope
+
+     SCB_InvalidateDCache_by_Addr((uint32_t*)user_buffer, GetSize(CameraCurrentResolution));
+
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+
 
 
 
