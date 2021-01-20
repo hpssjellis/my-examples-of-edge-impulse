@@ -1,3 +1,30 @@
 Problem. My Impulse does not work on the M4 innerr core. Also my sound impulse does not work.
 
-Firwt lets test if the issue is an arduino issue. Need to get the camera and microphone working on the inner core.
+First lets test if the issue is an arduino issue. Need to get the camera and microphone working on the inner core.
+
+Using [m4-microphoneTest.ino](m4-microphoneTest.ino) which shows colors depending on the highest frquency red low, green med, high blue
+
+
+Looks like the M4 core mcrophone test failed. Might be easy to fix
+
+```
+'SCB_InvalidateDCache_by_Addr' was not declared in this scope
+
+     SCB_InvalidateDCache_by_Addr((uint32_t *)&recordPDMBuf[start], AUDIO_IN_PDM_BUFFER_SIZE * 2);
+
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+C:\Users\jeremy.ellis\AppData\Local\Arduino15\packages\arduino\hardware\mbed\1.3.1\libraries\PDM\src\stm32\PDM.cpp:142:5: error: 'SCB_CleanDCache_by_Addr' was not declared in this scope
+
+     SCB_CleanDCache_by_Addr((uint32_t*)_doubleBuffer.data(), AUDIO_IN_PDM_BUFFER_SIZE * 2);
+
+     ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+```
+
+
+
+
+
+
