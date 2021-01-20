@@ -52,24 +52,25 @@ myMax = 0;
     
     for (int i = 0; i < samplesRead; i++) {
     //  Serial.println(sampleBuffer[i]);
-    if (sampleBuffer[i]> myMax){myMax = sampleBuffer[i];}
+      if (sampleBuffer[i]> myMax){
+        myMax = sampleBuffer[i];
+      }
+    }
     digitalWrite(LEDR, HIGH); // high means off
     digitalWrite(LEDG, HIGH);
     digitalWrite(LEDB, HIGH);
-
+    if(myMax < 2000){    // low pitch
+       digitalWrite(LEDR, LOW);
     }
-        if(myMax < 2000){    // low pitch
-         digitalWrite(LEDR, LOW);
-      }
 
-          if(myMax  >= 2000 &&  myMax < 10000){   
+    if(myMax  >= 2000 &&  myMax < 10000){   
          digitalWrite(LEDG, LOW);  // medium pitch
-      }
+    }
 
 
-          if(myMax  >= 10000){   // high pitch
+    if(myMax  >= 10000){   // high pitch
          digitalWrite(LEDB, LOW);
-      }
+   }
    delay(100);
     // clear the read count
     samplesRead = 0;
