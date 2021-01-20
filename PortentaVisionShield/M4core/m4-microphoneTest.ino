@@ -1,7 +1,5 @@
 /*
-  This example reads audio data from the on-board PDM microphones, and prints
-  out the samples to the Serial console. The Serial Plotter built into the
-  Arduino IDE can be used to plot the audio data (Tools -> Serial Plotter)
+Colors for higher sounds
 
   Circuit:
   - Arduino Nano 33 BLE board
@@ -64,12 +62,12 @@ myMax = 0;
          digitalWrite(LEDR, LOW);
       }
 
-          if(myMax  >= 2000 &&  myMax < 8000){   
+          if(myMax  >= 2000 &&  myMax < 10000){   
          digitalWrite(LEDG, LOW);  // medium pitch
       }
 
 
-          if(myMax  >= 8000){   // high pitch
+          if(myMax  >= 10000){   // high pitch
          digitalWrite(LEDB, LOW);
       }
    delay(100);
