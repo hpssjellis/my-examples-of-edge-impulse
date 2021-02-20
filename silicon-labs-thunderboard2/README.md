@@ -1,6 +1,6 @@
-Thunderboard stuff here
+# My Silicon Labs Thunderboard2 stuff here
 
-
+## explanatioin of the above .bin files
 
 When I first tried the ThunderBoard2 I was very imprerssed with the out-of-the-box Android (and IOS) BLE phone connection to the board. Very fancy to get up and running immediately. I then tried installing a few of my recent ei libraries, see above files and then I was shocked that I could not reset the board. Zzafter a few days of installing software and about 7 Gb later I found out tht in the demos you can install on the thunderboard the default app, but they don't actually give you the file. (Probably some reason for that) and when you dig for it it has the special format .s37
 
