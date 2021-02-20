@@ -1,7 +1,9 @@
 # My Silicon Labs Thunderboard2 stuff here
 
 ##### By @rocksetta
-##### Use at you own risk
+Use at you own risk
+
+Drag this file thunderboard-default.bin to your Thunderboard2 pop up folder to reset the board.
 
 ## explanatioin of the above .bin files
 
