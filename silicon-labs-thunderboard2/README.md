@@ -3,7 +3,8 @@
 ##### By @rocksetta
 Use at you own risk
 
-Drag this file thunderboard-default.bin to your Thunderboard2 pop up folder to reset the board.
+
+Drag this file [thunderboard-default.bin](thunderboard-default.bin) to your Thunderboard2 pop up folder to reset the board.
 
 ## explanatioin of the above .bin files
 
