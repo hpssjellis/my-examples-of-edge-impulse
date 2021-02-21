@@ -4,7 +4,7 @@
 Use at you own risk
 
 
-unzip and drag this file [thunderboard-default.zip](thunderboard-default.zip) to your Thunderboard2 pop up folder to reset the board.
+download and unzip    [thunderboard-default.zip](thunderboard-default.zip) and drag the thunderboard-default.s37 file to your Thunderboard2 pop up folder to reset the board.
 
 ## explanatioin of the above .bin files
 
@@ -16,7 +16,7 @@ I then tried putting the .s37 file on this github and you can download .bin file
 
 I hope this bin is helpful to others who also have that sense of panick that you have bricked a new board.
 
-unzip and drag this file [thunderboard-default.zip](thunderboard-default.zip) to your Thunderboard2 pop up folder to reset the board.
+download and unzip    [thunderboard-default.zip](thunderboard-default.zip) and drag the thunderboard-default.s37 file to your Thunderboard2 pop up folder to reset the board.
 
 
 
