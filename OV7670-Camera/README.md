@@ -10,3 +10,6 @@ the main arduino library is the zipped [ei-ov7670-02-detect-micro-arduino-1.0.9.
 
 The other files were used to get the camera working properly.
 
+
+![pinout-for-ov7670-and-nano33-ble-sense.png](pinout-for-ov7670-and-nano33-ble-sense.png)
+
