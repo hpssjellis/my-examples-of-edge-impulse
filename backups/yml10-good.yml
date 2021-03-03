@@ -1,0 +1,105 @@
+mage:
+  file: Dockerfile
+  
+ports:
+  - port: 8001
+  
+tasks:
+  -  command: mkdir /workspace/my-gitpod-of-openthread/logs                                                                    &&
+              mkdir /workspace/my-gitpod-of-openthread/openthread-all                                                          &&
+              mkdir /workspace/my-gitpod-of-openthread/nordic                                                                  &&
+              touch /workspace/my-gitpod-of-openthread/logs/gitpod-install-log.txt                                             &&
+       
+
+              echo "Starting .gitpod.yml installation" &>>  /workspace/my-gitpod-of-openthread/logs/gitpod-install-log.txt     &&
+              cd /workspace/my-gitpod-of-openthread/openthread-all                                                             &&
+              git clone https://github.com/openthread/wpantund.git                                                             &&
+              git clone https://github.com/openthread/borderrouter.git                                                         &&
+              git clone https://github.com/openthread/openthread.git                                                           &&
+              git clone https://github.com/openthread/pyspinel.git                                                             &&
+              
+              cd /workspace/my-gitpod-of-openthread/nordic                                                                     &&
+              
+              wget https://www.nordicsemi.com/-/media/Software-and-other-downloads/SDKs/nRF5/Binaries/nRF5SDK160098a08e2.zip   &&
+              wget https://www.nordicsemi.com/-/media/Software-and-other-downloads/SDKs/nRF5-SDK-for-Thread/nRF5-SDK-for-Thread-and-Zigbee/nRF5SDKforThreadandZigbeev3209fade31.zip   &&
+              wget https://www.nordicsemi.com/-/media/Software-and-other-downloads/SDKs/nRF5-SDK-for-Thread/nRF5-SDK-for-Thread/nRF5SDKforThreadv011084a130f.zip   &&
+              wget https://www.nordicsemi.com/-/media/Software-and-other-downloads/SDKs/nRF5-SDK-for-Thread/RaspPiOTBorderRouterDemov3101alpha.zip   &&
+      
+              unzip nRF5SDK160098a08e2.zip -d nordic-sdk                                 &&
+              unzip nRF5SDKforThreadandZigbeev3209fade31.zip -d nordic-thread-zigbee     && 
+              unzip nRF5SDKforThreadv011084a130f.zip -d nordic-thread-only               &&
+              unzip RaspPiOTBorderRouterDemov3101alpha.zip -d nordic-rpi-otbr            &&
+    
+              rm nRF5SDK160098a08e2.zip                                    &&
+              rm nRF5SDKforThreadandZigbeev3209fade31.zip                  &&  
+              rm nRF5SDKforThreadv011084a130f.zip                          &&
+              rm RaspPiOTBorderRouterDemov3101alpha.zip                    &&
+
+   
+              cd /workspace/my-gitpod-of-openthread/openthread-all/openthread                                                  &&
+              ./bootstrap                                                                                                      &&
+              make -f examples/Makefile-nrf52840 USB=1 BOOTLOADER=USB BORDER_AGENT=1 BORDER_ROUTER=1 COMMISSIONER=1 JOINER=1 UDP_PROXY=1 CFLAGS+=-UCONFIG_GPIO_AS_PINRESET  &&
+              arm-none-eabi-objcopy output/nrf52840/bin/ot-ncp-ftd -O ihex output/nrf52840/bin/ncp_app.hex                     &&
+              arm-none-eabi-objcopy output/nrf52840/bin/ot-cli-ftd -O ihex output/nrf52840/bin/ot-cli-ftd.hex                  &&
+              arm-none-eabi-objcopy output/nrf52840/bin/ot-ncp-ftd -O binary output/nrf52840/bin/ncp_app.bin                   &&
+              arm-none-eabi-objcopy output/nrf52840/bin/ot-cli-ftd -O binary output/nrf52840/bin/ot-cli-ftd.bin                &&             
+                                                                                      
+              
+              
+              cp /workspace/my-gitpod-of-openthread/backups/Makefile.posix  /workspace/my-gitpod-of-openthread/nordic/nordic-thread-only/components/toolchain/gcc/Makefile.posix    &&
+              cp /workspace/my-gitpod-of-openthread/backups/Makefile.posix  /workspace/my-gitpod-of-openthread/nordic/nordic-sdk/components/toolchain/gcc/Makefile.posix            &&
+              cp /workspace/my-gitpod-of-openthread/backups/Makefile.posix  /workspace/my-gitpod-of-openthread/nordic/nordic-thread-zigbee/components/toolchain/gcc/Makefile.posix  &&
+
+              cd /workspace/my-gitpod-of-openthread/nordic/nordic-sdk/examples/ble_peripheral/ble_app_blinky/pca10059/s140/armgcc &&
+              make                                    &&
+              cd _build                               &&
+              ls -la                                  &&
+              cd /workspace/my-gitpod-of-openthread   &&
+              python3 -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/develop/scripts/get-platformio.py)" &&
+              
+              
+              cd /workspace/my-gitpod-of-openthread &&
+              chmod +x a01-uno-create.sh            &&
+              
+
+              
+                            
+              cd /workspace/my-gitpod-of-openthread/edge-impulse/local-build-firmware/siliconLabs                                     &&
+              git clone https://github.com/edgeimpulse/example-standalone-inferencing-silabs-tb-sense-2.git   silicon-labs-compile    &&     
+              mv a01-siliconLabs.sh   silicon-labs-compile/                                                                           &&
+              cd silicon-labs-compile                                                                                                 &&
+              chmod +x a01-siliconLabs.sh                                                                                             &&
+              
+              
+              
+              cd /workspace/my-gitpod-of-openthread/edge-impulse/local-build-firmware/portenta                               &&
+              chmod +x a00-get-lora-example.sh                                                                               &&
+              chmod +x a01-portenta.sh                                                                                       &&
+              
+              cd /home/linuxbrew/.linuxbrew                                                                                  &&
+              curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh                        &&
+              
+              
+              cd /workspace/my-gitpod-of-openthread/edge-impulse/local-build-firmware/etaCompute                             &&
+              git clone https://github.com/edgeimpulse/example-standalone-inferencing-ecm3532.git    eta-compile             &&         
+              mv a01-eta.sh eta-compile/                                                                                     &&         
+              cd eta-compile                                                                                                 &&         
+              chmod +x a01-eta.sh                                                                                            &&
+              
+              
+              
+              
+              
+              
+              echo "Upload your edge impulse C++ file without EON to this folder "                                           &&
+              echo "Then run ./a01-eta.sh, Then move the Build folder top .bin file to the eta-edge-serial-upload folder and download to your computer " &&
+              
+              
+              
+              
+              
+
+              echo "Ending .gitpod.yml installation"  &>>   /workspace/my-gitpod-of-openthread/logs/gitpod-install-log.txt    
+              
+              
+     
