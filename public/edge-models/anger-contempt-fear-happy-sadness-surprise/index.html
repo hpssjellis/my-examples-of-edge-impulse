@@ -5,14 +5,14 @@
     <title>Browser inference demo</title>
 </head>
 <body>
-    Version 0.0.7<br>
+    Version 0.0.8<br>
     <h1 align=center> Example Emotion Edge Impulse WASM (Web Assembly) </h1>
     <script src="./model/edge-impulse-standalone.js"></script>
     <script src="./model/run-impulse.js"></script>
     <span id="mySpan01">...</span>
 
     <script>
-        document.results = 0 // global variable
+       
         (async () => {
             var classifier = new EdgeImpulseClassifier();
             await classifier.init();
