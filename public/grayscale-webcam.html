@@ -1,0 +1,113 @@
+<video autoplay></video>
+<p><button class="capture-button">Capture video</button>
+<p><button id="cssfilters-apply">Apply CSS filter</button></p>
+
+<script>
+const captureVideoButton = document.querySelector(
+  "#cssfilters .capture-button"
+);
+const cssFiltersButton = document.querySelector("#cssfilters-apply");
+const video = document.querySelector("#cssfilters video");
+
+let filterIndex = 0;
+const filters = [
+  "grayscale",
+  "sepia",
+  "blur",
+  "brightness",
+  "contrast",
+  "hue-rotate",
+  "hue-rotate2",
+  "hue-rotate3",
+  "saturate",
+  "invert",
+  "",
+];
+
+captureVideoButton.onclick = function () {
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(handleSuccess)
+    .catch(handleError);
+};
+
+cssFiltersButton.onclick = video.onclick = function () {
+  video.className = filters[filterIndex++ % filters.length];
+};
+
+function handleSuccess(stream) {
+  video.srcObject = stream;
+}
+</script>
+
+<video autoplay></video>
+<img src="">
+<canvas style="display:none;"></canvas>
+
+<script>
+const captureVideoButton = document.querySelector(
+  "#screenshot .capture-button"
+);
+const screenshotButton = document.querySelector("#screenshot-button");
+const img = document.querySelector("#screenshot img");
+const video = document.querySelector("#screenshot video");
+
+const canvas = document.createElement("canvas");
+
+captureVideoButton.onclick = function () {
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(handleSuccess)
+    .catch(handleError);
+};
+
+screenshotButton.onclick = video.onclick = function () {
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d").drawImage(video, 0, 0);
+  // Other browsers will fall back to image/png
+  img.src = canvas.toDataURL("image/webp");
+};
+
+function handleSuccess(stream) {
+  screenshotButton.disabled = false;
+  video.srcObject = stream;
+}
+</script>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <video
+      width="320"
+      height="240"
+      autoplay
+      playsinline
+      muted
+      id="player"
+    ></video>    <!-- Play the webcam feed through this video tag. -->
+    <script>
+      // The DOM element of the video tag is designated as the "player".
+      var player = document.getElementById("player");
+
+	  // If the permission to use the webcam is approved, the webcam streaming video is designated as the source object of the "player".
+      var handleSuccess = function (stream) {
+        player.srcObject = stream;
+      };
+
+      navigator.mediaDevices.getUserMedia({ video: true }).then(handleSuccess);
+        // Use the mediaDevices interface of the current browser object (navigator) to receive the user's permission to use the media input device.
+    </script>
+  </body>
+</html>
+
+
+
