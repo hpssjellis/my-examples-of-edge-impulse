@@ -1,7 +1,3 @@
-// Load the inferencing WebAssembly module
-const Module = require('./edge-impulse-standalone');
-const fs = require('fs');
-
 // Classifier module
 let classifierInitialized = false;
 Module.onRuntimeInitialized = function() {
@@ -70,22 +66,3 @@ class EdgeImpulseClassifier {
         return { ptr: ptr, buffer: heapBytes };
     }
 }
-
-if (!process.argv[2]) {
-    return console.error('Requires one parameter (a comma-separated list of raw features, or a file pointing at raw features)');
-}
-
-let features = process.argv[2];
-if (fs.existsSync(features)) {
-    features = fs.readFileSync(features, 'utf-8');
-}
-
-// Initialize the classifier, and invoke with the argument passed in
-let classifier = new EdgeImpulseClassifier();
-classifier.init().then(async () => {
-    let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
-
-    console.log(result);
-}).catch(err => {
-    console.error('Failed to initialize classifier', err);
-});
