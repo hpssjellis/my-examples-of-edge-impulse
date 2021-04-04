@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <video
+      width="320"
+      height="240"
+      autoplay
+      playsinline
+      muted
+      id="player"
+    ></video>    <!-- Play the webcam feed through this video tag. -->
+    <script>
+      // The DOM element of the video tag is designated as the "player".
+      var player = document.getElementById("player");
+
+	  // If the permission to use the webcam is approved, the webcam streaming video is designated as the source object of the "player".
+      var handleSuccess = function (stream) {
+        player.srcObject = stream;
+      };
+
+      navigator.mediaDevices.getUserMedia({ video: true }).then(handleSuccess);
+        // Use the mediaDevices interface of the current browser object (navigator) to receive the user's permission to use the media input device.
+    </script>
+  </body>
+</html>
