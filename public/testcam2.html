@@ -13,11 +13,11 @@
       
     <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
     
-    <canvas id="output"  ></canvas> <br>  
+    <canvas id="output" ></canvas> <br>  
     
     
     
-Version 0.1.10  <br>
+Version 0.1.11  <br>
 
     
     <div id="description">
@@ -26,7 +26,7 @@ Version 0.1.10  <br>
       <div id="myDiv01">...</div>
     </div>
       
-    <video id="video" playsinline="" style="
+<!--    <video id="video" playsinline="" style="
       -webkit-transform: scaleX(-1);
       transform: scaleX(-1);
       visibility: hidden;
@@ -34,7 +34,7 @@ Version 0.1.10  <br>
       height: auto;
       ">
     </video>
-      
+      -->
   </div>
 </body>
 
@@ -94,7 +94,7 @@ const setupCamera = async function(){
     pixels[i + 2] = lightness;
   }
    
-  //document.ctx.scale(-1, 1);  // mirror image
+  document.ctx.scale(-1, 1);  // mirror image
   document.ctx.putImageData(imgData, 0, 0);
   
   let ImageData2 = document.ctx.getImageData(20, 20, 60, 60);
@@ -107,8 +107,8 @@ const setupCamera = async function(){
   
   
   
-  const myPictureNow  = async function(){    
-  
+//  const myPictureNow  = async function(){    
+  funciton myPictureNow(){
  // document.ctx.putImageData(imgData, 0, 0);
   
  // let ImageData2 = document.ctx.getImageData(20, 20, 60, 60);
