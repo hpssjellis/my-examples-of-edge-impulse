@@ -1,113 +1,164 @@
-<video autoplay></video>
-<p><button class="capture-button">Capture video</button>
-<p><button id="cssfilters-apply">Apply CSS filter</button></p>
+
+
+<body>
+  <div id="main">
+      
+    <video id="video" playsinline="" style="
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      width: auto;
+      height: auto;
+    "></video>
+      
+    <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid;-webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
+    
+    <canvas id="output" style=" -webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas> <br>  
+    
+    
+    
+Version 0.1.25  <br>
+
+    
+    <div id="description">
+        <div id="description-title" style="font-size:30px">GRAYSCALE Demo</div>
+
+      <div id="myDiv01">...</div>
+    </div>
+      
+<!--    <video id="video" playsinline="" style="
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      visibility: hidden;
+      width: auto;
+      height: auto;
+      ">
+    </video>
+      -->
+  </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@2.0.0/dist/tf-backend-wasm.js"></script>
+
+
+
+
+
+
 
 <script>
-const captureVideoButton = document.querySelector(
-  "#cssfilters .capture-button"
-);
-const cssFiltersButton = document.querySelector("#cssfilters-apply");
-const video = document.querySelector("#cssfilters video");
 
-let filterIndex = 0;
-const filters = [
-  "grayscale",
-  "sepia",
-  "blur",
-  "brightness",
-  "contrast",
-  "hue-rotate",
-  "hue-rotate2",
-  "hue-rotate3",
-  "saturate",
-  "invert",
-  "",
-];
+let myTimer01 = 0;
 
-captureVideoButton.onclick = function () {
-  navigator.mediaDevices
-    .getUserMedia(constraints)
-    .then(handleSuccess)
-    .catch(handleError);
-};
+const setupCamera = async function(){   
+    
+  video = document.getElementById('video');
 
-cssFiltersButton.onclick = video.onclick = function () {
-  video.className = filters[filterIndex++ % filters.length];
-};
-
-function handleSuccess(stream) {
+  const stream = await navigator.mediaDevices.getUserMedia({
+    'audio': false,
+    'video': { facingMode: 'user' },
+  });
   video.srcObject = stream;
+//  video.className = filters[filterIndex++ % filters.length];
+  return new Promise((resolve) => {
+    video.onloadedmetadata = () => {
+      resolve(video);
+    };
+  });
 }
-</script>
 
-<video autoplay></video>
-<img src="">
-<canvas style="display:none;"></canvas>
+ 
 
-<script>
-const captureVideoButton = document.querySelector(
-  "#screenshot .capture-button"
-);
-const screenshotButton = document.querySelector("#screenshot-button");
-const img = document.querySelector("#screenshot img");
-const video = document.querySelector("#screenshot video");
 
-const canvas = document.createElement("canvas");
 
-captureVideoButton.onclick = function () {
-  navigator.mediaDevices
-    .getUserMedia(constraints)
-    .then(handleSuccess)
-    .catch(handleError);
+
+
+
+  
+ const renderPrediction = async function(){   
+
+   document.ctx.clearRect(0, 0, document.ctx.canvas.width, document.ctx.canvas.width);
+ 
+ 
+   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+  
+  
+  let imgData = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
+  let pixels = imgData.data;
+  for (var i = 0; i < pixels.length; i += 4) {
+
+    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+
+    pixels[i] = lightness;
+    pixels[i + 1] = lightness;
+    pixels[i + 2] = lightness;
+  }
+   
+  document.ctx.scale(-1, 1);  // mirror image
+  document.ctx.putImageData(imgData, 0, 0);
+  
+  //let ImageData2 = document.ctx.getImageData(20, 20, 60, 60);
+  //console.log(ImageData2);
+
+
+
+  requestAnimationFrame(renderPrediction);
+}; 
+  
+  
+  
+  const myPictureNow  = async function(){    
+//  function myPictureNow(){
+
+  
+  let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
+  console.log(ImageData2);
+ // alert('hi')
+  ctxOnTop.putImageData(ImageData2, 0, 0);
+  document.getElementById('myDiv01').innerHTML = JSON.stringify(ImageData2.data, 2, '<br>')
+}
+  
+  
+  
+  
+const setupPage = async function(){   
+    
+  const state = {
+     backend: 'wasm'
+  }; 
+        
+  await tf.setBackend(state.backend);
+ // await tf.setBackend('wasm');
+  await setupCamera();
+  video.play();
+
+  videoWidth = video.videoWidth;
+  videoHeight = video.videoHeight;
+  video.width = videoWidth;
+  video.height = videoHeight;
+
+
+  canvasOnTop = document.getElementById('myOnTopOutput');
+  canvasOnTop.width = videoWidth;
+  canvasOnTop.height = videoHeight;
+  ctxOnTop = canvasOnTop.getContext('2d'); 
+  
+  
+  canvas = document.getElementById('output');
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+  document.ctx = canvas.getContext('2d'); 
+ // setInterval(function(){ alert("Hello"); }, 3000);
+  setInterval(myPictureNow, 3000);
+ // myTimer01 = setInterval('myPictureNow', 3000); 
+  renderPrediction();
+  
+  
 };
 
-screenshotButton.onclick = video.onclick = function () {
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext("2d").drawImage(video, 0, 0);
-  // Other browsers will fall back to image/png
-  img.src = canvas.toDataURL("image/webp");
-};
+  
+  // main program!
+setupPage();
 
-function handleSuccess(stream) {
-  screenshotButton.disabled = false;
-  video.srcObject = stream;
-}
+
 </script>
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <video
-      width="320"
-      height="240"
-      autoplay
-      playsinline
-      muted
-      id="player"
-    ></video>    <!-- Play the webcam feed through this video tag. -->
-    <script>
-      // The DOM element of the video tag is designated as the "player".
-      var player = document.getElementById("player");
-
-	  // If the permission to use the webcam is approved, the webcam streaming video is designated as the source object of the "player".
-      var handleSuccess = function (stream) {
-        player.srcObject = stream;
-      };
-
-      navigator.mediaDevices.getUserMedia({ video: true }).then(handleSuccess);
-        // Use the mediaDevices interface of the current browser object (navigator) to receive the user's permission to use the media input device.
-    </script>
-  </body>
-</html>
-
-
-
