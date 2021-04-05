@@ -1,6 +1,6 @@
 
 
-Version 0.0.7  <br>
+Version 0.0.8  <br>
 
 
 
@@ -162,8 +162,9 @@ const setupPage = async () => {
   canvas.width = videoWidth;
   canvas.height = videoHeight;
   ctx = canvas.getContext('2d');
- // ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+  ctx.fillRect(100, 100, 50, 50);
+ //   ctx.clearRect(0, 0, canvas.width, canvas.height);
 //  model = await blazeface.load();
 
  // renderPrediction();
