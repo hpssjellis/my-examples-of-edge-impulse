@@ -69,6 +69,40 @@ async function setupCamera() {
   });
 }
 
+ 
+  
+ const renderPrediction = async () => {
+
+   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+   ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+  
+  
+  let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+  let pixels = imgData.data;
+  for (var i = 0; i < pixels.length; i += 4) {
+
+    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+
+    pixels[i] = lightness;
+    pixels[i + 1] = lightness;
+    pixels[i + 2] = lightness;
+  }
+  ctx.putImageData(imgData, 0, 0);
+  
+  let ImageData2 = ctx.getImageData(20, 20, 60, 60);
+  console.log(ImageData2);
+
+
+
+  requestAnimationFrame(renderPrediction);
+}; 
+  
+  
+  
+  
+  
+  
   
   
 const setupPage = async () => {
@@ -99,23 +133,7 @@ const setupPage = async () => {
   canvas.height = videoHeight;
   ctx = canvas.getContext('2d'); 
   
-  ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
   
-  
-  let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
-  let pixels = imgData.data;
-  for (var i = 0; i < pixels.length; i += 4) {
-
-    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
-
-    pixels[i] = lightness;
-    pixels[i + 1] = lightness;
-    pixels[i + 2] = lightness;
-  }
-  ctx.putImageData(imgData, 0, 0);
-  
-  let ImageData2 = ctx.getImageData(20, 20, 60, 60);
-  console.log(ImageData2);
   
   
 };
@@ -123,5 +141,6 @@ const setupPage = async () => {
   
   // main program!
 setupPage();
+renderPrediction();
 
 </script>
