@@ -79,7 +79,8 @@ const setupCamera = async function(){
  const renderPrediction = async function(){   
 
    document.ctx.clearRect(0, 0, document.ctx.canvas.width, document.ctx.canvas.width);
-
+ 
+   document.ctx.scale(-1, 1);  // mirror image
    document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
   
   
@@ -94,7 +95,7 @@ const setupCamera = async function(){
     pixels[i + 2] = lightness;
   }
    
- // document.ctx.scale(-1, 1);  // mirror image
+
   document.ctx.putImageData(imgData, 0, 0);
   
   let ImageData2 = document.ctx.getImageData(20, 20, 60, 60);
