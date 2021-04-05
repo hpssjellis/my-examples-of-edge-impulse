@@ -1,6 +1,6 @@
 
 
-Version 0.0.6  <br>
+Version 0.0.7  <br>
 
 
 
@@ -78,6 +78,11 @@ async function setupCamera() {
   });
 }
 
+  
+  
+  
+  
+  
 const renderPrediction = async () => {
 
   const returnTensors = false;
@@ -128,6 +133,11 @@ const renderPrediction = async () => {
   requestAnimationFrame(renderPrediction);
 };
 
+  
+  
+  
+  
+  
 const setupPage = async () => {
     
   const state = {
@@ -145,14 +155,15 @@ const setupPage = async () => {
   video.height = videoHeight;
 
   video.className = filters[2];  // 0 grayscale
-
   console.log(video)
+  
+  
   canvas = document.getElementById('output');
   canvas.width = videoWidth;
   canvas.height = videoHeight;
   ctx = canvas.getContext('2d');
-  ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-
+ // ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 //  model = await blazeface.load();
 
  // renderPrediction();
