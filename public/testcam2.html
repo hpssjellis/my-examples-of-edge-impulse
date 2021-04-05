@@ -17,7 +17,7 @@
     
     
     
-Version 0.1.9  <br>
+Version 0.1.10  <br>
 
     
     <div id="description">
@@ -93,6 +93,8 @@ const setupCamera = async function(){
     pixels[i + 1] = lightness;
     pixels[i + 2] = lightness;
   }
+   
+  //document.ctx.scale(-1, 1);  // mirror image
   document.ctx.putImageData(imgData, 0, 0);
   
   let ImageData2 = document.ctx.getImageData(20, 20, 60, 60);
@@ -147,6 +149,7 @@ const setupPage = async function(){
   canvas.height = videoHeight;
   document.ctx = canvas.getContext('2d'); 
   
+  myTimer01 = setInterval('myPictureNow', 3000); 
   renderPrediction();
   
   
