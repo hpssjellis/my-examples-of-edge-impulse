@@ -73,12 +73,12 @@ async function setupCamera() {
   
  const renderPrediction = async () => {
 
-   ctx.clearRect(0, 0, canvas.width, canvas.height);
+   document.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-   ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
   
   
-  let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+  let imgData = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
   let pixels = imgData.data;
   for (var i = 0; i < pixels.length; i += 4) {
 
@@ -88,9 +88,9 @@ async function setupCamera() {
     pixels[i + 1] = lightness;
     pixels[i + 2] = lightness;
   }
-  ctx.putImageData(imgData, 0, 0);
+  document.ctx.putImageData(imgData, 0, 0);
   
-  let ImageData2 = ctx.getImageData(20, 20, 60, 60);
+  let ImageData2 = document.ctx.getImageData(20, 20, 60, 60);
   console.log(ImageData2);
 
 
@@ -131,7 +131,7 @@ const setupPage = async () => {
   canvas = document.getElementById('output');
   canvas.width = videoWidth;
   canvas.height = videoHeight;
-  ctx = canvas.getContext('2d'); 
+  document.ctx = canvas.getContext('2d'); 
   
   
   
