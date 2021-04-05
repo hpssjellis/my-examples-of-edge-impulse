@@ -111,7 +111,8 @@ const setupCamera = async function(){
 //  function myPictureNow(){
 
   
-  let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
+  //let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
+  let ImageData2 = document.ctx.getImageData(100, 100, 10, 10);
   console.log(ImageData2);
  // alert('hi')
   ctxOnTop.putImageData(ImageData2, 0, 0);
