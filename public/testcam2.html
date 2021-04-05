@@ -17,7 +17,7 @@
     
     
     
-Version 0.1.26  <br>
+Version 0.1.27  <br>
 
     
     <div id="description">
@@ -60,7 +60,7 @@ const setupCamera = async function(){
     'video': { facingMode: 'user' },
   });
   video.srcObject = stream;
-//  video.className = filters[filterIndex++ % filters.length];
+
   return new Promise((resolve) => {
     video.onloadedmetadata = () => {
       resolve(video);
@@ -97,11 +97,7 @@ const setupCamera = async function(){
    
   document.ctx.scale(-1, 1);  // mirror image
   document.ctx.putImageData(imgData, 0, 0);
-  
-  //let ImageData2 = document.ctx.getImageData(20, 20, 60, 60);
-  //console.log(ImageData2);
-
-
+ 
 
   requestAnimationFrame(renderPrediction);
 }; 
