@@ -1,6 +1,6 @@
 
 
-Version 0.0.9  <br>
+Version 0.0.11  <br>
 
 
 
@@ -170,12 +170,12 @@ const setupPage = async () => {
  // renderPrediction();
   
   
-  var imagedata = video.getImageData(0, 0, 100, 100);
+//  var imagedata = video.getImageData(0, 0, 100, 100);
 // use the putImageData function that illustrates how putImageData works
-putImageData(ctx, imagedata, 150, 0, 50, 50, 25, 25);
+//putImageData(ctx, imagedata, 150, 0, 50, 50, 25, 25);
   
   
-  
+   ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
   
 };
 
