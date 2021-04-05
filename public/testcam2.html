@@ -1,6 +1,6 @@
 
 
-Version 0.0.3  <br>
+Version 0.0.4  <br>
 
 
 
@@ -70,7 +70,7 @@ async function setupCamera() {
     'video': { facingMode: 'user' },
   });
   video.srcObject = stream;
-  video.className = filters[filterIndex++ % filters.length];
+//  video.className = filters[filterIndex++ % filters.length];
   return new Promise((resolve) => {
     video.onloadedmetadata = () => {
       resolve(video);
@@ -144,6 +144,8 @@ const setupPage = async () => {
   video.width = videoWidth;
   video.height = videoHeight;
 
+  video.className = filters[0];
+  
   canvas = document.getElementById('output');
   canvas.width = videoWidth;
   canvas.height = videoHeight;
