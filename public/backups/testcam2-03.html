@@ -1,0 +1,165 @@
+
+
+
+<body>
+  <div id="main">
+      
+    <video id="video" playsinline="" style="
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      width: auto;
+      height: auto;
+    "></video>
+      
+    <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
+    
+    <canvas id="output" ></canvas> <br>  
+    
+    
+    
+Version 0.1.21  <br>
+
+    
+    <div id="description">
+        <div id="description-title" style="font-size:30px">GRAYSCALE Demo</div>
+
+      <div id="myDiv01">...</div>
+    </div>
+      
+<!--    <video id="video" playsinline="" style="
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      visibility: hidden;
+      width: auto;
+      height: auto;
+      ">
+    </video>
+      -->
+  </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@2.0.0/dist/tf-backend-wasm.js"></script>
+
+
+
+
+
+
+
+<script>
+
+let myTimer01 = 0;
+
+const setupCamera = async function(){   
+    
+  video = document.getElementById('video');
+
+  const stream = await navigator.mediaDevices.getUserMedia({
+    'audio': false,
+    'video': { facingMode: 'user' },
+  });
+  video.srcObject = stream;
+//  video.className = filters[filterIndex++ % filters.length];
+  return new Promise((resolve) => {
+    video.onloadedmetadata = () => {
+      resolve(video);
+    };
+  });
+}
+
+ 
+
+
+
+
+
+
+  
+ const renderPrediction = async function(){   
+
+   document.ctx.clearRect(0, 0, document.ctx.canvas.width, document.ctx.canvas.width);
+ 
+ 
+   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+  
+  
+  let imgData = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
+  let pixels = imgData.data;
+  for (var i = 0; i < pixels.length; i += 4) {
+
+    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+
+    pixels[i] = lightness;
+    pixels[i + 1] = lightness;
+    pixels[i + 2] = lightness;
+  }
+   
+  document.ctx.scale(-1, 1);  // mirror image
+  document.ctx.putImageData(imgData, 0, 0);
+  
+  //let ImageData2 = document.ctx.getImageData(20, 20, 60, 60);
+  //console.log(ImageData2);
+
+
+
+  requestAnimationFrame(renderPrediction);
+}; 
+  
+  
+  
+  const myPictureNow  = async function(){    
+//  function myPictureNow(){
+
+  
+  let ImageData2 = document.ctx.getImageData(20, 20, 60, 60);
+  console.log(ImageData2);
+ // alert('hi')
+  ctxOnTop.putImageData(ImageData2, 0, 0);
+  
+}
+  
+  
+  
+  
+const setupPage = async function(){   
+    
+  const state = {
+     backend: 'wasm'
+  }; 
+        
+  await tf.setBackend(state.backend);
+ // await tf.setBackend('wasm');
+  await setupCamera();
+  video.play();
+
+  videoWidth = video.videoWidth;
+  videoHeight = video.videoHeight;
+  video.width = videoWidth;
+  video.height = videoHeight;
+
+
+  canvasOnTop = document.getElementById('myOnTopOutput');
+  canvasOnTop.width = videoWidth;
+  canvasOnTop.height = videoHeight;
+  ctxOnTop = canvasOnTop.getContext('2d'); 
+  
+  
+  canvas = document.getElementById('output');
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+  document.ctx = canvas.getContext('2d'); 
+ // setInterval(function(){ alert("Hello"); }, 3000);
+  setInterval(myPictureNow, 3000);
+ // myTimer01 = setInterval('myPictureNow', 3000); 
+  renderPrediction();
+  
+  
+};
+
+  
+  // main program!
+setupPage();
+
+
+</script>
