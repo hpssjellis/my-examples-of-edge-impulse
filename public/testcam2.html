@@ -1,6 +1,6 @@
 
 
-Version 0.0.14  <br>
+Version 0.0.15  <br>
 
 
 
@@ -176,6 +176,22 @@ const setupPage = async () => {
   
   
    ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+  
+  
+    let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+  let pixels = imgData.data;
+  for (var i = 0; i < pixels.length; i += 4) {
+
+    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+
+    pixels[i] = lightness;
+    pixels[i + 1] = lightness;
+    pixels[i + 2] = lightness;
+  }
+  ctx.putImageData(imgData, 0, 0);
+  
+  
+  
   
 };
 
