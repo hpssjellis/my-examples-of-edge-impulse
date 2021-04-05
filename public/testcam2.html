@@ -17,7 +17,7 @@
     
     
     
-Version 0.1.15  <br>
+Version 0.1.16  <br>
 
     
     <div id="description">
@@ -148,8 +148,9 @@ const setupPage = async function(){
   canvas.width = videoWidth;
   canvas.height = videoHeight;
   document.ctx = canvas.getContext('2d'); 
-  setInterval(function(){ alert("Hello"); }, 3000);
-  myTimer01 = setInterval('myPictureNow', 3000); 
+ // setInterval(function(){ alert("Hello"); }, 3000);
+  setInterval(myPictureNow, 3000);
+ // myTimer01 = setInterval('myPictureNow', 3000); 
   renderPrediction();
   
   
