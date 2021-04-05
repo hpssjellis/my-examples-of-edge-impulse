@@ -17,7 +17,7 @@
     
     
     
-Version 0.1.21  <br>
+Version 0.1.22  <br>
 
     
     <div id="description">
@@ -112,11 +112,11 @@ const setupCamera = async function(){
 //  function myPictureNow(){
 
   
-  let ImageData2 = document.ctx.getImageData(20, 20, 60, 60);
+  let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
   console.log(ImageData2);
  // alert('hi')
   ctxOnTop.putImageData(ImageData2, 0, 0);
-  
+  document.getElementById('myDiv01').innerHTML = 'Wow'
 }
   
   
