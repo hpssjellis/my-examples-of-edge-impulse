@@ -48,20 +48,7 @@ Version 0.0.16  <br>
 
 
 <script>
-let filterIndex = 0;
-const filters = [
-  "grayscale",
-  "sepia",
-  "blur",
-  "brightness",
-  "contrast",
-  "hue-rotate",
-  "hue-rotate2",
-  "hue-rotate3",
-  "saturate",
-  "invert",
-  "",
-];
+
 
 
 async function setupCamera() {    
@@ -83,64 +70,6 @@ async function setupCamera() {
 
   
   
-  
-  
-  
-const renderPrediction = async () => {
-
-  const returnTensors = false;
-  const flipHorizontal = true;
-  const annotateBoxes = true;
-  const predictions = await model.estimateFaces(
-    video, returnTensors, flipHorizontal, annotateBoxes);
-
-  document.getElementById('myDiv01').innerHTML = ''
-  if (predictions.length > 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < predictions.length; i++) {
-      if (returnTensors) {
-        predictions[i].topLeft = predictions[i].topLeft.arraySync();
-        predictions[i].bottomRight = predictions[i].bottomRight.arraySync();
-        if (annotateBoxes) {
-          predictions[i].landmarks = predictions[i].landmarks.arraySync();
-        }
-      }
-      try {
-          document.getElementById('myDiv01').innerHTML += 'Probability ' + i + ' : ' + predictions[i].probability + '<br>'
-          console.log(predictions[i])
-      }
-      catch(err){
-          document.getElementById('myDiv01').innerHTML = err.message
-      }
-      const start = predictions[i].topLeft;
-      const end = predictions[i].bottomRight;
-      const size = [end[0] - start[0], end[1] - start[1]];
-      ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-      ctx.fillRect(start[0], start[1], size[0], size[1]);
-
-      if (annotateBoxes) {
-        const landmarks = predictions[i].landmarks;
-
-        ctx.fillStyle = "blue";
-        for (let j = 0; j < landmarks.length; j++) {
-          const x = landmarks[j][0];
-          const y = landmarks[j][1];
-          ctx.fillRect(x, y, 5, 5);
-        }
-      }
-    }
-  }
-
-
-
-  requestAnimationFrame(renderPrediction);
-};
-
-  
-  
-  
-  
-  
 const setupPage = async () => {
     
   const state = {
@@ -157,31 +86,16 @@ const setupPage = async () => {
   video.width = videoWidth;
   video.height = videoHeight;
 
-  video.className = filters[2];  // 0 grayscale
-  console.log(video)
-  
   
   canvas = document.getElementById('output');
   canvas.width = videoWidth;
   canvas.height = videoHeight;
-  ctx = canvas.getContext('2d');
-  ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-  ctx.fillRect(100, 100, 50, 50);
- //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-//  model = await blazeface.load();
-
- // renderPrediction();
+  ctx = canvas.getContext('2d'); 
+  
+  ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
   
   
-//  var imagedata = video.getImageData(0, 0, 100, 100);
-// use the putImageData function that illustrates how putImageData works
-//putImageData(ctx, imagedata, 150, 0, 50, 50, 25, 25);
-  
-  
-   ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
-  
-  
-    let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+  let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
   let pixels = imgData.data;
   for (var i = 0; i < pixels.length; i += 4) {
 
@@ -198,6 +112,8 @@ const setupPage = async () => {
   
 };
 
+  
+  // main program!
 setupPage();
 
 </script>
