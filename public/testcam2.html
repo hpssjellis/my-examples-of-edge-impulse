@@ -92,6 +92,12 @@ const setupPage = async () => {
   video.width = videoWidth;
   video.height = videoHeight;
 
+
+  canvasOnTop = document.getElementById('myOnTopOutput');
+  canvasOnTop.width = videoWidth;
+  canvasOnTop.height = videoHeight;
+  ctxOnTop = canvasOnTop.getContext('2d'); 
+  
   
   canvas = document.getElementById('output');
   canvas.width = videoWidth;
@@ -113,7 +119,8 @@ const setupPage = async () => {
   }
   ctx.putImageData(imgData, 0, 0);
   
-  
+  let ImageData2 = ctx.getImageData(20, 20, 60, 60);
+  console.log(ImageData2);
   
   
 };
