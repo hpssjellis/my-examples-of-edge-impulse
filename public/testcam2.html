@@ -1,6 +1,6 @@
 
 
-Version 0.0.8  <br>
+Version 0.0.9  <br>
 
 
 
@@ -168,6 +168,15 @@ const setupPage = async () => {
 //  model = await blazeface.load();
 
  // renderPrediction();
+  
+  
+  var imagedata = video.getImageData(0, 0, 100, 100);
+// use the putImageData function that illustrates how putImageData works
+putImageData(ctx, imagedata, 150, 0, 50, 50, 25, 25);
+  
+  
+  
+  
 };
 
 setupPage();
