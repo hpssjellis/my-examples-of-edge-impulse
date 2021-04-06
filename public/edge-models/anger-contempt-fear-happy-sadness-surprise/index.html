@@ -17,7 +17,7 @@
     
     
     
-Version 0.2.22 <br>
+Version 0.2.23 <br>
 
     
     <div id="description">
@@ -162,7 +162,7 @@ const setupCamera = async function(){
    var classifier = new EdgeImpulseClassifier();
    await classifier.init();
             
-   results = classifier.classify([     // returns a results object
+   await results = classifier.classify([     // returns a results object
                 // YOUR FEATURES HERE
               myOutputString
           ]);
