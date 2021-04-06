@@ -162,7 +162,7 @@ const setupCamera = async function(){
    var classifier = new EdgeImpulseClassifier();
    await classifier.init();
             
-   await results = classifier.classify([     // returns a results object
+    results = await classifier.classify([     // returns a results object
                 // YOUR FEATURES HERE
               myOutputString
           ]);
