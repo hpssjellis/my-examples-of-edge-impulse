@@ -17,11 +17,11 @@
     
     
     
-Version 0.2.24 <br>
+Version 0.3.1 <br>
 
     
     <div id="description">
-        <div id="description-title" style="font-size:30px">GRAYSCALE Demo Get face in the small square 96x96</div>
+        <div id="description-title" style="font-size:30px">GRAYSCALE Demo Get face in the small square </div>
         <div id="myDiv01" style="font-size:30px">...</div>
         <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br>
 
@@ -136,14 +136,18 @@ const setupCamera = async function(){
   
   
   const myPictureNow  = async function(){    
-//  function myPictureNow(){
 
+    
+   var classifier = new EdgeImpulseClassifier();
+   await classifier.init();
+    
+    
   
   //let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
-  let ImageData2 = document.ctx.getImageData(300, 100, 96, 96);  // grab image x,y,width,height
+  let ImageData2 = document.ctx.getImageData(74, 24, 192, 192);  // grab image x,y,width,height
  // console.log(ImageData2);
  // alert('hi')
-  ctxOnTop.putImageData(ImageData2, 300, 100);  //put image
+  ctxOnTop.putImageData(ImageData2, 74, 24);  //put image
  // document.getElementById('myDiv01').innerHTML = JSON.stringify(ImageData2.data, 2, '<br>')
     
  // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
@@ -160,8 +164,7 @@ const setupCamera = async function(){
     myOutputString = myOutputString.substring(0, myOutputString.length - 2);  // remove last ,"
     document.getElementById('myTextArea01').value = myOutputString
     
-   var classifier = new EdgeImpulseClassifier();
-   await classifier.init();
+
             
     results = await classifier.classify([     // returns a results object
                 // YOUR FEATURES HERE
