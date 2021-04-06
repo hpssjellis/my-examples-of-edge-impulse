@@ -1,0 +1,232 @@
+
+
+
+<body>
+  <div id="main">
+      
+    <video id="video" playsinline="" style="
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      width: auto;
+      height: auto;
+    "></video>
+      
+    <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid;-webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
+    
+    <canvas id="output" style=" -webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas> <br>  
+    
+    
+    
+Version 0.2.24 <br>
+
+    
+    <div id="description">
+        <div id="description-title" style="font-size:30px">GRAYSCALE Demo Get face in the small square 96x96</div>
+        <div id="myDiv01" style="font-size:30px">...</div>
+        <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br>
+
+    </div>
+      
+<!--    <video id="video" playsinline="" style="
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      visibility: hidden;
+      width: auto;
+      height: auto;
+      ">
+    </video>
+      -->
+  </div>
+</body>
+
+ <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@2.0.0/dist/tf-backend-wasm.js"></script>
+ <script src="./model/edge-impulse-standalone.js"></script>
+ <script src="./model/run-impulse.js"></script>
+
+
+
+
+
+
+<script>
+  
+  
+
+//let myTimer01 = 0;
+let myOutputString = ''
+  
+  
+  function RGBAToHex(r,g,b,a) {
+  r = r.toString(16);
+  g = g.toString(16);
+  b = b.toString(16);
+
+  if (r.length == 1)
+    r = "0" + r;
+  if (g.length == 1)
+    g = "0" + g;
+  if (b.length == 1)
+    b = "0" + b;
+
+  return "#" + r + g + b + ", " ;
+}
+  
+  
+  
+  
+const setupCamera = async function(){   
+    
+  video = document.getElementById('video');
+
+  const stream = await navigator.mediaDevices.getUserMedia({
+    'audio': false,
+    'video': { facingMode: 'user' },
+  });
+  video.srcObject = stream;
+
+  return new Promise((resolve) => {
+    video.onloadedmetadata = () => {
+      resolve(video);
+    };
+  });
+}
+
+ 
+
+
+
+
+
+
+  
+ const renderPrediction = async function(){   
+
+   document.ctx.clearRect(0, 0, document.ctx.canvas.width, document.ctx.canvas.width);
+ 
+ 
+   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+  
+  
+  let imgData = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
+  let pixels = imgData.data;
+  for (var i = 0; i < pixels.length; i += 4) {
+
+    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+
+    pixels[i] = lightness;
+    pixels[i + 1] = lightness;
+    pixels[i + 2] = lightness;
+  }
+   
+  document.ctx.scale(-1, 1);  // mirror image
+  document.ctx.putImageData(imgData, 0, 0);
+ 
+
+   
+   
+  requestAnimationFrame(renderPrediction);
+   
+ //  renderPrediction();   // recursive call
+   
+   
+}; 
+  
+  
+  
+  const myPictureNow  = async function(){    
+//  function myPictureNow(){
+
+  
+  //let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
+  let ImageData2 = document.ctx.getImageData(300, 100, 96, 96);  // grab image x,y,width,height
+ // console.log(ImageData2);
+ // alert('hi')
+  ctxOnTop.putImageData(ImageData2, 300, 100);  //put image
+ // document.getElementById('myDiv01').innerHTML = JSON.stringify(ImageData2.data, 2, '<br>')
+    
+ // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
+  let pixels2 = ImageData2.data
+  myOutputString = ''
+  for (var i = 0; i < pixels2.length; i += 4) {
+      myOutputString += RGBAToHex(ImageData2.data[i], ImageData2.data[i+1], ImageData2.data[i+2], ImageData2.data[i+3])
+  }
+
+   // console.log('myOutputString')
+   // console.log(myOutputString)
+   // document.getElementById('myTextArea01').value= JSON.stringify(myOutputString, 2, '\n')
+    myOutputString = myOutputString.substring(1);  // remove first "
+    myOutputString = myOutputString.substring(0, myOutputString.length - 2);  // remove last ,"
+    document.getElementById('myTextArea01').value = myOutputString
+    
+   var classifier = new EdgeImpulseClassifier();
+   await classifier.init();
+            
+    results = await classifier.classify([     // returns a results object
+                // YOUR FEATURES HERE
+              myOutputString
+          ]);
+ // document.getElementById('myDiv01').innerHTML = JSON.stringify(results, null, null);
+   // console.log(results)
+  let myTemp = ''
+  myTemp =  '<table border=1  style="font-size:30px">'
+  myTemp += '<tr><td>'+ results.results[0].label + '</td><td>' + results.results[0].value +'</td></tr>'
+  myTemp += '<tr><td>'+ results.results[1].label + '</td><td>' + results.results[1].value +'</td></tr>'
+  myTemp += '<tr><td>'+ results.results[2].label + '</td><td>' + results.results[2].value +'</td></tr>'
+  myTemp += '<tr><td>'+ results.results[3].label + '</td><td>' + results.results[3].value +'</td></tr>'
+  myTemp += '<tr><td>'+ results.results[4].label + '</td><td>' + results.results[4].value +'</td></tr>'
+  myTemp += '<tr><td>'+ results.results[5].label + '</td><td>' + results.results[5].value +'</td></tr>'
+  myTemp += '</table>'   
+    
+    document.getElementById('myDiv01').innerHTML =  myTemp
+}
+  
+  
+  
+  
+const setupPage = async function(){   
+    
+  const state = {
+     backend: 'wasm'
+  }; 
+        
+  await tf.setBackend(state.backend);
+  await tf.setBackend('wasm');
+  await setupCamera();
+  video.play();
+
+  videoWidth = video.videoWidth;
+  videoHeight = video.videoHeight;
+  console.log('videoWidth')
+  console.log(videoWidth)
+  console.log('videoHeight')
+  console.log(videoHeight)
+  
+  video.width = videoWidth;
+  video.height = videoHeight;
+
+
+  canvasOnTop = document.getElementById('myOnTopOutput');
+  canvasOnTop.width = videoWidth;
+  canvasOnTop.height = videoHeight;
+  ctxOnTop = canvasOnTop.getContext('2d'); 
+  
+  
+  canvas = document.getElementById('output');
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+  document.ctx = canvas.getContext('2d'); 
+ // setInterval(function(){ alert("Hello"); }, 3000);
+  setInterval(myPictureNow, 3000);
+ // myTimer01 = setInterval('myPictureNow', 3000); 
+  renderPrediction();
+  
+  
+};
+
+  
+  // main program!
+setupPage();
+
+
+</script>
