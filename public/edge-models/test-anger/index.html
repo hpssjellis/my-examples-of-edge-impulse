@@ -17,11 +17,16 @@
     
     
     
-Version 0.3.4 <br>
+Version 0.3.5 <br>
 
     
     <div id="description">
         <div id="description-title" style="font-size:30px">GRAYSCALE Demo Get face in the small square </div>
+        Frequency ms <input type=text id="myText01" value=2000 onChange="{
+             myFrequencyMs = this.value
+             clearInterval(myTimer01)
+            myTimer01 = setInterval(myPictureNow, myFrequencyMs);
+          }"><br>
         <div id="myDiv01" style="font-size:30px">...</div>
         <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br>
 
@@ -54,8 +59,9 @@ Version 0.3.4 <br>
   
   
 
-//let myTimer01 = 0;
+let myTimer01 = 0;
 let myOutputString = ''
+let myFrequencyMs = document.getElementById('myText01').value
   
   
   function RGBAToHex(r,g,b,a) {
@@ -221,7 +227,7 @@ const setupPage = async function(){
   canvas.height = videoHeight;
   document.ctx = canvas.getContext('2d'); 
  // setInterval(function(){ alert("Hello"); }, 3000);
-  setInterval(myPictureNow, 3000);
+  myTimer01 = setInterval(myPictureNow, myFrequencyMs);
  // myTimer01 = setInterval('myPictureNow', 3000); 
   renderPrediction();
   
