@@ -168,13 +168,14 @@ const setupCamera = async function(){
           ]);
  // document.getElementById('myDiv01').innerHTML = JSON.stringify(results, null, null);
    // console.log(results)
-  document.getElementById('myDiv01').innerHTML =  results.results[0].label + ' : ' + results.results[0].value +'<br>'
-  document.getElementById('myDiv01').innerHTML += results.results[1].label + ' : ' + results.results[1].value +'<br>'
-  document.getElementById('myDiv01').innerHTML += results.results[2].label + ' : ' + results.results[2].value +'<br>'
-  document.getElementById('myDiv01').innerHTML += results.results[3].label + ' : ' + results.results[3].value +'<br>'
-  document.getElementById('myDiv01').innerHTML += results.results[4].label + ' : ' + results.results[4].value +'<br>'
-  document.getElementById('myDiv01').innerHTML += results.results[5].label + ' : ' + results.results[5].value +'<br>'
-      
+  document.getElementById('myDiv01').innerHTML =  '<table border=1>'
+  document.getElementById('myDiv01').innerHTML += '<tr><td>'+ results.results[0].label + '</td><td>' + results.results[0].value +'</td></tr>'
+  document.getElementById('myDiv01').innerHTML += '<tr><td>'+ results.results[1].label + '</td><td>' + results.results[1].value +'</td></tr>'
+  document.getElementById('myDiv01').innerHTML += '<tr><td>'+ results.results[2].label + '</td><td>' + results.results[2].value +'</td></tr>''
+  document.getElementById('myDiv01').innerHTML += '<tr><td>'+ results.results[3].label + '</td><td>' + results.results[3].value +'</td></tr>'
+  document.getElementById('myDiv01').innerHTML += '<tr><td>'+ results.results[4].label + '</td><td>' + results.results[4].value +'</td></tr>'
+  document.getElementById('myDiv01').innerHTML += '<tr><td>'+ results.results[5].label + '</td><td>' + results.results[5].value +'</td></tr>'
+  document.getElementById('myDiv01').innerHTML += '</table>'     
 }
   
   
