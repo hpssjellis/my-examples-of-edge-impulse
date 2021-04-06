@@ -27,7 +27,10 @@ Version 0.3.9 <br>
              clearInterval(myTimer01)
             myTimer01 = setInterval(myPictureNow, myFrequencyMs);
           }"><br>
-      (square) width/height: <input type=text value=96 size=5 id="myWidthHeight">  <br>    
+      (square) width/height: <input type=text value=96 size=5 id="myWidthHeight" onChange="{
+           myWidthHeightSquare = this.value
+        
+        }">  <br>    
 
       
          <div id="myDiv01" style="font-size:30px">...</div>
