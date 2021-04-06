@@ -17,7 +17,7 @@
     
     
     
-Version 0.3.7 - bad <br>
+Version 0.3.8 <br>
 
     
     <div id="description">
@@ -27,7 +27,7 @@ Version 0.3.7 - bad <br>
              clearInterval(myTimer01)
             myTimer01 = setInterval(myPictureNow, myFrequencyMs);
           }"><br>
-        <div id="myDiv01" style="font-size:30px">...</div>
+      (square)width/height: <input type=text value=96 size=5 id="myWidthHeight">  <br>    
         <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br>
 
     </div>
@@ -62,6 +62,7 @@ Version 0.3.7 - bad <br>
 let myTimer01 = 0;
 let myOutputString = ''
 let myFrequencyMs = document.getElementById('myText01').value
+let myWidthHeightSquare = document.getElementById('myWidthHeight').value
   
   
   function RGBAToHex(r,g,b,a) {
@@ -150,10 +151,10 @@ const setupCamera = async function(){
     
   
   //let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
-  let ImageData2 = document.ctx.getImageData(200, 100, 192, 150);  // grab image x,y,width,height
+  let ImageData2 = document.ctx.getImageData(200, 100, myWidthHeightSquare, myWidthHeightSquare);  // grab image x,y,width,height
  // console.log(ImageData2);
  // alert('hi')
-  ctxOnTop.putImageData(ImageData2, 200, 100);  //put image
+  ctxOnTop.putImageData(ImageData2, (640-myWidthHeightSquare)/2,  (480-myWidthHeightSquare)/2   );  //put image near center
  // document.getElementById('myDiv01').innerHTML = JSON.stringify(ImageData2.data, 2, '<br>')
     
  // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
