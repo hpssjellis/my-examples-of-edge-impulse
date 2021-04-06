@@ -17,7 +17,7 @@
     
     
     
-Version 0.2.14  <br>
+Version 0.2.15  <br>
 
     
     <div id="description">
@@ -168,8 +168,8 @@ const setupCamera = async function(){
           ]);
  // document.getElementById('myDiv01').innerHTML = JSON.stringify(results, null, null);
     console.log(results)
-  document.getElementById('myDiv01').innerHTML = results[0].label + ':' +results.results[0].value +'<br>'
-  document.getElementById('myDiv01').innerHTML += results[1].label + ':' +results.results[1].value +'<br>'
+  document.getElementById('myDiv01').innerHTML =  results.results[0].label + ' : ' + results.results[0].value +'<br>'
+  document.getElementById('myDiv01').innerHTML += results.results[1].label + ' : ' + results.results[1].value +'<br>'
       
 }
   
