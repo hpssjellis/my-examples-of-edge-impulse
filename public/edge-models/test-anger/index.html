@@ -27,8 +27,12 @@ Version 0.3.8 <br>
              clearInterval(myTimer01)
             myTimer01 = setInterval(myPictureNow, myFrequencyMs);
           }"><br>
-      (square)width/height: <input type=text value=96 size=5 id="myWidthHeight">  <br>    
+      (square) width/height: <input type=text value=96 size=5 id="myWidthHeight">  <br>    
+
+      
+         <div id="myDiv01" style="font-size:30px">...</div>
         <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br>
+      
 
     </div>
       
@@ -188,8 +192,8 @@ const setupCamera = async function(){
   myTemp += '<tr><td>'+ results.results[4].label + '</td><td>' + results.results[4].value +'</td></tr>'
   myTemp += '<tr><td>'+ results.results[5].label + '</td><td>' + results.results[5].value +'</td></tr>'
   myTemp += '</table>'   
-   console.log(results) 
-    document.getElementById('myDiv01').innerHTML =  myTemp
+  // console.log(results) 
+  document.getElementById('myDiv01').innerHTML =  myTemp
 }
   
   
