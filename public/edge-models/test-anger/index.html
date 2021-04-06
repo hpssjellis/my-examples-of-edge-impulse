@@ -39,8 +39,9 @@ Version 0.2.24 <br>
   </div>
 </body>
 
- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"></script>
  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@2.0.0/dist/tf-backend-wasm.js"></script>
+-->
  <script src="./model/edge-impulse-standalone.js"></script>
  <script src="./model/run-impulse.js"></script>
 
@@ -186,12 +187,12 @@ const setupCamera = async function(){
   
 const setupPage = async function(){   
     
-  const state = {
-     backend: 'wasm'
-  }; 
+//  const state = {
+ //    backend: 'wasm'
+ // }; 
         
-  await tf.setBackend(state.backend);
-  await tf.setBackend('wasm');
+ // await tf.setBackend(state.backend);
+ // await tf.setBackend('wasm');
   await setupCamera();
   video.play();
 
