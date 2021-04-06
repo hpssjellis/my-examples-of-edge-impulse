@@ -23,7 +23,7 @@ Version 0.2.0  <br>
     <div id="description">
         <div id="description-title" style="font-size:30px">GRAYSCALE Demo</div>
 
-        <input type=text id="myText01" value=""><br>
+      <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br>
         <div id="myDiv01">...</div>
     </div>
       
@@ -151,8 +151,11 @@ const setupCamera = async function(){
       myOutputString += RGBAToHex(ImageData2.data[i], ImageData2.data[i+1], ImageData2.data[i+2], ImageData2.data[i+3])
   }
 
-    console.log('myOutputString')
-    console.log(myOutputString)
+   // console.log('myOutputString')
+   // console.log(myOutputString)
+    document.getElementById('myTextarea01').value= JSON.stringify(myOutputString, 2, '\n')
+    
+    
     
 }
   
