@@ -17,7 +17,7 @@
     
     
     
-Version 0.2.16  <br>
+Version 0.2.17  <br>
 
     
     <div id="description">
@@ -139,10 +139,10 @@ const setupCamera = async function(){
 
   
   //let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
-  let ImageData2 = document.ctx.getImageData(50, 50, 96, 96);
+  let ImageData2 = document.ctx.getImageData(0, 0, 96, 96);
  // console.log(ImageData2);
  // alert('hi')
-  ctxOnTop.putImageData(ImageData2, 50, 50);
+  ctxOnTop.putImageData(ImageData2, 0, 0);
  // document.getElementById('myDiv01').innerHTML = JSON.stringify(ImageData2.data, 2, '<br>')
     
  // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
