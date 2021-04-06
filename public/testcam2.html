@@ -17,7 +17,7 @@
     
     
     
-Version 0.1.30  <br>
+Version 0.1.31  <br>
 
     
     <div id="description">
@@ -52,8 +52,8 @@ Version 0.1.30  <br>
   
   
 
-let myTimer01 = 0;
-
+//let myTimer01 = 0;
+let myOutputString = ''
   
   
   function RGBAToHex(r,g,b,a) {
@@ -137,15 +137,16 @@ const setupCamera = async function(){
  // alert('hi')
   ctxOnTop.putImageData(ImageData2, 50, 50);
   document.getElementById('myDiv01').innerHTML = JSON.stringify(ImageData2.data, 2, '<br>')
-  alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
- // let pixels2 = ImageData2.data
-//  for (var i = 0; i < pixels2.length; i += 4) {
+    
+ // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
+  let pixels2 = ImageData2.data
+  myOutputString = ''
+  for (var i = 0; i < pixels2.length; i += 4) {
+      myOutputString += RGBAToHex(ImageData2.data[i], ImageData2.data[i+1], ImageData2.data[i+2], ImageData2.data[i+3])
+  }
 
-
-  //  pixels2[i]
-  //  pixels2[i + 1]
-  //  pixels2[i + 2]
- // }  
+    console.log('myOutputString')
+    console.log(myOutputString)
     
 }
   
