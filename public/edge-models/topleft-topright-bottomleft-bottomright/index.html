@@ -17,7 +17,7 @@
     
     
     
-Version 0.3.17 <br>
+Version 0.3.18 <br>
 
     
     <div id="description">
@@ -210,11 +210,10 @@ const setupCamera = async function(){
     if (myBestClassificationNumber == i){   // check if this is the best one
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=color:green; background-color:blue;>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
         } else {
-       myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
-
-  }  
-    
-    
+           myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
+        }
+   }  
+       
   myTemp += '</table>'   
   //console.log(results) 
   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
