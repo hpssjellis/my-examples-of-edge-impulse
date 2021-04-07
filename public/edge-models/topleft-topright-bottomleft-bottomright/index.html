@@ -17,7 +17,7 @@
     
     
     
-Version 0.3.28 <br>
+Version 0.3.29 <br>
 
     
     <div id="description">
@@ -175,10 +175,10 @@ const setupCamera = async function(){
   let myY = (480-myWidthHeightSquare)/2
   let ImageData2;
   
-  
+  // ctx.drawImage(video, 320, 0, 320, 180, 0, 0, 640, 360);
   //   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
     if (document.getElementById('myCheckboxColor').checked ) {
-      ImageData2 = video.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab COLOR image x,y,width,height
+      ImageData2 =  ctxOnTop.drawImage(video, myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab COLOR image x,y,width,height
     }   else  {
   
     
