@@ -17,7 +17,7 @@
     
     
     
-Version 0.3.12 <br>
+Version 0.3.14 <br>
 
     
     <div id="description">
@@ -188,12 +188,18 @@ const setupCamera = async function(){
    // console.log(results)
   let myTemp = ''
   myTemp =  '<table border=1  style="font-size:30px">'
-  myTemp += '<tr><td>'+ results.results[0].label + '</td><td>' + results.results[0].value +'</td></tr>'
-  myTemp += '<tr><td>'+ results.results[1].label + '</td><td>' + results.results[1].value +'</td></tr>'
-  myTemp += '<tr><td>'+ results.results[2].label + '</td><td>' + results.results[2].value +'</td></tr>'
-  myTemp += '<tr><td>'+ results.results[3].label + '</td><td>' + results.results[3].value +'</td></tr>'
-  myTemp += '<tr><td>'+ results.results[4].label + '</td><td>' + results.results[4].value +'</td></tr>'
-  myTemp += '<tr><td>'+ results.results[5].label + '</td><td>' + results.results[5].value +'</td></tr>'
+    
+  for (let i = 0;  i < results.results.length; i++){  
+  myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value +'</td></tr>'
+ // myTemp += '<tr><td>'+ results.results[0].label + '</td><td>' + results.results[0].value +'</td></tr>'
+ // myTemp += '<tr><td>'+ results.results[1].label + '</td><td>' + results.results[1].value +'</td></tr>'
+ // myTemp += '<tr><td>'+ results.results[2].label + '</td><td>' + results.results[2].value +'</td></tr>'
+ // myTemp += '<tr><td>'+ results.results[3].label + '</td><td>' + results.results[3].value +'</td></tr>'
+ // myTemp += '<tr><td>'+ results.results[4].label + '</td><td>' + results.results[4].value +'</td></tr>'
+ // myTemp += '<tr><td>'+ results.results[5].label + '</td><td>' + results.results[5].value +'</td></tr>'
+  }  
+    
+    
   myTemp += '</table>'   
   //console.log(results) 
   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
