@@ -17,7 +17,7 @@
     
     
     
-Version 0.3.16 <br>
+Version 0.3.17 <br>
 
     
     <div id="description">
@@ -171,6 +171,9 @@ const setupCamera = async function(){
  // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
   let pixels2 = ImageData2.data
   myOutputString = ''
+     
+    
+    
   for (var i = 0; i < pixels2.length; i += 4) {
       myOutputString += RGBAToHex(ImageData2.data[i], ImageData2.data[i+1], ImageData2.data[i+2], ImageData2.data[i+3])
   }
@@ -193,14 +196,22 @@ const setupCamera = async function(){
   let myTemp = ''
   myTemp =  '<table border=1  style="font-size:30px">'
     
+  let myBestClassificationNumber = -1  
+  let myBestClassificationValue = 0.25   // lowest best allowable value 
+  for (let j = 0;  j < results.results.length; j++){  
+      if (results.results[j].value > myBestClassificationValue ){
+           myBestClassificationNumber = j;                      // find the biggest array value
+           myBestClassificationValue = results.results[j].value  
+        }
+  }
+    
+    
   for (let i = 0;  i < results.results.length; i++){  
-  myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
- // myTemp += '<tr><td>'+ results.results[0].label + '</td><td>' + results.results[0].value +'</td></tr>'
- // myTemp += '<tr><td>'+ results.results[1].label + '</td><td>' + results.results[1].value +'</td></tr>'
- // myTemp += '<tr><td>'+ results.results[2].label + '</td><td>' + results.results[2].value +'</td></tr>'
- // myTemp += '<tr><td>'+ results.results[3].label + '</td><td>' + results.results[3].value +'</td></tr>'
- // myTemp += '<tr><td>'+ results.results[4].label + '</td><td>' + results.results[4].value +'</td></tr>'
- // myTemp += '<tr><td>'+ results.results[5].label + '</td><td>' + results.results[5].value +'</td></tr>'
+    if (myBestClassificationNumber == i){   // check if this is the best one
+           myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=color:green; background-color:blue;>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
+        } else {
+       myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
+
   }  
     
     
