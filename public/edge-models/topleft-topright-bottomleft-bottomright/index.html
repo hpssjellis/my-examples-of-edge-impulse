@@ -17,7 +17,7 @@
     
     
     
-Version 0.3.25 <br>
+Version 0.3.26 <br>
 
     
     <div id="description">
@@ -89,7 +89,10 @@ let myWidthHeightSquare = document.getElementById('myWidthHeight').value
   if (b.length == 1)
     b = "0" + b;
 
-  return "#" + r + g + b + ", " ;
+ // return "#" + r + g + b + ", " ;
+  return "0x" + r + g + b + ", " ;
+    
+    
 }
   
   
@@ -193,8 +196,8 @@ const setupCamera = async function(){
       document.getElementById('myTextArea01').value = myOutputString
     }
 
-    console.log('myOutputString')
-    console.log(myOutputString)
+   // console.log('myOutputString')
+  //  console.log(myOutputString)
             
     results = await classifier.classify([     // returns a results object
                 // YOUR FEATURES HERE
