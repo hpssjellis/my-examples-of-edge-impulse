@@ -18,7 +18,7 @@
      <canvas id="myColorCanvas" style=" -webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas> <br>     
     
     
-Version 0.3.31 <br>
+Version 0.3.32 <br>
 
     
     <div id="description">
@@ -131,6 +131,7 @@ const setupCamera = async function(){
  
  
    document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+   ctxColor.drawImage(video, 0, 0, videoWidth, videoHeight);
   
   
   let imgData = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
@@ -292,6 +293,7 @@ const setupPage = async function(){
   canvas.width = videoWidth;
   canvas.height = videoHeight;
   document.ctx = canvas.getContext('2d'); 
+  
  // setInterval(function(){ alert("Hello"); }, 3000);
   myTimer01 = setInterval(myPictureNow, myFrequencyMs);
  // myTimer01 = setInterval('myPictureNow', 3000); 
