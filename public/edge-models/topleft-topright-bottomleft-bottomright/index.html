@@ -218,11 +218,22 @@ const setupCamera = async function(){
 
    // console.log('myOutputString')
   //  console.log(myOutputString)
-            
-    results = await classifier.classify([     // returns a results object
-                // YOUR FEATURES HERE
-              myOutputString
-          ]);
+      
+    
+    
+    
+    
+   // not sure if that works with JAVASCRIT 
+//    results = await classifier.classify([     // returns a results object
+//             myOutputString
+//          ]);
+    
+// var str = "How are you doing today?";
+// var res = str.split(" ");   
+    
+     results = await classifier.classify( myOutputString.split(', ')   );   
+    
+    
  // document.getElementById('myDiv01').innerHTML = JSON.stringify(results, null, null);
    // console.log(results)
   let myTemp = ''
