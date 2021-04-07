@@ -15,9 +15,10 @@
     
     <canvas id="output" style=" -webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas> <br>  
     
+     <canvas id="myColorCanvas" style=" -webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas> <br>     
     
     
-Version 0.3.29 <br>
+Version 0.3.31 <br>
 
     
     <div id="description">
@@ -178,7 +179,7 @@ const setupCamera = async function(){
   // ctx.drawImage(video, 320, 0, 320, 180, 0, 0, 640, 360);
   //   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
     if (document.getElementById('myCheckboxColor').checked ) {
-      ImageData2 =  ctxOnTop.drawImage(video, myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab COLOR image x,y,width,height
+      ImageData2 =  ctxColor.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab COLOR image x,y,width,height
     }   else  {
   
     
@@ -278,6 +279,13 @@ const setupPage = async function(){
   canvasOnTop.width = videoWidth;
   canvasOnTop.height = videoHeight;
   ctxOnTop = canvasOnTop.getContext('2d'); 
+  
+  
+  
+  canvasColor = document.getElementById('myColorCanvas');
+  canvasColor.width = videoWidth;
+  canvasColor.height = videoHeight;
+  ctxColor = canvasColor.getContext('2d'); 
   
   
   canvas = document.getElementById('output');
