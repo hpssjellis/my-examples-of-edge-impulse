@@ -17,7 +17,7 @@
     
     
     
-Version 0.3.27 <br>
+Version 0.3.28 <br>
 
     
     <div id="description">
@@ -35,6 +35,7 @@ Version 0.3.27 <br>
       
          <div id="myDiv01" style="font-size:30px">...</div>
         Use data from chart below <input type=checkbox id="myCheckbox01"><br>
+        Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
         <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br>
       
 
@@ -172,8 +173,18 @@ const setupCamera = async function(){
     
   let myX = (640-myWidthHeightSquare)/2
   let myY = (480-myWidthHeightSquare)/2
+  let ImageData2;
+  
+  
+  //   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+    if (document.getElementById('myCheckboxColor').checked ) {
+      ImageData2 = video.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab COLOR image x,y,width,height
+    }   else  {
+  
     
-  let ImageData2 = document.ctx.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab image x,y,width,height
+      ImageData2 = document.ctx.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab GRAYSCALE  image x,y,width,height
+      
+    }
  // console.log(ImageData2);
  // alert('hi')
   ctxOnTop.putImageData(ImageData2, myX,  myY   );  //put image near center
