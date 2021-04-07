@@ -1,4 +1,4 @@
-/ Classifier module
+// Classifier module
 let classifierInitialized = false;
 Module.onRuntimeInitialized = function() {
     classifierInitialized = true;
