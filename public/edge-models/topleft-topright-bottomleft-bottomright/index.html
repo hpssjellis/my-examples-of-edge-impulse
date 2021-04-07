@@ -17,7 +17,7 @@
     
     
     
-Version 0.3.24 <br>
+Version 0.3.25 <br>
 
     
     <div id="description">
@@ -175,11 +175,11 @@ const setupCamera = async function(){
      
    
    if (document.getElementById('myCheckbox01').checked ) {
-     console.log('checked')
-     console.log(document.getElementById('myCheckbox01').checked)
+     //console.log('checked')
+     //console.log(document.getElementById('myCheckbox01').checked)
      myOutputString = document.getElementById('myTextArea01').value  
    
-   } else{ 
+   } else { 
     
      for (var i = 0; i < pixels2.length; i += 4) {
         myOutputString += RGBAToHex(ImageData2.data[i], ImageData2.data[i+1], ImageData2.data[i+2], ImageData2.data[i+3])
@@ -193,6 +193,8 @@ const setupCamera = async function(){
       document.getElementById('myTextArea01').value = myOutputString
     }
 
+    console.log('myOutputString')
+    console.log(myOutputString)
             
     results = await classifier.classify([     // returns a results object
                 // YOUR FEATURES HERE
