@@ -17,7 +17,7 @@
     
     
     
-Version 0.3.26 <br>
+Version 0.3.27 <br>
 
     
     <div id="description">
@@ -166,10 +166,17 @@ const setupCamera = async function(){
     
   
   //let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
-  let ImageData2 = document.ctx.getImageData(200, 100, myWidthHeightSquare, myWidthHeightSquare);  // grab image x,y,width,height
+    
+    
+  ctxOnTop.clearRect(0, 0, canvasOnTop.width, canvasOnTop.height); 
+    
+  let myX = (640-myWidthHeightSquare)/2
+  let myY = (480-myWidthHeightSquare)/2
+    
+  let ImageData2 = document.ctx.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab image x,y,width,height
  // console.log(ImageData2);
  // alert('hi')
-  ctxOnTop.putImageData(ImageData2, (640-myWidthHeightSquare)/2,  (480-myWidthHeightSquare)/2   );  //put image near center
+  ctxOnTop.putImageData(ImageData2, myX,  myY   );  //put image near center
  // document.getElementById('myDiv01').innerHTML = JSON.stringify(ImageData2.data, 2, '<br>')
     
  // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
