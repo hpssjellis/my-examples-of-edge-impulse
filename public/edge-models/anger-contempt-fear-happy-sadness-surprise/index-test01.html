@@ -179,7 +179,7 @@ const setupCamera = async function(){
   myTemp += '<tr><td>'+ results.results[5].label + '</td><td>' + results.results[5].value +'</td></tr>'
   myTemp += '</table>'   
     
-                          let samplingOptions: ISamplingOptions = { };
+                          let samplingOptions = new ISamplingOptions()
                             samplingOptions.mode = 'raw';
                             samplingOptions.inputWidth = prop.inputWidth;
                             samplingOptions.inputHeight = prop.inputHeight;
