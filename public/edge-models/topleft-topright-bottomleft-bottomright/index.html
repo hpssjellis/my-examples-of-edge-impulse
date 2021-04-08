@@ -18,7 +18,7 @@
      <canvas id="myColorCanvas" style=" -webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas> <br>     
     
     
-Version 0.3.36 <br>
+Version 0.3.37 <br>
 
     
     <div id="description">
@@ -166,7 +166,7 @@ const setupCamera = async function(){
    var classifier = new EdgeImpulseClassifier();
    await classifier.init();
     
-   let myImpulseWidth =  classifier.get_properties()
+   let myImpulseWidth =  await classifier.get_properties()
    console.log('myImpulseWidth')
    console.log(myImpulseWidth)
     
