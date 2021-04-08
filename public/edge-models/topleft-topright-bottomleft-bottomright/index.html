@@ -18,7 +18,7 @@
      <canvas id="myColorCanvas" style=" -webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas> <br>     
     
     
-Version 0.3.38 <br>
+Version 0.3.41 <br>
 
     
     <div id="description">
@@ -166,13 +166,13 @@ const setupCamera = async function(){
    var classifier = new EdgeImpulseClassifier();
    await classifier.init();
     
-   let myImpulseWidth =  await classifier.get_properties('inputWidth')
-   console.log('myImpulseWidth')
-   console.log(myImpulseWidth)
+  //  I think this line makes it private not public
+  // https://github.com/edgeimpulse/mobile-client/blob/10b9b5d163e18addd68438b8fcf753b6033e6ac5/client/classifier.ts#L27
+  // let myImpulseProperties =  await classifier.get_properties()
+  // console.log(myImpulseProperties)
     
-//   let myImpulseHeight =  classifier.get_properties().input_height
-  // console.log('myImpulseHeight')
- //  console.log(myImpulseHeight)
+    
+
    
   
   //let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
