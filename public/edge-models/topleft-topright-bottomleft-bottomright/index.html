@@ -18,7 +18,7 @@
      <canvas id="myColorCanvas" style=" -webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas> <br>     
     
     
-Version 0.4.5 <br>
+Version 0.4.6 <br>
 
     
     <div id="description">
@@ -175,13 +175,13 @@ const setupCamera = async function(){
     
       if (document.getElementById('myCheckboxColor').checked ) {
          //ctx.scale(-1, 1);
+        ctxOnTop.translate(canvasOnTop.width, 0);
         ctxOnTop.scale(-1, 1);
-        ctxColor.scale(-1, 1);
-        document.ctx.scale(-1, 1);
+
       }  else {
+        ctxOnTop.translate(canvasOnTop.width, 0);
         ctxOnTop.scale(1, 1);
-        ctxColor.scale(1, 1);
-        document.ctx.scale(1, 1);
+
       }
    
   
@@ -254,7 +254,7 @@ const setupCamera = async function(){
 
     
  // document.getElementById('myDiv01').innerHTML = JSON.stringify(results, null, null);
-  console.log(results)
+ // console.log(results)
     
     
   let myTemp = ''
