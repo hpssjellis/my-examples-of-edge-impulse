@@ -18,7 +18,7 @@
      <canvas id="myColorCanvas" style=" -webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas> <br>     
     
     
-Version 0.3.35 <br>
+Version 0.3.36 <br>
 
     
     <div id="description">
@@ -166,13 +166,13 @@ const setupCamera = async function(){
    var classifier = new EdgeImpulseClassifier();
    await classifier.init();
     
-   let myImpulseWidth =  classifier.get_properties().input_width
+   let myImpulseWidth =  classifier.get_properties()
    console.log('myImpulseWidth')
    console.log(myImpulseWidth)
     
-   let myImpulseHeight =  classifier.get_properties().input_height
-   console.log('myImpulseHeight')
-   console.log(myImpulseHeight)
+//   let myImpulseHeight =  classifier.get_properties().input_height
+  // console.log('myImpulseHeight')
+ //  console.log(myImpulseHeight)
    
   
   //let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
@@ -230,7 +230,7 @@ const setupCamera = async function(){
     
     
     
-   // not sure if that works with JAVASCRIT 
+   // not sure if that works with JAVASCRIPT 
 //    results = await classifier.classify([     // returns a results object
 //             myOutputString
 //          ]);
