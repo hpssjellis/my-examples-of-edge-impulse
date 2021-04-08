@@ -18,7 +18,7 @@
      <canvas id="myColorCanvas" style=" -webkit-transform: scaleX(-1);  transform: scaleX(-1);" ></canvas> <br>     
     
     
-Version 0.3.41 <br>
+Version 0.3.42 <br>
 
     
     <div id="description">
@@ -238,11 +238,15 @@ const setupCamera = async function(){
 // var str = "How are you doing today?";
 // var res = str.split(" ");   
     
-     results = await classifier.classify( myOutputString.split(', ')   );   
+     results = await classifier.classify( myOutputString.split(', ') , true  );      //can set debug true
     
+    
+
     
  // document.getElementById('myDiv01').innerHTML = JSON.stringify(results, null, null);
-   // console.log(results)
+  console.log(results)
+    
+    
   let myTemp = ''
   myTemp =  '<table border=1  style="font-size:30px">'
     
