@@ -36,7 +36,7 @@ Version 0.4.8 <br>
       
          <div id="myDiv01" style="font-size:30px">...</div>
         Use data from chart below <input type=checkbox id="myCheckbox01"><br>
-        Default is mirrored: <input type=checkbox id="myCheckboxMirror" checked><br>
+        Default is mirrored: see canvas: scaleX(-1);  transform: scaleX(-1);
         Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
         <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br>
       
@@ -172,17 +172,7 @@ const setupCamera = async function(){
   // let myImpulseProperties =  await classifier.get_properties()
   // console.log(myImpulseProperties)
     
-    
-      if (document.getElementById('myCheckboxColor').checked ) {
-         //ctx.scale(-1, 1);
-        ctxOnTop.translate(canvasOnTop.width, 0);
-        ctxOnTop.scale(-1, 1);
 
-      }  else {
-        ctxOnTop.translate(canvasOnTop.width, 0);
-        ctxOnTop.scale(1, 1);
-
-      }
    
   
   //let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
