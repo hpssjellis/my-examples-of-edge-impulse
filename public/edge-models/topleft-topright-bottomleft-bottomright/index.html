@@ -166,7 +166,14 @@ const setupCamera = async function(){
    var classifier = new EdgeImpulseClassifier();
    await classifier.init();
     
+   let myImpulseWidth =  classifier.get_properties().input_width
+   console.log('myImpulseWidth')
+   console.log(myImpulseWidth)
     
+   let myImpulseHeight =  classifier.get_properties().input_height
+   console.log('myImpulseHeight')
+   console.log(myImpulseHeight)
+   
   
   //let ImageData2 = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
     
