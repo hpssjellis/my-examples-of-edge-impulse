@@ -4,7 +4,9 @@
 <body>
   <div id="main">
       
-    <video id="video" playsinline="" style="
+    <video id="video" playsinline="" style="     
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
       width: auto;
       height: auto;
     "></video>
@@ -16,7 +18,7 @@
      <canvas id="myColorCanvas"  ></canvas> <br>     
     
     
-Version 0.4.11 <br>
+Version 0.4.12 <br>
 
     
     <div id="description">
@@ -34,7 +36,7 @@ Version 0.4.11 <br>
       
          <div id="myDiv01" style="font-size:30px">...</div>
         Use data from chart below <input type=checkbox id="myCheckbox01"><br>
-        Default is mirrored: see canvas: scaleX(-1);  transform: scaleX(-1);<br>
+        Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
         Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
         <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br>
       
