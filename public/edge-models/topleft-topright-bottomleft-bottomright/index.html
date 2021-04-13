@@ -19,7 +19,7 @@
      <canvas id="myGrowCanvas"  ></canvas> <br>    
     
     
-Version 0.5.7 <br>
+Version 0.5.8 <br>
 
     
     <div id="description">
@@ -200,7 +200,19 @@ const setupCamera = async function(){
   ctxOnTop.putImageData(ImageData2, myX,  myY   );  //put image near center
     
     
-  ctxGrow.putImageData(ImageData2, myX,  myY  , 0, 0,    200, 300 );  // try to grow the image  
+   var newCanvas = $("<canvas>")
+    .attr("width", imageData2.width)
+    .attr("height", imageData2.height)[0];
+
+newCanvas.getContext('2d').putImageData(imageData2, 0, 0);
+
+ctxGrow.scale(3, 3);
+ctxGrow.drawImage(newCanvas, 0, 0); 
+    
+    
+    
+    
+//  ctxGrow.putImageData(ImageData2, myX,  myY  , 0, 0,    200, 300 );  // try to grow the image  
  // ctxGrow.scale(10,10);  // attempt to make it bigger  
     
     
