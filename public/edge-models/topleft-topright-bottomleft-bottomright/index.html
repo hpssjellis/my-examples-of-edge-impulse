@@ -19,7 +19,7 @@
      <canvas id="myGrowCanvas"  ></canvas> <br>    
     
     
-Version 0.5.0 <br>
+Version 0.5.1 <br>
 
     
     <div id="description">
@@ -198,6 +198,9 @@ const setupCamera = async function(){
  // console.log(ImageData2);
  // alert('hi')
   ctxOnTop.putImageData(ImageData2, myX,  myY   );  //put image near center
+    
+  ctxGrow.putImageData(ImageData2, myX,  myY   );  //put image near center    
+    
  // document.getElementById('myDiv01').innerHTML = JSON.stringify(ImageData2.data, 2, '<br>')
     
  // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
