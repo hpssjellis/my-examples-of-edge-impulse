@@ -19,7 +19,7 @@
      <canvas id="myGrowCanvas"  ></canvas> <br>    
     
     
-Version 0.5.4 <br>
+Version 0.5.5 <br>
 
     
     <div id="description">
@@ -200,8 +200,10 @@ const setupCamera = async function(){
   ctxOnTop.putImageData(ImageData2, myX,  myY   );  //put image near center
     
   ctxGrow.scale(10,10);  // attempt to make it bigger  
-  ctxGrow.putImageData(ImageData2, myX,  myY  , 200, 300 );  //put image near center    
-
+    
+    //context.drawImage(imageObject,0,0);
+ // ctxGrow.putImageData(ImageData2, myX,  myY  , 200, 300 );  //put image near center    
+  ctxGrow.drawImage(ImageData2, 0, 0);
     
     
     
