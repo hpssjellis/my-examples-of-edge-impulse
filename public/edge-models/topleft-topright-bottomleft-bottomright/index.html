@@ -15,10 +15,11 @@
     
     <canvas id="output"  ></canvas>  
     
-     <canvas id="myColorCanvas"  ></canvas> <br>     
+     <canvas id="myColorCanvas"  ></canvas>   
+     <canvas id="myGrowCanvas"  ></canvas> <br>    
     
     
-Version 0.4.14 <br>
+Version 0.5.0 <br>
 
     
     <div id="description">
@@ -310,6 +311,11 @@ const setupPage = async function(){
   canvasColor.height = videoHeight;
   ctxColor = canvasColor.getContext('2d'); 
   
+    
+  canvasGrow = document.getElementById('myGrowCanvas');
+  canvasGrow.width = videoWidth;
+  canvasGrow.height = videoHeight;
+  ctxGrow = canvasGrow.getContext('2d'); 
   
   canvas = document.getElementById('output');
   canvas.width = videoWidth;
