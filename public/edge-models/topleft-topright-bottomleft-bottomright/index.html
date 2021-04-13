@@ -16,10 +16,10 @@
     <canvas id="output"  ></canvas>  
     
      <canvas id="myColorCanvas"  ></canvas>   
-     <canvas id="myGrowCanvas" width=1000 height=800 ></canvas> <br>    
+     <canvas id="myGrowCanvas"  ></canvas> <br>    
     
     
-Version 0.5.14 <br>
+Version 0.5.15 <br>
 
     
     <div id="description">
@@ -212,7 +212,12 @@ ctxGrow.drawImage(newCanvas, 0, 0);
   */  
     
     
-  ctxGrow.putImageData(ImageData2,  myX, myY);  // try to grow the image  
+  ctxGrow.putImageData(ImageData2,  myX, myY);  // try to grow the image 
+    document.getElementById('myGrowCanvas').style.width = '2000px'
+    document.getElementById('myGrowCanvas').style.height = '2000px'
+    
+    
+    
  // ctxGrow.putImageData(ImageData2,  0, 0,  myX, myY,    0, 0,  600, 400 );  // try to grow the image  
  // ctxGrow.scale(10,10);  // attempt to make it bigger  
     
