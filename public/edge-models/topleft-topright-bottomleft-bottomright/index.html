@@ -19,7 +19,7 @@
      <canvas id="myGrowCanvas"  ></canvas> <br>    
     
     
-Version 0.5.21 <br>
+Version 0.5.22 <br>
 
     
     <div id="description">
@@ -316,8 +316,8 @@ ctxGrow.drawImage(newCanvas, 0, 0);
   myTemp += '</table>'   
   //console.log(results) 
   let props = classifier.getProperties();
-    console.log('props')
-    console.log(props)
+    console.log('props.input_width')
+    console.log(props.input_width)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
 }
   
