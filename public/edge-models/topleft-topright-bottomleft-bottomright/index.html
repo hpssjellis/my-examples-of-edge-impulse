@@ -15,11 +15,11 @@
     
     <canvas id="output"  ></canvas>  
     
-     <canvas id="myColorCanvas"  ></canvas>   
+     <canvas id="myColorCanvas"  ></canvas>   <br>
   
     
     
-Version 0.5.29 <br>
+Version 0.5.31 <br>
 
     
     <div id="description">
@@ -41,7 +41,7 @@ Version 0.5.29 <br>
         Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
         <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br>
       
-           <canvas id="myGrowCanvas"  ></canvas> <br>  
+           <canvas id="myGrowCanvas" style="position:relative; left:-500px; top:-400px; " ></canvas> <br>  
       
 
     </div>
@@ -254,8 +254,8 @@ ctxGrow.drawImage(newCanvas, 0, 0);
     ctxGrow.putImageData(ImageData2,  myX, myY);  // try to grow the image 
     
     // by increasing the canvas size
-    document.getElementById('myGrowCanvas').style.width = '1600px'
-    document.getElementById('myGrowCanvas').style.height = '1200px'
+    document.getElementById('myGrowCanvas').style.width = '2400px'
+    document.getElementById('myGrowCanvas').style.height = '1600px'
     
     
     
