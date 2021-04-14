@@ -19,7 +19,7 @@
      <canvas id="myGrowCanvas"  ></canvas> <br>    
     
     
-Version 0.5.20 <br>
+Version 0.5.21 <br>
 
     
     <div id="description">
@@ -315,6 +315,9 @@ ctxGrow.drawImage(newCanvas, 0, 0);
        
   myTemp += '</table>'   
   //console.log(results) 
+  let props = classifier.getProperties();
+    console.log('props')
+    console.log(props)
   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
 }
   
@@ -401,6 +404,12 @@ Module.onRuntimeInitialized = function() {
 
 class EdgeImpulseClassifier {
     _initialized = false;
+ 
+  
+  // https://forum.edgeimpulse.com/t/wasm-sound-acceleration-camera-demos/1611/7
+      getProperties() {
+        return Module.get_properties();
+    }
 
     init() {
         if (classifierInitialized === true) return Promise.resolve();
