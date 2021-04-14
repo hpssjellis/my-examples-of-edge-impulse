@@ -233,6 +233,21 @@ ctxGrow.drawImage(newCanvas, 0, 0);
 //	can.width= w2;
 //  can.height= h2;
 //  c.drawImage(img, 0,0, w2, h2);
+    /*
+    
+      canvasGrow = document.getElementById('myGrowCanvas');
+  canvasGrow.width = videoWidth;
+  canvasGrow.height = videoHeight;
+  ctxGrow = canvasGrow.getContext('2d'); 
+    
+    
+    
+  */  
+    
+    
+    
+    
+    
     
     ctxGrow.putImageData(ImageData2,  myX, myY);  // try to grow the image 
   //  document.getElementById('myGrowCanvas').style.width = '190px'
@@ -376,6 +391,8 @@ const setupPage = async function(){
   
     
   canvasGrow = document.getElementById('myGrowCanvas');
+  canvasGrow.width = videoWidth;
+  canvasGrow.height = videoHeight;
   ctxGrow = canvasGrow.getContext('2d'); 
   
   canvas = document.getElementById('output');
