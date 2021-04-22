@@ -19,7 +19,7 @@
   
     
     
-Version 0.6.14 <br>
+Version 0.6.15 <br>
 
     
     <div id="description">
@@ -210,15 +210,19 @@ const myPictureNow  = async function(){
         } else {
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
         }
+    
+    z = results.results[i].label
+    y = results.results[i].value.toFixed(3)
+    x = results.results[i].x
+  console.log('z') 
+  console.log(z)  
+  console.log('y')  
+  console.log(y)  
+  console.log('x')  
+  console.log(x)  
    }  
        
   myTemp += '</table>'   
-  console.log('results.results[2].label') 
-  console.log(results.results[2].label)  
-  console.log('results.results[2].x')  
-  console.log(results.results[2].x)  
-  console.log('results.results[1].label') 
-  console.log(results.results[1].label)  
   
     
     
