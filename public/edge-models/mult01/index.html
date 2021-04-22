@@ -19,7 +19,7 @@
   
     
     
-Version 0.6.16 <br>
+Version 0.6.17 <br>
 
     
     <div id="description">
@@ -375,7 +375,7 @@ class EdgeImpulseClassifier {
   
 
 
-
+/*
 
 if (!process.argv[2]) {
     return console.error('Requires one parameter (a comma-separated list of raw features, or a file pointing at raw features)');
@@ -386,6 +386,9 @@ if (fs.existsSync(features)) {
     features = fs.readFileSync(features, 'utf-8');
 }
 
+  
+  */
+  
 // Initialize the classifier, and invoke with the argument passed in
 let classifier = new EdgeImpulseClassifier();
 classifier.init().then(async () => {
