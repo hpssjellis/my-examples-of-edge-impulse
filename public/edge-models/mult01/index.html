@@ -19,7 +19,7 @@
   
     
     
-Version 0.6.17 <br>
+Version 0.6.18 <br>
 
     
     <div id="description">
@@ -188,8 +188,9 @@ const myPictureNow  = async function(){
     }
 
     
-     results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
-    
+    .. results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
+     results = await classifier.classify( myOutputString.split(', ').map(n => Number(n)));   );      //, true  can set debug true auto shows in console
+
     
   let myTemp = ''
   myTemp =  '<table border=1  style="font-size:30px">'
@@ -387,7 +388,7 @@ if (fs.existsSync(features)) {
 }
 
   
-  */
+
   
 // Initialize the classifier, and invoke with the argument passed in
 let classifier = new EdgeImpulseClassifier();
@@ -398,6 +399,6 @@ classifier.init().then(async () => {
 }).catch(err => {
     console.error('Failed to initialize classifier', err);
 });
-  
+    */
   
 </script>
