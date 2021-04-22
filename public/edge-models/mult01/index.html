@@ -19,7 +19,7 @@
   
     
     
-Version 0.6.15 <br>
+Version 0.6.16 <br>
 
     
     <div id="description">
@@ -300,20 +300,24 @@ setupPage();
   
  // From the old run_impulse.js file 
   
+  //const Module = require('./edge-impulse-standalone');
+//const fs = require('fs');
+  
 // Classifier module
 let classifierInitialized = false;
 Module.onRuntimeInitialized = function() {
     classifierInitialized = true;
 };
 
+  
+  
+  
 class EdgeImpulseClassifier {
     _initialized = false;
  
   
   // https://forum.edgeimpulse.com/t/wasm-sound-acceleration-camera-demos/1611/7
-      getProperties() {
-        return Module.get_properties();
-    }
+
 
     init() {
         if (classifierInitialized === true) return Promise.resolve();
@@ -343,26 +347,20 @@ class EdgeImpulseClassifier {
             results: []
         };
 
-        // if ret.size is a function, then this is a new module. Use this API call to prevent leaks.
-        // the old API (calling via ret.classification) is still there for backwards compatibility, but leaks some memory
-        if (typeof ret.size === 'function') {
-            for (let cx = 0; cx < ret.size(); cx++) {
-                let c = ret.get(cx);
-                jsResult.results.push({ label: c.label, value: c.value });
-                c.delete();
-            }
-        }
-        else {
-            for (let cx = 0; cx < ret.classification.size(); cx++) {
-                let c = ret.classification.get(cx);
-                jsResult.results.push({ label: c.label, value: c.value, x: c.x, y: c.y, width: c.width, height: c.height });
-                c.delete();
-            }
+        for (let cx = 0; cx < ret.size(); cx++) {
+            let c = ret.get(cx);
+            jsResult.results.push({ label: c.label, value: c.value, x: c.x, y: c.y, width: c.width, height: c.height });
+            c.delete();
         }
 
         ret.delete();
 
         return jsResult;
+    }
+  
+  
+    getProperties() {
+        return Module.get_properties();
     }
 
     _arrayToHeap(data) {
@@ -374,5 +372,29 @@ class EdgeImpulseClassifier {
         return { ptr: ptr, buffer: heapBytes };
     }
 }
+  
+
+
+
+
+if (!process.argv[2]) {
+    return console.error('Requires one parameter (a comma-separated list of raw features, or a file pointing at raw features)');
+}
+
+let features = process.argv[2];
+if (fs.existsSync(features)) {
+    features = fs.readFileSync(features, 'utf-8');
+}
+
+// Initialize the classifier, and invoke with the argument passed in
+let classifier = new EdgeImpulseClassifier();
+classifier.init().then(async () => {
+    let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
+
+    console.log(result);
+}).catch(err => {
+    console.error('Failed to initialize classifier', err);
+});
+  
   
 </script>
