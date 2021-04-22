@@ -1,5 +1,6 @@
 
 
+
 <body>
   <div id="main">
       
@@ -10,20 +11,20 @@
       height: auto;
     "></video>
       
-    <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
+    <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid; display:none;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
     
-    <canvas id="output"  ></canvas>  
+    <canvas id="output"   style=" display:none; "></canvas>  
     
-    <canvas id="myColorCanvas"  ></canvas>   <br>
+    <canvas id="myColorCanvas"  style=" display:none; " ></canvas>   <br>
   
     
     
-Version 0.5.37 <br>
+Version 0.6.15 <br>
 
     
     <div id="description">
         <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM</div>
-        Frequency ms <input type=text id="myText01" value=400 onChange="{
+        Frequency ms <input type=text id="myText01" value=3000 onChange="{
              myFrequencyMs = this.value
              clearInterval(myTimer01)
             myTimer01 = setInterval(myPictureNow, myFrequencyMs);
@@ -35,9 +36,10 @@ Version 0.5.37 <br>
         Use data from chart below <input type=checkbox id="myCheckbox01"><br>
         Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
         Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
-        <textarea id="myTextArea01" rows=10 cols=70>...</textarea> <br> <br> <br>
       
-           <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:3000px; height:2000px; " ></canvas> <br>  
+           <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:640px; height:480px; " ></canvas> <br>   <br>
+      
+        <textarea id="myTextArea01" rows=10 cols=70    style=" display:none; ">...</textarea> <br> <br> <br>
       
 
     </div>
@@ -136,8 +138,10 @@ const myPictureNow  = async function(){
    document.getElementById('myWidthHeight').value = props.input_width
     
 
-//  console.log(props.input_width)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
-   
+ // console.log(classifier)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
+  
+    
+ // console.log(props.input_width)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
     
   ctxOnTop.clearRect(0, 0, canvasOnTop.width, canvasOnTop.height); 
     
@@ -206,10 +210,19 @@ const myPictureNow  = async function(){
         } else {
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
         }
+    
+    z = results.results[i].label
+    y = results.results[i].value.toFixed(3)
+    x = results.results[i].x
+  console.log('z') 
+  console.log(z)  
+  console.log('y')  
+  console.log(y)  
+  console.log('x')  
+  console.log(x)  
    }  
        
   myTemp += '</table>'   
-  //console.log(results) 
   
     
     
@@ -295,6 +308,12 @@ Module.onRuntimeInitialized = function() {
 
 class EdgeImpulseClassifier {
     _initialized = false;
+ 
+  
+  // https://forum.edgeimpulse.com/t/wasm-sound-acceleration-camera-demos/1611/7
+      getProperties() {
+        return Module.get_properties();
+    }
 
     init() {
         if (classifierInitialized === true) return Promise.resolve();
@@ -324,10 +343,21 @@ class EdgeImpulseClassifier {
             results: []
         };
 
-        for (let cx = 0; cx < ret.size(); cx++) {
-            let c = ret.get(cx);
-            jsResult.results.push({ label: c.label, value: c.value, x: c.x, y: c.y, width: c.width, height: c.height });
-            c.delete();
+        // if ret.size is a function, then this is a new module. Use this API call to prevent leaks.
+        // the old API (calling via ret.classification) is still there for backwards compatibility, but leaks some memory
+        if (typeof ret.size === 'function') {
+            for (let cx = 0; cx < ret.size(); cx++) {
+                let c = ret.get(cx);
+                jsResult.results.push({ label: c.label, value: c.value });
+                c.delete();
+            }
+        }
+        else {
+            for (let cx = 0; cx < ret.classification.size(); cx++) {
+                let c = ret.classification.get(cx);
+                jsResult.results.push({ label: c.label, value: c.value, x: c.x, y: c.y, width: c.width, height: c.height });
+                c.delete();
+            }
         }
 
         ret.delete();
@@ -335,10 +365,6 @@ class EdgeImpulseClassifier {
         return jsResult;
     }
 
-    getProperties() {
-        return Module.get_properties();
-    }
-  
     _arrayToHeap(data) {
         let typedArray = new Float32Array(data);
         let numBytes = typedArray.length * typedArray.BYTES_PER_ELEMENT;
@@ -348,24 +374,5 @@ class EdgeImpulseClassifier {
         return { ptr: ptr, buffer: heapBytes };
     }
 }
-
-if (!process.argv[2]) {
-    return console.error('Requires one parameter (a comma-separated list of raw features, or a file pointing at raw features)');
-}
-
-let features = process.argv[2];
-if (fs.existsSync(features)) {
-    features = fs.readFileSync(features, 'utf-8');
-}
-
-// Initialize the classifier, and invoke with the argument passed in
-let classifier = new EdgeImpulseClassifier();
-classifier.init().then(async () => {
-    let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
-
-    console.log(result);
-}).catch(err => {
-    console.error('Failed to initialize classifier', err);
-});
   
 </script>
