@@ -11,7 +11,7 @@
       height: auto;
     "></video>
      
-    <canvas id="myOverlap" style="position:absolute; top:0; left:0;  width:640px; height:480px; background:transparent; border:black 3px solid;" ></canvas>  
+    <canvas id="myOverlap" style="position:absolute; top:0; left:0;  width:640px; height:480px; background:transparent;  " ></canvas>  
       
     <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid; display:none;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
     
@@ -21,7 +21,7 @@
   
     
     
-Version 0.7.1 <br>
+Version 0.7.3 <br>
 
     
     <div id="description">
@@ -229,6 +229,7 @@ const myPictureNow  = async function(){
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
         }
     
+    /*
     z = results.results[i].label
     y = results.results[i].value.toFixed(3)
     x = results.results[i].x
@@ -238,6 +239,18 @@ const myPictureNow  = async function(){
   console.log(y)  
   console.log('x')  
   console.log(x)  
+    */
+    
+  //  ctxOverlap.putImageData(ImageData2,  0, 0);
+    
+ctxOverlap.beginPath();
+ctxOverlap.lineWidth = "6";
+ctxOverlap.strokeStyle = "red";
+ctxOverlap.rect(5, 5, 290, 140);
+ctxOverlap.stroke();
+ctxOverlap.font = "30px Arial";
+ctxOverlap.fillText("Hello World", 10, 50);
+    
    }  
        
   myTemp += '</table>'   
@@ -288,6 +301,15 @@ const setupPage = async function(){
   canvas.width = videoWidth;
   canvas.height = videoHeight;
   document.ctx = canvas.getContext('2d'); 
+  
+  canvasOverlap = document.getElementById('myOverlap');
+  canvasOverlap.width = videoWidth;
+  canvasOverlap.height = videoHeight;
+  ctxOverlap = canvasOverlap.getContext('2d'); 
+  
+  
+  
+ // myOverlap
   
  // setInterval(function(){ alert("Hello"); }, 3000);
   myTimer01 = setInterval(myPictureNow, myFrequencyMs);
