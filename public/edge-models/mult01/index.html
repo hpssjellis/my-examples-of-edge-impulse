@@ -1,5 +1,6 @@
 
 
+
 <body>
   <div id="main">
       
@@ -20,7 +21,7 @@
   
     
     
-Version 0.7.5 <br>
+Version 0.7.4 <br>
 
     
     <div id="description">
@@ -243,12 +244,12 @@ const myPictureNow  = async function(){
   //  ctxOverlap.putImageData(ImageData2,  0, 0);
     
 ctxOverlap.beginPath();
-ctxOverlap.lineWidth = "6";
+ctxOverlap.lineWidth = "2";
 ctxOverlap.strokeStyle = "red";
-ctxOverlap.rect(5, 5, 290, 140);
+ctxOverlap.rect(results.results[i].x, results.results[i].y, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
 ctxOverlap.stroke();
-ctxOverlap.font = "30px Arial";
-ctxOverlap.fillText("Hello World", 10, 50);
+ctxOverlap.font = "10px Arial";
+ctxOverlap.fillText("Hello World", results.results[i].x, results.results[i].x-30);   // Text, x, y
     
    }  
        
