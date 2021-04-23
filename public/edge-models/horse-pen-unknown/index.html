@@ -10,7 +10,7 @@
       height: auto;
     "></video>
      
-    <canvas id="myOverlap" style="position:absolute; top:0; left:0;  width:640px; height:480px; background:transparent;  " ></canvas>  
+
       
     <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid; display:none;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
     
@@ -20,7 +20,7 @@
   
     
     
-Version 0.7.11 <br>
+Version 0.7.12 <br>
 
     
     <div id="description">
@@ -38,8 +38,8 @@ Version 0.7.11 <br>
         Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
         Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
       
-           <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:640px; height:480px; " ></canvas> <br>   <br>
-      
+           <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:640px; height:480px; " ></canvas> 
+          <canvas id="myOverlap" style="position:relative; top:0; left:-320px;  width:640px; height:480px; background:transparent;  " ></canvas> <br>   <br> 
         <textarea id="myTextArea01" rows=10 cols=70    style=" display:none; ">...</textarea> <br> <br> <br>
       
 
@@ -246,14 +246,14 @@ ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)
     
 ctxOverlap.lineWidth = "2";
 ctxOverlap.strokeStyle = "black";
-ctxOverlap.rect(160, 120, 320, 240); // rectangle x,y,width,height
+//ctxOverlap.rect(160, 120, 320, 240); // rectangle x,y,width,height
 
 ctxOverlap.lineWidth = "2";
 ctxOverlap.strokeStyle = "red";
-ctxOverlap.rect(results.results[i].x+160, results.results[i].y+120, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
+ctxOverlap.rect(results.results[i].x, results.results[i].y, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
 ctxOverlap.stroke();
 ctxOverlap.font = "20px Arial";
-ctxOverlap.fillText(results.results[i].label, results.results[i].x+160, results.results[i].x-30+120);   // Text, x, y
+ctxOverlap.fillText(results.results[i].label, results.results[i].x, results.results[i].x-30);   // Text, x, y
     
    }  
        
