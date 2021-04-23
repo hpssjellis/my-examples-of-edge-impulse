@@ -21,7 +21,7 @@
   
     
     
-Version 0.7.9 <br>
+Version 0.7.10 <br>
 
     
     <div id="description">
@@ -244,7 +244,10 @@ const myPictureNow  = async function(){
   //  ctxOverlap.putImageData(ImageData2,  0, 0);
 ctxOverlap.beginPath();
 ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
-ctxOverlap.rect(160, 160, 480, 480); // rectangle x,y,width,height
+    
+ctxOverlap.lineWidth = "2";
+ctxOverlap.strokeStyle = "black";
+ctxOverlap.rect(160, 160, 320, 320); // rectangle x,y,width,height
 
 ctxOverlap.lineWidth = "2";
 ctxOverlap.strokeStyle = "red";
