@@ -21,7 +21,7 @@
   
     
     
-Version 0.7.10 <br>
+Version 0.7.11 <br>
 
     
     <div id="description">
@@ -247,14 +247,14 @@ ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)
     
 ctxOverlap.lineWidth = "2";
 ctxOverlap.strokeStyle = "black";
-ctxOverlap.rect(160, 160, 320, 320); // rectangle x,y,width,height
+ctxOverlap.rect(160, 120, 320, 240); // rectangle x,y,width,height
 
 ctxOverlap.lineWidth = "2";
 ctxOverlap.strokeStyle = "red";
-ctxOverlap.rect(results.results[i].x, results.results[i].y, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
+ctxOverlap.rect(results.results[i].x+160, results.results[i].y+120, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
 ctxOverlap.stroke();
 ctxOverlap.font = "20px Arial";
-ctxOverlap.fillText(results.results[i].label, results.results[i].x, results.results[i].x-30);   // Text, x, y
+ctxOverlap.fillText(results.results[i].label, results.results[i].x+160, results.results[i].x-30+120);   // Text, x, y
     
    }  
        
