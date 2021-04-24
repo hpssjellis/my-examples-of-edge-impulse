@@ -22,11 +22,11 @@
   
     
     
-Version 0.8.3 <br>
+Version 0.8.4 <br>
 
     
     <div id="description">
-        <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM</div>
+        <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM: Cup or Pen</div>
         Frequency ms <input type=text id="myText01" value=1000 onChange="{
              myFrequencyMs = this.value
              clearInterval(myTimer01)
@@ -40,9 +40,9 @@ Version 0.8.3 <br>
         Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
         Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
       
-           <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:640px; height:480px; " ></canvas> 
+        <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:640px; height:480px; " ></canvas> 
       
-    <canvas id="myOverlap" style="position:relative; top:0; left:-320;  width:640px; height:480px; background:transparent;  " ></canvas>  
+        <canvas id="myOverlap" style="position:relative; top:0px; left:-640px;  width:640px; height:480px; background:transparent;  " ></canvas>  
       
         <textarea id="myTextArea01" rows=10 cols=70    style=" display:none; ">...</textarea> <br> <br> <br>
       
@@ -213,7 +213,7 @@ const myPictureNow  = async function(){
   */
     
   let myTemp = ''
-  document.getElementById('myDiv01').innerHTML = ''   // clear the output
+  document.getElementById('myDiv01').innerHTML = '..'   // clear the output
   myTemp =  '<table border=1  style="font-size:30px">'
     
   let myBestClassificationNumber = -1  
