@@ -196,13 +196,13 @@ const myPictureNow  = async function(){
 
 
     // results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
-     results = await classifier.classify( myOutputString.split(', ').map( n => Number(n) )  );      //, true  can set debug true auto shows in console
+     document.results = await classifier.classify( myOutputString.split(', ').map( n => Number(n) )  );      //, true  can set debug true auto shows in console
   
 
  // console.log('results.results[0]')
-  console.log(results.results[0])
+  console.log(document.results.results[0])
  // console.log('results.results[1]')
-  console.log(results.results[1])
+  console.log(document.results.results[1])
   /*
   classifier.init().then(async () => {
     //let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
@@ -224,19 +224,19 @@ const myPictureNow  = async function(){
     
   let myBestClassificationNumber = -1  
   let myBestClassificationValue = 0.25   // lowest best allowable value 
-  for (let j = 0;  j < results.results.length; j++){  
-      if (results.results[j].value > myBestClassificationValue ){
+  for (let j = 0;  j < document.results.results.length; j++){  
+      if (document.results.results[j].value > myBestClassificationValue ){
            myBestClassificationNumber = j;                      // find the biggest array value
-           myBestClassificationValue = results.results[j].value  
+           myBestClassificationValue = document.results.results[j].value  
         }
   }
     
     
   for (let i = 0;  i < results.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
-           myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
+           myTemp += '<tr><td>'+ document.results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + document.results.results[i].value.toFixed(3) +'</font></td></tr>'            
         } else {
-           myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
+           myTemp += '<tr><td>'+ document.results.results[i].label + '</td><td>' + document.results.results[i].value.toFixed(3) +'</td></tr>'
         }
     
     /*
@@ -257,10 +257,10 @@ ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)
     
 ctxOverlap.lineWidth = "2";
 ctxOverlap.strokeStyle = "red";
-ctxOverlap.rect(results.results[i].x, results.results[i].y, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
+ctxOverlap.rect(document.results.results[i].x, document.results.results[i].y, document.results.results[i].width, document.results.results[i].height); // rectangle x,y,width,height
 ctxOverlap.stroke();
 ctxOverlap.font = "20px Arial";
-ctxOverlap.fillText(results.results[i].label, results.results[i].x, results.results[i].x-50);   // Text, x, y
+ctxOverlap.fillText(document.results.results[i].label, document.results.results[i].x, document.results.results[i].x-50);   // Text, x, y
     
    }  
        
@@ -268,10 +268,10 @@ ctxOverlap.fillText(results.results[i].label, results.results[i].x, results.resu
   
     
     
-//  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
+  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ document.results.anomaly + '<br>' +  myTemp
 }
   
-   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp 
+//   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ document.results.anomaly + '<br>' +  myTemp 
   
   
 const setupPage = async function(){   
