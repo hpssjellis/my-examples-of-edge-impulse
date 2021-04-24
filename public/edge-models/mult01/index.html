@@ -22,7 +22,7 @@
   
     
     
-Version 0.8.7 <br>
+Version 0.8.8 <br>
 
     
     <div id="description">
@@ -197,7 +197,10 @@ const myPictureNow  = async function(){
     // results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
      results = await classifier.classify( myOutputString.split(', ').map( n => Number(n) )   );      //, true  can set debug true auto shows in console
 
-  
+  console.log('results.results[0]')
+  console.log(results.results[0])
+  console.log('results.results[1]')
+  console.log(results.results[1])
   /*
   classifier.init().then(async () => {
     //let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
