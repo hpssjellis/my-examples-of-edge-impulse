@@ -22,7 +22,7 @@
   
     
     
-Version 0.8.26 <br>
+Version 0.8.27 <br>
 
     
     <div id="description">
@@ -207,9 +207,18 @@ const myPictureNow  = async function(){
  // console.log('results.results[1]')
   console.log(results.results[1])
   
-    // check for new results if not then ignore it ALL    **************************************************** watch out ***************************
-   if ( myLabelOldX == results.results[0].x ){ results.results.length = 0 } else { myLabelOldX = results.results[0].x }
+  console.log('results.results.length')
+  console.log(results.results.length)
   
+  
+  
+    // check for new results if not then ignore it ALL    **************************************************** watch out ***************************
+  if ( myLabelOldX == results.results[0].x ){ results.results.length = 0 } 
+  
+  myLabelOldX = results.results[0].x
+  
+  console.log('results.results.length')
+  console.log(results.results.length)
   
   /*
   classifier.init().then(async () => {
