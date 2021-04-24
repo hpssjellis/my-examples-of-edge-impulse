@@ -22,7 +22,7 @@
   
     
     
-Version 0.8.24 <br>
+Version 0.8.25 <br>
 
     
     <div id="description">
@@ -62,6 +62,9 @@ let myOutputString = ''
 let myFrequencyMs = document.getElementById('myText01').value
 let myWidthHeightSquare = document.getElementById('myWidthHeight').value
 
+// to check persistence
+let myLabelOldX ;
+let myLabelOldY ;
   
   
   function RGBAToHex(r,g,b,a) {
@@ -203,6 +206,11 @@ const myPictureNow  = async function(){
   console.log(results.results[0])
  // console.log('results.results[1]')
   console.log(results.results[1])
+  
+    // check for new results if no ignore it.    **************************************************** watch out ***************************
+   if ( myLabelOldX == results.results[0].x ){results.results.length = 0 } 
+  
+  
   /*
   classifier.init().then(async () => {
     //let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
