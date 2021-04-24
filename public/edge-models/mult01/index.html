@@ -22,7 +22,7 @@
   
     
     
-Version 0.8.12 <br>
+Version 0.8.14 <br>
 
     
     <div id="description">
@@ -61,7 +61,7 @@ let myTimer01 = 0;
 let myOutputString = ''
 let myFrequencyMs = document.getElementById('myText01').value
 let myWidthHeightSquare = document.getElementById('myWidthHeight').value
-let reultsOld = {}
+
   
   
   function RGBAToHex(r,g,b,a) {
@@ -196,15 +196,13 @@ const myPictureNow  = async function(){
 
 
     // results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
-     results = await classifier.classify( myOutputString.split(', ').map( n => Number(n) )   );      //, true  can set debug true auto shows in console
+     results = await classifier.classify( myOutputString.split(', ').map( n => Number(n) ), true   );      //, true  can set debug true auto shows in console
   
-     reultsOld = results;
-  console.log('results.results[0]')
-  console.log(results.results[0])
-  console.log('results.results[1]')
-  console.log(results.results[1])
-  console.log('resultsOld.results[0]')
-  console.log(resultsOld.results[0])
+
+ // console.log('results.results[0]')
+ // console.log(results.results[0])
+ // console.log('results.results[1]')
+ // console.log(results.results[1])
   /*
   classifier.init().then(async () => {
     //let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
