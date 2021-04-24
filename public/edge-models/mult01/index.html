@@ -12,6 +12,8 @@
     "></video>
      
       
+    <canvas id="myOverlap2" style="position:absolute; top:0; left:0;  width:640px; height:480px; background:transparent;  " ></canvas>  
+    
     <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid; display:none;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
     
     <canvas id="output"   style=" display:none; "></canvas>  
@@ -20,7 +22,7 @@
   
     
     
-Version 0.8.0 <br>
+Version 0.8.1 <br>
 
     
     <div id="description">
@@ -247,8 +249,6 @@ const myPictureNow  = async function(){
 ctxOverlap.beginPath();
 ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
     
-ctxOverlap.lineWidth = "2";
-ctxOverlap.strokeStyle = "black";
 ctxOverlap.rect(160, 120, 320, 240); // rectangle x,y,width,height
 
 ctxOverlap.lineWidth = "2";
@@ -313,7 +313,11 @@ const setupPage = async function(){
   canvasOverlap.width = videoWidth;
   canvasOverlap.height = videoHeight;
   ctxOverlap = canvasOverlap.getContext('2d'); 
-  
+    
+  canvasOverlap2 = document.getElementById('myOverlap2');
+  canvasOverlap2.width = videoWidth;
+  canvasOverlap2.height = videoHeight;
+  ctxOverlap2 = canvasOverlap2.getContext('2d'); 
   
   
  // myOverlap
@@ -322,7 +326,14 @@ const setupPage = async function(){
   myTimer01 = setInterval(myPictureNow, myFrequencyMs);
  // myTimer01 = setInterval('myPictureNow', 3000); 
   renderPrediction();
+ 
   
+ctxOverlap2.beginPath();  
+ctxOverlap2.lineWidth = "2";
+ctxOverlap2.strokeStyle = "green";  
+ctxOverlap2.rect(160, 120, 320, 240); // rectangle x,y,width,height
+
+ctxOverlap.stroke();
   
 };
 
