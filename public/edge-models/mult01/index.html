@@ -22,7 +22,7 @@
   
     
     
-Version 0.8.1 <br>
+Version 0.8.2 <br>
 
     
     <div id="description">
@@ -249,14 +249,14 @@ const myPictureNow  = async function(){
 ctxOverlap.beginPath();
 ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
     
-ctxOverlap.rect(160, 120, 320, 240); // rectangle x,y,width,height
+//ctxOverlap.rect(160, 120, 320, 240); // rectangle x,y,width,height
 
 ctxOverlap.lineWidth = "2";
 ctxOverlap.strokeStyle = "red";
-ctxOverlap.rect(results.results[i].x+160, results.results[i].y+120, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
+ctxOverlap.rect(results.results[i].x, results.results[i].y, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
 ctxOverlap.stroke();
 ctxOverlap.font = "20px Arial";
-ctxOverlap.fillText(results.results[i].label, results.results[i].x+160, results.results[i].x-30+120);   // Text, x, y
+ctxOverlap.fillText(results.results[i].label, results.results[i].x, results.results[i].x-50);   // Text, x, y
     
    }  
        
@@ -330,7 +330,7 @@ const setupPage = async function(){
   
 ctxOverlap2.beginPath();  
 ctxOverlap2.lineWidth = "2";
-ctxOverlap2.strokeStyle = "green";  
+ctxOverlap2.strokeStyle = "red";  
 ctxOverlap2.rect(160, 120, 320, 240); // rectangle x,y,width,height
 
 ctxOverlap.stroke();
