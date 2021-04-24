@@ -220,6 +220,7 @@ const myPictureNow  = async function(){
   */
     
   myTemp = ''
+  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ document.results.anomaly + '<br>' +  myTemp  // clear table
 
   myTemp =  '<table border=1  style="font-size:30px">'
     
@@ -233,7 +234,7 @@ const myPictureNow  = async function(){
   }
     
     
-  for (let i = 0;  i < results.results.length; i++){  
+  for (let i = 0;  i < document.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
            myTemp += '<tr><td>'+ document.results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + document.results.results[i].value.toFixed(3) +'</font></td></tr>'            
         } else {
