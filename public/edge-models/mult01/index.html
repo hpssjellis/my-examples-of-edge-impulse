@@ -11,7 +11,6 @@
       height: auto;
     "></video>
      
-    <canvas id="myOverlap" style="position:absolute; top:0; left:0;  width:640px; height:480px; background:transparent;  " ></canvas>  
       
     <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid; display:none;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
     
@@ -21,7 +20,7 @@
   
     
     
-Version 0.7.11 <br>
+Version 0.8.0 <br>
 
     
     <div id="description">
@@ -39,7 +38,9 @@ Version 0.7.11 <br>
         Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
         Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
       
-           <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:640px; height:480px; " ></canvas> <br>   <br>
+           <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:640px; height:480px; " ></canvas> 
+      
+    <canvas id="myOverlap" style="position:relative; top:0; left:-320;  width:640px; height:480px; background:transparent;  " ></canvas>  
       
         <textarea id="myTextArea01" rows=10 cols=70    style=" display:none; ">...</textarea> <br> <br> <br>
       
@@ -210,6 +211,7 @@ const myPictureNow  = async function(){
   */
     
   let myTemp = ''
+  document.getElementById('myDiv01').innerHTML = ''   // clear the output
   myTemp =  '<table border=1  style="font-size:30px">'
     
   let myBestClassificationNumber = -1  
