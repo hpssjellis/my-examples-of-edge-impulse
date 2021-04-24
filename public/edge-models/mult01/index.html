@@ -133,6 +133,7 @@ const setupCamera = async function(){
   
   
 const myPictureNow  = async function(){    
+    document.getElementById('myDiv01').innerHTML = '..'   // clear the output
   
    var classifier = new EdgeImpulseClassifier();
    await classifier.init(); 
@@ -213,7 +214,7 @@ const myPictureNow  = async function(){
   */
     
   let myTemp = ''
-  document.getElementById('myDiv01').innerHTML = '..'   // clear the output
+
   myTemp =  '<table border=1  style="font-size:30px">'
     
   let myBestClassificationNumber = -1  
