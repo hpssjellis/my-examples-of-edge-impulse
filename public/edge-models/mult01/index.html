@@ -22,7 +22,7 @@
   
     
     
-Version 0.8.14 <br>
+Version 0.8.15 <br>
 
     
     <div id="description">
@@ -196,13 +196,13 @@ const myPictureNow  = async function(){
 
 
     // results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
-     results = await classifier.classify( myOutputString.split(', ').map( n => Number(n) ), true   );      //, true  can set debug true auto shows in console
+     results = await classifier.classify( myOutputString.split(', ').map( n => Number(n) )  );      //, true  can set debug true auto shows in console
   
 
  // console.log('results.results[0]')
- // console.log(results.results[0])
+  console.log(results.results[0])
  // console.log('results.results[1]')
- // console.log(results.results[1])
+  console.log(results.results[1])
   /*
   classifier.init().then(async () => {
     //let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
@@ -255,8 +255,6 @@ const myPictureNow  = async function(){
 ctxOverlap.beginPath();
 ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
     
-//ctxOverlap.rect(160, 120, 320, 240); // rectangle x,y,width,height
-
 ctxOverlap.lineWidth = "2";
 ctxOverlap.strokeStyle = "red";
 ctxOverlap.rect(results.results[i].x, results.results[i].y, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
@@ -270,10 +268,10 @@ ctxOverlap.fillText(results.results[i].label, results.results[i].x, results.resu
   
     
     
-  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
+//  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
 }
   
-  
+   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp 
   
   
 const setupPage = async function(){   
