@@ -22,7 +22,7 @@
   
     
     
-Version 0.8.9 <br>
+Version 0.8.10 <br>
 
     
     <div id="description">
@@ -193,7 +193,7 @@ const myPictureNow  = async function(){
       document.getElementById('myTextArea01').value = myOutputString
     }
 
-    
+     reultsOld = results;
     // results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
      results = await classifier.classify( myOutputString.split(', ').map( n => Number(n) )   );      //, true  can set debug true auto shows in console
 
@@ -201,6 +201,8 @@ const myPictureNow  = async function(){
   console.log(results.results[0])
   console.log('results.results[1]')
   console.log(results.results[1])
+  console.log('resultsOld.results[0]')
+  console.log(resultsOld.results[0])
   /*
   classifier.init().then(async () => {
     //let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
