@@ -22,7 +22,7 @@
   
     
     
-Version 0.8.15 <br>
+Version 0.8.22 <br>
 
     
     <div id="description">
@@ -219,6 +219,11 @@ const myPictureNow  = async function(){
   */
     
   let myTemp = ''
+  
+ctxOverlap.beginPath();
+ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
+ctxOverlap.stroke();
+  
 
   myTemp =  '<table border=1  style="font-size:30px">'
     
