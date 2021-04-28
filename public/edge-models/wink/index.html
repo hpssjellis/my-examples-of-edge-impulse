@@ -18,7 +18,7 @@
   
     
     
-Version 0.5.41 <br>
+Version 0.5.42 <br>
 
     
     <div id="description">
@@ -81,6 +81,11 @@ let myWidthHeightSquare = document.getElementById('myWidthHeight').value
 const setupCamera = async function(){   
   
   video = document.getElementById('video');
+  
+  // stop it if running
+  video.pause()
+  video.srcObject = null
+  
   const stream = await navigator.mediaDevices.getUserMedia({
     'audio': false,
     'video': { facingMode: document.getElementById('mySelect').value },
