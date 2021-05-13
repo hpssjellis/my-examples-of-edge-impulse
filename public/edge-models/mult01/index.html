@@ -22,7 +22,7 @@
   
     
     
-Version 0.9.0, special only one image <br>
+Version 0.9.1, special only one image <br>
 
     
     <div id="description">
@@ -304,12 +304,12 @@ ctxOverlap.stroke();
 ctxOverlap.beginPath();
 ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
     
-ctxOverlap.lineWidth = "2";
+ctxOverlap.lineWidth = "3";
 ctxOverlap.strokeStyle = "red";
-ctxOverlap.rect(results.results[0].x, results.results[0].y, results.results[0].width, results.results[0].height); // rectangle x,y,width,height
+ctxOverlap.rect(results.results[0].x, results.results[0].y, results.results[0].x+results.results[0].width, results.results[0].y+results.results[0].height); // rectangle x,y,width,height
 ctxOverlap.stroke();
 ctxOverlap.font = "20px Arial";
-ctxOverlap.fillText(results.results[0].label, results.results[0].x, results.results[0].x-50);   // Text, x, y
+ctxOverlap.fillText(results.results[0].label, results.results[0].x, results.results[0].y-20);   // Text, x, y
     
  //  }  
        
