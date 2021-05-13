@@ -22,12 +22,12 @@
   
     
     
-Version 0.8.29 <br>
+Version 0.8.29, special only one image <br>
 
     
     <div id="description">
         <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM: Cup or Pen</div>
-        Frequency ms <input type=text id="myText01" value=5000 onChange="{
+        Frequency ms <input type=text id="myText01" value=2000 onChange="{
              myFrequencyMs = this.value
              clearInterval(myTimer01)
             myTimer01 = setInterval(myPictureNow, myFrequencyMs);
@@ -257,6 +257,16 @@ ctxOverlap.stroke();
     
   let myBestClassificationNumber = -1  
   let myBestClassificationValue = 0.25   // lowest best allowable value 
+  
+  
+  
+  
+  
+  
+  
+  
+/*  
+  
   for (let j = 0;  j < results.results.length; j++){  
       if (results.results[j].value > myBestClassificationValue ){
            myBestClassificationNumber = j;                      // find the biggest array value
@@ -264,13 +274,19 @@ ctxOverlap.stroke();
         }
   }
     
-    
+  
+  */
+   
+  /*
   for (let i = 0;  i < results.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
         } else {
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
         }
+    
+    
+    */
     
     /*
     z = results.results[i].label
@@ -290,18 +306,20 @@ ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)
     
 ctxOverlap.lineWidth = "2";
 ctxOverlap.strokeStyle = "red";
-ctxOverlap.rect(results.results[i].x, results.results[i].y, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
+ctxOverlap.rect(results.results[0].x, results.results[0].y, results.results[0].width, results.results[0].height); // rectangle x,y,width,height
 ctxOverlap.stroke();
 ctxOverlap.font = "20px Arial";
-ctxOverlap.fillText(results.results[i].label, results.results[i].x, results.results[i].x-50);   // Text, x, y
+ctxOverlap.fillText(results.results[0].label, results.results[0].x, results.results[0].x-50);   // Text, x, y
     
-   }  
+ //  }  
        
   myTemp += '</table>'   
   
     
     
-  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
+ // document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
+    
+  document.getElementById('myDiv01').innerHTML = '<table border=1  style="font-size:30px"><tr><td>'+ results.results[0].label + '</td><td>' + results.results[0].value.toFixed(3) +'</td></tr></table>'
 }
   
 //   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp 
