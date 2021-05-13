@@ -1,0 +1,499 @@
+
+
+
+<body>
+  <div id="main">
+      
+    <video id="video" playsinline="" style="     
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      width: auto;
+      height: auto;
+    "></video>
+     
+      
+    <canvas id="myOverlap2" style="position:absolute; top:0; left:0;  width:640px; height:480px; background:transparent;  " ></canvas>  
+    
+    <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid; display:none;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
+    
+    <canvas id="output"   style=" display:none; "></canvas>  
+    
+    <canvas id="myColorCanvas"  style=" display:none; " ></canvas>   <br>
+  
+    
+    
+Version 0.8.29 <br>
+
+    
+    <div id="description">
+        <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM: Cup or Pen</div>
+        Frequency ms <input type=text id="myText01" value=5000 onChange="{
+             myFrequencyMs = this.value
+             clearInterval(myTimer01)
+            myTimer01 = setInterval(myPictureNow, myFrequencyMs);
+          }"><br>
+      (square) width/height: <input type=text value="96" size=5 id="myWidthHeight" READONLY>  <br>    
+
+      
+        <div id="myDiv01" style="font-size:30px">...</div>
+        Use data from chart below <input type=checkbox id="myCheckbox01"><br>
+        Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
+        Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
+      
+        <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:640px; height:480px; " ></canvas> 
+      
+        <canvas id="myOverlap" style="position:relative; top:-160px; left:-640px;  width:320px; height:320px; background:transparent;  border:black 3px solid;  " ></canvas>  
+      
+        <textarea id="myTextArea01" rows=10 cols=70    style=" display:none; ">...</textarea> <br> <br> <br>
+      
+
+    </div>
+      
+
+</body>
+
+ <script src="edge-impulse-standalone.js"></script>
+
+
+<script> 
+
+let myTimer01 = 0;
+let myOutputString = ''
+let myFrequencyMs = document.getElementById('myText01').value
+let myWidthHeightSquare = document.getElementById('myWidthHeight').value
+
+// to check persistence
+let myLabelOldX ;
+let myLabelOldY ;
+  
+  
+  function RGBAToHex(r,g,b,a) {
+  r = r.toString(16);
+  g = g.toString(16);
+  b = b.toString(16);
+
+  if (r.length == 1)
+    r = "0" + r;
+  if (g.length == 1)
+    g = "0" + g;
+  if (b.length == 1)
+    b = "0" + b;
+
+ // return "#" + r + g + b + ", " ;
+  return "0x" + r + g + b + ", " ;
+       
+}
+  
+  
+  
+  
+const setupCamera = async function(){   
+  
+  video = document.getElementById('video');
+  const stream = await navigator.mediaDevices.getUserMedia({
+    'audio': false,
+    'video': { facingMode: 'user' },
+  });
+  video.srcObject = stream;
+
+  return new Promise((resolve) => {
+    video.onloadedmetadata = () => {
+      resolve(video);
+    };
+  });
+}
+
+ 
+
+  
+ const renderPrediction = async function(){   
+
+   document.ctx.clearRect(0, 0, document.ctx.canvas.width, document.ctx.canvas.width);
+ 
+ 
+   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+   ctxColor.drawImage(video, 0, 0, videoWidth, videoHeight);
+  
+  
+  let imgData = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
+  let pixels = imgData.data;
+  for (var i = 0; i < pixels.length; i += 4) {
+
+    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+
+    pixels[i] = lightness;
+    pixels[i + 1] = lightness;
+    pixels[i + 2] = lightness;
+  }
+   
+  document.ctx.scale(-1, 1);  // mirror image
+  document.ctx.putImageData(imgData, 0, 0);
+       
+  requestAnimationFrame(renderPrediction);
+     
+   
+}; 
+  
+  
+  
+const myPictureNow  = async function(){    
+    document.getElementById('myDiv01').innerHTML = '..'   // clear the output
+  
+   var classifier = new EdgeImpulseClassifier();
+   await classifier.init(); 
+    
+   let props = classifier.getProperties();
+    
+   myWidthHeightSquare = props.input_width 
+   document.getElementById('myWidthHeight').value = props.input_width
+    
+
+ // console.log(classifier)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
+  
+    
+ // console.log(props.input_width)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
+    
+  ctxOnTop.clearRect(0, 0, canvasOnTop.width, canvasOnTop.height); 
+    
+  let myX = (640-myWidthHeightSquare)/2
+  let myY = (480-myWidthHeightSquare)/2
+  let ImageData2;
+  
+    if (document.getElementById('myCheckboxColor').checked ) {
+      ImageData2 =  ctxColor.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab COLOR image x,y,width,height
+    }   else  {
+  
+    
+      ImageData2 = document.ctx.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab GRAYSCALE  image x,y,width,height
+      
+    }
+
+  ctxOnTop.putImageData(ImageData2, myX,  myY   );  //put image near center
+    
+  ctxGrow.putImageData(ImageData2,  0, 0);  // try to grow the image 
+    
+    
+ // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
+  let pixels2 = ImageData2.data
+  myOutputString = ''
+     
+   
+   if (document.getElementById('myCheckbox01').checked ) {
+     //console.log('checked')
+     //console.log(document.getElementById('myCheckbox01').checked)
+     myOutputString = document.getElementById('myTextArea01').value  
+   
+   } else { 
+    
+     for (var i = 0; i < pixels2.length; i += 4) {
+        myOutputString += RGBAToHex(ImageData2.data[i], ImageData2.data[i+1], ImageData2.data[i+2], ImageData2.data[i+3])
+     }
+  
+      // console.log('myOutputString')
+      // console.log(myOutputString)
+      // document.getElementById('myTextArea01').value= JSON.stringify(myOutputString, 2, '\n')
+      // myOutputString = myOutputString.substring(1);  // remove first "
+      myOutputString = myOutputString.substring(0, myOutputString.length - 2);  // remove last ,"
+      document.getElementById('myTextArea01').value = myOutputString
+    }
+
+
+    // results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
+     results = await classifier.classify( myOutputString.split(', ').map( n => Number(n) )  );      //, true  can set debug true auto shows in console
+  
+
+ // console.log('results.results[0]')
+  console.log('results.results[0]')
+  console.log(results.results[0])
+ // console.log('results.results[1]')
+  console.log('results.results[1]')
+  console.log(results.results[1])
+  
+  console.log('results.results.length')
+  console.log(results.results.length)
+  
+  
+  
+  
+    // check for new results if not then ignore it ALL    **************************************************** watch out ***************************
+  
+  /*  
+  
+  try {
+     if ( myLabelOldX == results.results[0].x ){  } 
+      myLabelOldX = results.results[0].x
+  } catch (exception_var) {
+      console.log()
+}
+
+  
+
+  
+  console.log('results.results.length')
+  console.log(results.results.length)
+
+  classifier.init().then(async () => {
+    //let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
+    let result = classifier.classify(myOutputString.split(', ').map(n => Number(n)));
+
+    console.log(result);
+}).catch(err => {
+    console.error('Failed to initialize classifier', err);
+});
+  
+  
+  
+  
+  */
+    
+  let myTemp = ''
+  
+ctxOverlap.beginPath();
+ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
+ctxOverlap.stroke();
+  
+
+  myTemp =  '<table border=1  style="font-size:30px">'
+    
+  let myBestClassificationNumber = -1  
+  let myBestClassificationValue = 0.25   // lowest best allowable value 
+  for (let j = 0;  j < results.results.length; j++){  
+      if (results.results[j].value > myBestClassificationValue ){
+           myBestClassificationNumber = j;                      // find the biggest array value
+           myBestClassificationValue = results.results[j].value  
+        }
+  }
+    
+    
+  for (let i = 0;  i < results.results.length; i++){  
+    if (myBestClassificationNumber == i){   // check if this is the best one
+           myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
+        } else {
+           myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
+        }
+    
+    /*
+    z = results.results[i].label
+    y = results.results[i].value.toFixed(3)
+    x = results.results[i].x
+  console.log('z') 
+  console.log(z)  
+  console.log('y')  
+  console.log(y)  
+  console.log('x')  
+  console.log(x)  
+    */
+    
+  //  ctxOverlap.putImageData(ImageData2,  0, 0);
+ctxOverlap.beginPath();
+ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
+    
+ctxOverlap.lineWidth = "2";
+ctxOverlap.strokeStyle = "red";
+ctxOverlap.rect(results.results[i].x, results.results[i].y, results.results[i].width, results.results[i].height); // rectangle x,y,width,height
+ctxOverlap.stroke();
+ctxOverlap.font = "20px Arial";
+ctxOverlap.fillText(results.results[i].label, results.results[i].x, results.results[i].x-50);   // Text, x, y
+    
+   }  
+       
+  myTemp += '</table>'   
+  
+    
+    
+  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
+}
+  
+//   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp 
+  
+  
+const setupPage = async function(){   
+
+  await setupCamera();
+  video.play();
+
+  videoWidth = video.videoWidth;
+  videoHeight = video.videoHeight;
+  console.log('videoWidth')
+  console.log(videoWidth)
+  console.log('videoHeight')
+  console.log(videoHeight)
+  
+  video.width = videoWidth;
+  video.height = videoHeight;
+
+
+  canvasOnTop = document.getElementById('myOnTopOutput');
+  canvasOnTop.width = videoWidth;
+  canvasOnTop.height = videoHeight;
+  ctxOnTop = canvasOnTop.getContext('2d'); 
+  
+  
+  
+  canvasColor = document.getElementById('myColorCanvas');
+  canvasColor.width = videoWidth;
+  canvasColor.height = videoHeight;
+  ctxColor = canvasColor.getContext('2d'); 
+  
+    
+  canvasGrow = document.getElementById('myGrowCanvas');
+  canvasGrow.width = videoWidth;
+  canvasGrow.height = videoHeight;
+  ctxGrow = canvasGrow.getContext('2d'); 
+  
+  canvas = document.getElementById('output');
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+  document.ctx = canvas.getContext('2d'); 
+  
+  canvasOverlap = document.getElementById('myOverlap');
+  canvasOverlap.width = videoWidth;
+  canvasOverlap.height = videoHeight;
+  ctxOverlap = canvasOverlap.getContext('2d'); 
+    
+  canvasOverlap2 = document.getElementById('myOverlap2');
+  canvasOverlap2.width = videoWidth;
+  canvasOverlap2.height = videoHeight;
+  ctxOverlap2 = canvasOverlap2.getContext('2d'); 
+  
+  
+ // myOverlap
+  
+ // setInterval(function(){ alert("Hello"); }, 3000);
+  myTimer01 = setInterval(myPictureNow, myFrequencyMs);
+ // myTimer01 = setInterval('myPictureNow', 3000); 
+  renderPrediction();
+ 
+  
+ctxOverlap2.beginPath();  
+//ctxOverlap2.lineWidth = "2";
+//ctxOverlap2.strokeStyle = "red"; 
+  //      context.strokeStyle = '#ff0000';
+ctxOverlap2.rect(160, 120, 320, 240); // rectangle x,y,width,height
+
+ctxOverlap2.stroke();
+  
+};
+
+  
+// main program!
+setupPage();
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  
+ // From the old run_impulse.js file 
+  
+  //const Module = require('./edge-impulse-standalone');
+//const fs = require('fs');
+  
+// Classifier module
+let classifierInitialized = false;
+Module.onRuntimeInitialized = function() {
+    classifierInitialized = true;
+};
+
+  
+  
+  
+class EdgeImpulseClassifier {
+    _initialized = false;
+ 
+  
+  // https://forum.edgeimpulse.com/t/wasm-sound-acceleration-camera-demos/1611/7
+
+
+    init() {
+        if (classifierInitialized === true) return Promise.resolve();
+
+        return new Promise((resolve) => {
+            Module.onRuntimeInitialized = () => {
+                resolve();
+                classifierInitialized = true;
+            };
+        });
+    }
+
+    classify(rawData, debug = false) {
+        if (!classifierInitialized) throw new Error('Module is not initialized');
+
+        const obj = this._arrayToHeap(rawData);
+        let ret = Module.run_classifier(obj.buffer.byteOffset, rawData.length, debug);
+        Module._free(obj.ptr);
+
+        if (ret.result !== 0) {
+            throw new Error('Classification failed (err code: ' + ret.result + ')');
+        }
+
+
+        let jsResult = {
+            anomaly: ret.anomaly,
+            results: []
+        };
+
+        for (let cx = 0; cx < ret.size(); cx++) {
+            let c = ret.get(cx);
+            jsResult.results.push({ label: c.label, value: c.value, x: c.x, y: c.y, width: c.width, height: c.height });
+            c.delete();
+        }
+
+        ret.delete();
+
+        return jsResult;
+    }
+  
+  
+    getProperties() {
+        return Module.get_properties();
+    }
+
+    _arrayToHeap(data) {
+        let typedArray = new Float32Array(data);
+        let numBytes = typedArray.length * typedArray.BYTES_PER_ELEMENT;
+        let ptr = Module._malloc(numBytes);
+        let heapBytes = new Uint8Array(Module.HEAPU8.buffer, ptr, numBytes);
+        heapBytes.set(new Uint8Array(typedArray.buffer));
+        return { ptr: ptr, buffer: heapBytes };
+    }
+}
+  
+
+
+/*
+
+if (!process.argv[2]) {
+    return console.error('Requires one parameter (a comma-separated list of raw features, or a file pointing at raw features)');
+}
+
+let features = process.argv[2];
+if (fs.existsSync(features)) {
+    features = fs.readFileSync(features, 'utf-8');
+}
+
+  
+
+  
+// Initialize the classifier, and invoke with the argument passed in
+let classifier = new EdgeImpulseClassifier();
+classifier.init().then(async () => {
+    let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
+
+    console.log(result);
+}).catch(err => {
+    console.error('Failed to initialize classifier', err);
+});
+    */
+  
+</script>
