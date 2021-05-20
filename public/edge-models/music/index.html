@@ -9,7 +9,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.8.22 <br>
+Version 0.8.23 <br>
   
   
 <div id="description">
@@ -229,12 +229,12 @@ const myPictureNow  = async function(){
   for (let i = 0;  i < results.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
       
-           if (i==0) { setTimeout(function(){ mySound0.play() }, 5); console.log('i=0'); }
-           if (i==1) { setTimeout(function(){ mySound1.play() }, 5); console.log('i=1'); }
-           if (i==2) { setTimeout(function(){ mySound2.play() }, 5); console.log('i=2'); }
-           if (i==3) { setTimeout(function(){ mySound3.play() }, 5); console.log('i=3'); }
-           if (i==4) { setTimeout(function(){ mySound4.play() }, 5); console.log('i=4'); }
-           if (i==5) { setTimeout(function(){ mySound5.play() }, 5); console.log('i=5'); }
+           if (i==0) { setTimeout(function(){ mySound0.play() }, 5); console.log('i=0 bass'); }
+           if (i==1) { setTimeout(function(){ mySound1.play() }, 5); console.log('i=1 tom'); }
+           if (i==2) { setTimeout(function(){ mySound2.play() }, 5); console.log('i=2 hat'); }
+           if (i==3) { setTimeout(function(){ mySound3.play() }, 5); console.log('i=3 snare'); }
+           if (i==4) { setTimeout(function(){ mySound4.play() }, 5); console.log('i=4 cymbal'); }
+           if (i==5) { setTimeout(function(){ mySound5.play() }, 5); console.log('i=5 stick'); }
       
       
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
