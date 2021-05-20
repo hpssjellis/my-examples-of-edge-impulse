@@ -54,7 +54,12 @@ Version 0.8.6 <br>
 </body>
 
  <script src="edge-impulse-standalone.js"></script>
-
+ <script>   let mySound0 = new Audio('Yeh.m4a') </script>
+ <script>   let mySound1 = new Audio('Yeh.m4a') </script>
+ <script>   let mySound3 = new Audio('Yeh.m4a') </script>
+ <script>   let mySound4 = new Audio('Yeh.m4a') </script>
+ <script>   let mySound5 = new Audio('Yeh.m4a') </script>
+ <script>   let mySound6 = new Audio('Yeh.m4a') </script>
 
 <script> 
 
@@ -220,6 +225,14 @@ const myPictureNow  = async function(){
     
   for (let i = 0;  i < results.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
+           if (i=0) {mySound0.play()  }
+           if (i=1) {mySound1.play()  }
+           if (i=2) {mySound2.play()  }
+           if (i=3) {mySound3.play()  }
+           if (i=4) {mySound4.play()  }
+           if (i=5) {mySound5.play()  }
+           if (i=6) {mySound5.play()  }
+                                                    
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
         } else {
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
