@@ -9,7 +9,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.8.20 <br>
+Version 0.8.21 <br>
   
   
 <div id="description">
@@ -229,12 +229,12 @@ const myPictureNow  = async function(){
   for (let i = 0;  i < results.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
       
-           if (i==0) {mySound0.play()  }
-           if (i==1) {mySound1.play()  }
-           if (i==2) {mySound2.play()  }
-           if (i==3) {mySound3.play()  }
-           if (i==4) {mySound4.play()  }
-           if (i==5) {mySound5.play()  }
+           if (i==0) { setTimeout(function(){ mySound0.play() }, 5); }
+           if (i==1) { setTimeout(function(){ mySound1.play() }, 5); }
+           if (i==2) { setTimeout(function(){ mySound2.play() }, 5); }
+           if (i==3) { setTimeout(function(){ mySound3.play() }, 5); }
+           if (i==4) { setTimeout(function(){ mySound4.play() }, 5); }
+           if (i==5) { setTimeout(function(){ mySound5.play() }, 5); }
       
       
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
