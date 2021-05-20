@@ -3,19 +3,22 @@
 <body>
   <div id="main">
 
+  
+<canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:3000px; height:2000px; " ></canvas> <br>  
     
-    
-Version 0.8.0 <br>
-
-    <table border=1>
-      <tr><td>
-    <div id="description">
+<table border=1 style="position:absolute; left:800px; top:0px;  ">
+<tr><td>
+  
+Version 0.8.5 <br>
+  
+  
+<div id="description">
         <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM</div>
       
       
       
       
-        Frequency ms <input type=text id="myText01" value=400 onChange="{
+        Frequency ms <input type=text id="myText01" value=130 onChange="{
              myFrequencyMs = this.value
              clearInterval(myTimer01)
             myTimer01 = setInterval(myPictureNow, myFrequencyMs);
@@ -25,16 +28,16 @@ Version 0.8.0 <br>
       
         <div id="myDiv01" style="font-size:30px">...</div>
         Use data from chart below <input type=checkbox id="myCheckbox01"><br>
-        Camera: <select id="mySelect" onChange="setupPage()"><option selected="selected" value="user">Front Camera<option value="environment">Rear Camera</select><br>
+        Camera: <select id="mySelect" onChange="setupPage()"><option  value="user">Front Camera<option selected="selected" value="environment">Rear Camera</select><br>
         Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
         Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
       
-      </td><td>
-        <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:1000px; height:1000px; " ></canvas> <br> 
+  </td></tr></table>
+    
         
-        </td></tr>
+
       
-        <textarea id="myTextArea01" style="display:none; " rows=10 cols=70>...</textarea> <br> <br> <br>
+       <textarea id="myTextArea01" style="display:none; " rows=10 cols=70>...</textarea> <br> <br> <br>
       
       
     <video id="video" playsinline="" style="display:none; -webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>
@@ -209,6 +212,11 @@ const myPictureNow  = async function(){
         }
   }
     
+  
+  //////////////////////////////////////////// Where the magic happens //////////////////////////////////////////////////////////////////////////////
+  
+  
+  
     
   for (let i = 0;  i < results.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
