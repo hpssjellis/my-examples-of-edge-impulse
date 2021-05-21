@@ -9,7 +9,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.9.3 <br>
+Version 0.9.4 <br>
   
   
 <div id="description">
@@ -235,13 +235,16 @@ const myPictureNow  = async function(){
   for (let i = 0;  i < results.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
       
-           if (i==0) { document.getElementById('65').currentTime = 0; document.getElementById('65').play() }
-           if (i==1) { document.getElementById('72').currentTime = 0;  document.getElementById('72').play() }
-           if (i==2) { document.getElementById('74').currentTime = 0; document.getElementById('74').play() }
-           if (i==3) { document.getElementById('75').currentTime = 0;  document.getElementById('75').play() }
-           if (i==4) { document.getElementById('76').currentTime = 0; document.getElementById('76').play() }
-           if (i==5) { document.getElementById('83').currentTime = 0;  document.getElementById('83').play() }
-      
+           if (i==0) { document.getElementById('65clap').currentTime = 0; document.getElementById('65clap').play() }
+           if (i==1) { document.getElementById('72ride').currentTime = 0;  document.getElementById('72ride').play() }
+           if (i==2) { document.getElementById('74snare').currentTime = 0; document.getElementById('74snare').play() }
+           if (i==3) { document.getElementById('75tom').currentTime = 0;  document.getElementById('75tom').play() }
+           if (i==4) { document.getElementById('76tink').currentTime = 0; document.getElementById('76tink').play() }
+           if (i==5) { document.getElementById('83hihat').currentTime = 0;  document.getElementById('83hihat').play() }
+           if (i==6) { document.getElementById('67boom').currentTime = 0;  document.getElementById('67boom').play() }
+           if (i==7) { document.getElementById('68kick').currentTime = 0;  document.getElementById('68kick').play() }
+           if (i==8) { document.getElementById('70openhat').currentTime = 0;  document.getElementById('70openhat').play() }
+         
       
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
         } else {
