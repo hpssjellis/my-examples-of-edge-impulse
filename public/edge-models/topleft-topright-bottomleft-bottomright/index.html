@@ -1,5 +1,6 @@
 
 
+
 <body>
   <div id="main">
 
@@ -9,7 +10,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.8.24 <br>
+Version 0.9.2 <br>
   
   
 <div id="description">
@@ -55,12 +56,18 @@ Version 0.8.24 <br>
 
  <script src="edge-impulse-standalone.js"></script>
 
- <script>   let mySound0 = new Audio('Bass1.mp3') </script>
- <script>   let mySound1 = new Audio('tom1.mp3') </script>
- <script>   let mySound2 = new Audio('highhat1.mp3') </script>
- <script>   let mySound3 = new Audio('snare1.mp3') </script>
- <script>   let mySound4 = new Audio('Cymbal1.mp3') </script>
- <script>   let mySound5 = new Audio('stick1.mp3') </script>
+
+    <audio id="65" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/clap.wav"></audio>
+    <audio id="83" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/hihat.wav"></audio>
+    <audio id="68" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/kick.wav"></audio>
+    <audio id="70" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/openhat.wav"></audio>
+    <audio id="67" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/boom.wav"></audio>
+    <audio id="72" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/ride.wav"></audio>
+    <audio id="74" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/snare.wav"></audio>
+    <audio id="75" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tom.wav"></audio>
+    <audio id="76" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tink.wav"></audio>
+
+
 
 
 
@@ -229,12 +236,12 @@ const myPictureNow  = async function(){
   for (let i = 0;  i < results.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
       
-           if (i==0) { setTimeout(function(){ mySound0.play() }, 5); console.log('0 = bass'); }
-           if (i==1) { setTimeout(function(){ mySound1.play() }, 5); console.log('1 = tom'); }
-           if (i==2) { setTimeout(function(){ mySound2.play() }, 5); console.log('2 = hat'); }
-           if (i==3) { setTimeout(function(){ mySound3.play() }, 5); console.log('3 = snare'); }
-           if (i==4) { setTimeout(function(){ mySound4.play() }, 5); console.log('4 = cymbal'); }
-           if (i==5) { setTimeout(function(){ mySound5.play() }, 5); console.log('5 = stick'); }
+           if (i==0) { document.getElementById('65').currentTime = 0; document.getElementById('65').play() }
+           if (i==1) { document.getElementById('72').currentTime = 0;  document.getElementById('72').play() }
+          // if (i==2) { document.getElementById('74').currentTime = 0; document.getElementById('74').play() }
+           if (i==3) { document.getElementById('75').currentTime = 0;  document.getElementById('75').play() }
+           if (i==4) { document.getElementById('76').currentTime = 0; document.getElementById('76').play() }
+           if (i==5) { document.getElementById('83').currentTime = 0;  document.getElementById('83').play() }
       
       
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
