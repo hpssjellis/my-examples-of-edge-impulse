@@ -1,0 +1,410 @@
+
+
+<body>
+  <div id="main">
+
+  
+<canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:3000px; height:2000px; " ></canvas> <br>  
+    
+<table border=1 style="position:absolute; left:800px; top:0px;  ">
+<tr><td>
+  
+Version 0.9.6 <br>
+  
+  
+<div id="description">
+        <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM</div>
+      
+      
+      
+      
+        Frequency ms <input type=text id="myText01" value=130 onChange="{
+             myFrequencyMs = this.value
+             clearInterval(myTimer01)
+            myTimer01 = setInterval(myPictureNow, myFrequencyMs);
+          }"><br>
+      (square) width/height: <input type=text value="96" size=5 id="myWidthHeight" READONLY>  <br>    
+
+      
+        <div id="myDiv01" style="font-size:30px">...</div>
+        Use data from chart below <input type=checkbox id="myCheckbox01"><br>
+        Camera: <select id="mySelect" onChange="setupPage()"><option  value="user">Front Camera<option selected="selected" value="environment">Rear Camera</select><br>
+        Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
+        Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
+      
+  </td></tr></table>
+    
+        
+
+      
+       <textarea id="myTextArea01" style="display:none; " rows=10 cols=70>...</textarea> <br> <br> <br>
+      
+      
+    <video id="video" playsinline="" style="display:none; -webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>
+      
+    <canvas id="myOnTopOutput" style="display:none; background-color:white; border:black 3px solid;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
+    
+    <canvas id="output" style="display:none; " ></canvas>  
+    
+    <canvas id="myColorCanvas" style="display:none; " ></canvas>   <br>
+  
+    </div>
+      
+
+</body>
+
+ <script src="edge-impulse-standalone.js"></script>
+
+<!-- Link to short internet sounds -->
+
+    <audio preload="auto" id="65clap" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/clap.wav"></audio>
+    <audio preload="auto" id="67boom" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/boom.wav"></audio>
+    <audio preload="auto" id="68kick" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/kick.wav"></audio>
+    <audio preload="auto" id="70openhat" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/openhat.wav"></audio>
+    <audio preload="auto" id="72ride" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/ride.wav"></audio>
+    <audio preload="auto" id="74snare" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/snare.wav"></audio>
+    <audio preload="auto" id="75tom" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tom.wav"></audio>
+    <audio preload="auto" id="76tink" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tink.wav"></audio>
+    <audio preload="auto" id="83hihat" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/hihat.wav"></audio>
+
+
+
+
+
+<script> 
+
+let myTimer01 = 0;
+let myOutputString = ''
+let myFrequencyMs = document.getElementById('myText01').value
+let myWidthHeightSquare = document.getElementById('myWidthHeight').value
+  
+  
+  function RGBAToHex(r,g,b,a) {
+  r = r.toString(16);
+  g = g.toString(16);
+  b = b.toString(16);
+
+  if (r.length == 1)
+    r = "0" + r;
+  if (g.length == 1)
+    g = "0" + g;
+  if (b.length == 1)
+    b = "0" + b;
+
+ // return "#" + r + g + b + ", " ;
+  return "0x" + r + g + b + ", " ;
+       
+}
+  
+  
+  
+  
+const setupCamera = async function(){   
+  
+  video = document.getElementById('video');
+  
+  // stop it if running
+  video.pause()
+  video.srcObject = null
+  
+  const stream = await navigator.mediaDevices.getUserMedia({
+    'audio': false,
+    'video': { facingMode: document.getElementById('mySelect').value },
+  });
+  video.srcObject = stream;
+
+  return new Promise((resolve) => {
+    video.onloadedmetadata = () => {
+      resolve(video);
+    };
+  });
+}
+
+ 
+
+  
+ const renderPrediction = async function(){   
+
+   document.ctx.clearRect(0, 0, document.ctx.canvas.width, document.ctx.canvas.width);
+ 
+ 
+   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+   ctxColor.drawImage(video, 0, 0, videoWidth, videoHeight);
+  
+  
+  let imgData = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
+  let pixels = imgData.data;
+  for (var i = 0; i < pixels.length; i += 4) {
+
+    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+
+    pixels[i] = lightness;
+    pixels[i + 1] = lightness;
+    pixels[i + 2] = lightness;
+  }
+   
+  document.ctx.scale(-1, 1);  // mirror image
+  document.ctx.putImageData(imgData, 0, 0);
+       
+  requestAnimationFrame(renderPrediction);
+     
+   
+}; 
+  
+  
+  
+const myPictureNow  = async function(){    
+  
+   var classifier = new EdgeImpulseClassifier();
+   await classifier.init(); 
+    
+   let props = classifier.getProperties();
+    
+   myWidthHeightSquare = props.input_width 
+   document.getElementById('myWidthHeight').value = props.input_width
+    
+
+//  console.log(props.input_width)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
+   
+    
+  ctxOnTop.clearRect(0, 0, canvasOnTop.width, canvasOnTop.height); 
+    
+  let myX = (640-myWidthHeightSquare)/2
+  let myY = (480-myWidthHeightSquare)/2
+  let ImageData2;
+  
+    if (document.getElementById('myCheckboxColor').checked ) {
+      ImageData2 =  ctxColor.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab COLOR image x,y,width,height
+    }   else  {
+  
+    
+      ImageData2 = document.ctx.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab GRAYSCALE  image x,y,width,height
+      
+    }
+
+  ctxOnTop.putImageData(ImageData2, myX,  myY   );  //put image near center
+    
+  ctxGrow.putImageData(ImageData2,  0, 0);  // try to grow the image 
+    
+    
+ // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
+  let pixels2 = ImageData2.data
+  myOutputString = ''
+     
+   
+   if (document.getElementById('myCheckbox01').checked ) {
+     //console.log('checked')
+     //console.log(document.getElementById('myCheckbox01').checked)
+     myOutputString = document.getElementById('myTextArea01').value  
+   
+   } else { 
+    
+     for (var i = 0; i < pixels2.length; i += 4) {
+        myOutputString += RGBAToHex(ImageData2.data[i], ImageData2.data[i+1], ImageData2.data[i+2], ImageData2.data[i+3])
+     }
+  
+      // console.log('myOutputString')
+      // console.log(myOutputString)
+      // document.getElementById('myTextArea01').value= JSON.stringify(myOutputString, 2, '\n')
+      // myOutputString = myOutputString.substring(1);  // remove first "
+      myOutputString = myOutputString.substring(0, myOutputString.length - 2);  // remove last ,"
+      document.getElementById('myTextArea01').value = myOutputString
+    }
+
+    
+     results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
+    
+    
+  let myTemp = ''
+  myTemp =  '<table border=1  style="font-size:30px">'
+    
+  let myBestClassificationNumber = -1  
+  let myBestClassificationValue = 0.25   // lowest best allowable value 
+  for (let j = 0;  j < results.results.length; j++){  
+      if (results.results[j].value > myBestClassificationValue ){
+           myBestClassificationNumber = j;                      // find the biggest array value
+           myBestClassificationValue = results.results[j].value  
+        }
+  }
+    
+  
+  //////////////////////////////////////////// Where the magic happens //////////////////////////////////////////////////////////////////////////////
+  
+  
+  
+    
+  for (let i = 0;  i < results.results.length; i++){  
+    if (myBestClassificationNumber == i){   // check if this is the best one
+      
+           if (i==0) { document.getElementById('65clap').currentTime = 0; document.getElementById('65clap').play() }
+           if (i==1) { document.getElementById('72ride').currentTime = 0;  document.getElementById('72ride').play() }
+           if (i==2) { document.getElementById('74snare').currentTime = 0; document.getElementById('74snare').play() }
+           if (i==3) { document.getElementById('75tom').currentTime = 0;  document.getElementById('75tom').play() }
+           if (i==4) { document.getElementById('76tink').currentTime = 0; document.getElementById('76tink').play() }
+           if (i==5) { document.getElementById('83hihat').currentTime = 0;  document.getElementById('83hihat').play() }
+         //  if (i==6) { document.getElementById('67boom').currentTime = 0;  document.getElementById('67boom').play() } 
+           if (i==7) { document.getElementById('68kick').currentTime = 0;  document.getElementById('68kick').play() }
+           if (i==8) { document.getElementById('70openhat').currentTime = 0;  document.getElementById('70openhat').play() }
+         
+      
+           myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
+        } else {
+           myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
+        }
+   }  
+       
+  myTemp += '</table>'   
+  //console.log(results) 
+  
+    
+    
+  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
+}
+  
+  
+  
+  
+const setupPage = async function(){   
+
+  await setupCamera();
+  video.play();
+
+  videoWidth = video.videoWidth;
+  videoHeight = video.videoHeight;
+  console.log('videoWidth')
+  console.log(videoWidth)
+  console.log('videoHeight')
+  console.log(videoHeight)
+  
+  video.width = videoWidth;
+  video.height = videoHeight;
+
+
+  canvasOnTop = document.getElementById('myOnTopOutput');
+  canvasOnTop.width = videoWidth;
+  canvasOnTop.height = videoHeight;
+  ctxOnTop = canvasOnTop.getContext('2d'); 
+  
+  
+  
+  canvasColor = document.getElementById('myColorCanvas');
+  canvasColor.width = videoWidth;
+  canvasColor.height = videoHeight;
+  ctxColor = canvasColor.getContext('2d'); 
+  
+    
+  canvasGrow = document.getElementById('myGrowCanvas');
+  canvasGrow.width = videoWidth;
+  canvasGrow.height = videoHeight;
+  ctxGrow = canvasGrow.getContext('2d'); 
+  
+  canvas = document.getElementById('output');
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+  document.ctx = canvas.getContext('2d'); 
+  
+ // setInterval(function(){ alert("Hello"); }, 3000);
+  myTimer01 = setInterval(myPictureNow, myFrequencyMs);
+ // myTimer01 = setInterval('myPictureNow', 3000); 
+  renderPrediction();
+  
+  
+};
+
+  
+// main program!
+setupPage();
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  
+ // From the old run_impulse.js file 
+  
+// Classifier module
+let classifierInitialized = false;
+Module.onRuntimeInitialized = function() {
+    classifierInitialized = true;
+};
+
+class EdgeImpulseClassifier {
+    _initialized = false;
+ 
+  
+  // https://forum.edgeimpulse.com/t/wasm-sound-acceleration-camera-demos/1611/7
+      getProperties() {
+        return Module.get_properties();
+    }
+
+    init() {
+        if (classifierInitialized === true) return Promise.resolve();
+
+        return new Promise((resolve) => {
+            Module.onRuntimeInitialized = () => {
+                resolve();
+                classifierInitialized = true;
+            };
+        });
+    }
+
+    classify(rawData, debug = false) {
+        if (!classifierInitialized) throw new Error('Module is not initialized');
+
+        const obj = this._arrayToHeap(rawData);
+        let ret = Module.run_classifier(obj.buffer.byteOffset, rawData.length, debug);
+        Module._free(obj.ptr);
+
+        if (ret.result !== 0) {
+            throw new Error('Classification failed (err code: ' + ret.result + ')');
+        }
+
+
+        let jsResult = {
+            anomaly: ret.anomaly,
+            results: []
+        };
+
+        // if ret.size is a function, then this is a new module. Use this API call to prevent leaks.
+        // the old API (calling via ret.classification) is still there for backwards compatibility, but leaks some memory
+        if (typeof ret.size === 'function') {
+            for (let cx = 0; cx < ret.size(); cx++) {
+                let c = ret.get(cx);
+                jsResult.results.push({ label: c.label, value: c.value });
+                c.delete();
+            }
+        }
+        else {
+            for (let cx = 0; cx < ret.classification.size(); cx++) {
+                let c = ret.classification.get(cx);
+                jsResult.results.push({ label: c.label, value: c.value });
+                c.delete();
+            }
+        }
+
+        ret.delete();
+
+        return jsResult;
+    }
+
+    _arrayToHeap(data) {
+        let typedArray = new Float32Array(data);
+        let numBytes = typedArray.length * typedArray.BYTES_PER_ELEMENT;
+        let ptr = Module._malloc(numBytes);
+        let heapBytes = new Uint8Array(Module.HEAPU8.buffer, ptr, numBytes);
+        heapBytes.set(new Uint8Array(typedArray.buffer));
+        return { ptr: ptr, buffer: heapBytes };
+    }
+}
+  
+</script>
