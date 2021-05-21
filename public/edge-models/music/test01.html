@@ -3,7 +3,7 @@
 
 
 
-version 0.0.3<br>
+version 0.0.4<br>
 
  <audio id="65" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/clap.wav"></audio>
     <audio id="83" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/hihat.wav"></audio>
@@ -18,14 +18,17 @@ version 0.0.3<br>
 
 
 <input type=button value=1 onclick="{
+      document.getElementById('83').currentTime = 0;
    
-    document.getElementById('83').play()                                  
+    document.getElementById('83').play()  
+                                    
                                  
 }">
 
 
 <input type=button value=1 onclick="{
-    document.getElementById('65').play()                                
+    document.getElementById('65').currentTime = 0;
+    document.getElementById('65').play()                               
                                  
 }">
 
@@ -33,5 +36,6 @@ version 0.0.3<br>
 <input type=button value=1 onclick="{
                     
    
+    document.getElementById('76').currentTime = 0;
     document.getElementById('76').play()                                
 }">
