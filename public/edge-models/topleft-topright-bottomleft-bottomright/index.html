@@ -9,7 +9,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.9.6 <br>
+Version 0.9.7 <br>
   
   
 <div id="description">
@@ -27,7 +27,9 @@ Version 0.9.6 <br>
 
       
         <div id="myDiv01" style="font-size:30px">...</div>
-        Use data from chart below <input type=checkbox id="myCheckbox01"><br>
+        Stop Data Collection: <input type=checkbox id="myCheckbox01"><br>
+        Stop All Sounds <input type=checkbox id="myCheckbox02sounds" checked=true><br>
+        Stop label 0---- sound: <input type=checkbox id="myCheckbox03lable0"><br>
         Camera: <select id="mySelect" onChange="setupPage()"><option  value="user">Front Camera<option selected="selected" value="environment">Rear Camera</select><br>
         Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
         Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
@@ -55,17 +57,21 @@ Version 0.9.6 <br>
 
  <script src="edge-impulse-standalone.js"></script>
 
-<!-- Link to short internet sounds -->
+<!-- Link to short internet sounds, load your own sound if uploaded to the same folder with the below code. .wav, .a4u, mp3 sound files should work -->
+<!--
+    <audio preload="auto" id="mySound8" src="mySound01.mp3"></audio>
+ -->
 
-    <audio preload="auto" id="65clap" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/clap.wav"></audio>
-    <audio preload="auto" id="67boom" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/boom.wav"></audio>
-    <audio preload="auto" id="68kick" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/kick.wav"></audio>
-    <audio preload="auto" id="70openhat" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/openhat.wav"></audio>
-    <audio preload="auto" id="72ride" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/ride.wav"></audio>
-    <audio preload="auto" id="74snare" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/snare.wav"></audio>
-    <audio preload="auto" id="75tom" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tom.wav"></audio>
-    <audio preload="auto" id="76tink" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tink.wav"></audio>
-    <audio preload="auto" id="83hihat" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/hihat.wav"></audio>
+
+    <audio preload="auto" id="mySound0" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/clap.wav"></audio>
+    <audio preload="auto" id="mySound1" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/boom.wav"></audio>
+    <audio preload="auto" id="mySound2" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/kick.wav"></audio>
+    <audio preload="auto" id="mySound3" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/openhat.wav"></audio>
+    <audio preload="auto" id="mySound4" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/ride.wav"></audio>
+    <audio preload="auto" id="mySound5" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/snare.wav"></audio>
+    <audio preload="auto" id="mySound6" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tom.wav"></audio>
+    <audio preload="auto" id="mySound7" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tink.wav"></audio>
+    <audio preload="auto" id="mySound8" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/hihat.wav"></audio>
 
 
 
@@ -235,17 +241,20 @@ const myPictureNow  = async function(){
     
   for (let i = 0;  i < results.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
-      
-           if (i==0) { document.getElementById('65clap').currentTime = 0; document.getElementById('65clap').play() }
-           if (i==1) { document.getElementById('72ride').currentTime = 0;  document.getElementById('72ride').play() }
-           if (i==2) { document.getElementById('74snare').currentTime = 0; document.getElementById('74snare').play() }
-           if (i==3) { document.getElementById('75tom').currentTime = 0;  document.getElementById('75tom').play() }
-           if (i==4) { document.getElementById('76tink').currentTime = 0; document.getElementById('76tink').play() }
-           if (i==5) { document.getElementById('83hihat').currentTime = 0;  document.getElementById('83hihat').play() }
-         //  if (i==6) { document.getElementById('67boom').currentTime = 0;  document.getElementById('67boom').play() } 
-           if (i==7) { document.getElementById('68kick').currentTime = 0;  document.getElementById('68kick').play() }
-           if (i==8) { document.getElementById('70openhat').currentTime = 0;  document.getElementById('70openhat').play() }
-         
+        if (document.getElementById('myCheckbox02sounds').checked){
+          
+           if (! document.getElementById('myCheckbox03lable0').checked){         
+              if (i==0) { document.getElementById('mySound0').currentTime = 0; document.getElementById('mySound0').play() }
+           }
+           if (i==1) { document.getElementById('mySound1').currentTime = 0; document.getElementById('mySound1').play() }
+           if (i==2) { document.getElementById('mySound2').currentTime = 0; document.getElementById('mySound2').play() }
+           if (i==3) { document.getElementById('mySound3').currentTime = 0; document.getElementById('mySound3').play() }
+           if (i==4) { document.getElementById('mySound4').currentTime = 0; document.getElementById('mySound4').play() }
+           if (i==5) { document.getElementById('mySound5').currentTime = 0; document.getElementById('mySound5').play() }
+           if (i==6) { document.getElementById('mySound6').currentTime = 0; document.getElementById('mySound6').play() } 
+           if (i==7) { document.getElementById('mySound7').currentTime = 0; document.getElementById('mySound7').play() }
+           if (i==8) { document.getElementById('mySound8').currentTime = 0; document.getElementById('mySound8').play() }
+          }   
       
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
         } else {
