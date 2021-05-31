@@ -9,7 +9,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.9.12 <br>
+Version 0.9.14 <br>
   
   
 <div id="description">
@@ -202,10 +202,10 @@ const myPictureNow  = async function(){
      //console.log('checked')
      //console.log(document.getElementById('myCheckbox01').checked)
      myOutputString = document.getElementById('myTextArea01').value  
-     document.getElementById('myTextArea01').display = 'inline'  
+     document.getElementById('myTextArea01').style.display = 'inline'  
    
    } else { 
-     document.getElementById('myTextArea01').display = 'none' 
+     document.getElementById('myTextArea01').style.display = 'none' 
     
      for (var i = 0; i < pixels2.length; i += 4) {
         myOutputString += RGBAToHex(ImageData2.data[i], ImageData2.data[i+1], ImageData2.data[i+2], ImageData2.data[i+3])
