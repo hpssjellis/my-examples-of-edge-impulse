@@ -200,12 +200,11 @@ void loop()
       if (img.isAvailable())
         {
 
-      Serial.println("-------Original Format MPG ?? ------");
+     Serial.println("-------Original Format MPG ?? ------");
      Serial.println("img.getImgSize(): "+ String(img.getImgSize() ) );
      Serial.println("img.getWidth(): "+ String(img.getWidth() ));
      Serial.println("img.getHeight()): "+ String(img.getHeight() ));
      Serial.println("img.getPixFormat(): "+ String(img.getPixFormat() ));
-     Serial.println("img.getImgSize(): "+ String(img.getImgSize() ));
      Serial.println("-------------------------");
 
      img.convertPixFormat(CAM_IMAGE_PIX_FMT_RGB565);
@@ -217,8 +216,7 @@ void loop()
      Serial.println("img.getWidth(): "+ String(img.getWidth() ));
      Serial.println("img.getHeight()): "+ String(img.getHeight() ));
      Serial.println("img.getPixFormat(): "+ String(img.getPixFormat() ));
-     Serial.println("img.getImgSize(): "+ String(img.getImgSize() ));
-     Serial.println("------------------------- waiting 30 seconds");
+     Serial.println("------------------------- waiting 10 seconds");
      delay(10000);
           /* Create file name */
     
