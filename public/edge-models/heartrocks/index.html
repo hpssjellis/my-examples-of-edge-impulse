@@ -2,23 +2,31 @@
 
 <body>
   <div id="main">
-
-  
-<canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:3000px; height:2000px; " ></canvas> <br>  
+      
+    <video id="video" playsinline="" style="     
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      width: auto;
+      height: auto;
+    "></video>
+     
+      
+    <canvas id="myOverlap2" style="position:absolute; top:0; left:0;  width:640px; height:480px; background:transparent;  " ></canvas>  
     
-<table border=1 style="position:absolute; left:800px; top:0px;  ">
-<tr><td>
+    <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid; display:none;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
+    
+    <canvas id="output"   style=" display:none; "></canvas>  
+    
+    <canvas id="myColorCanvas"  style=" display:none; " ></canvas>   <br>
   
-Version 0.9.19 <br>
-  
-  
-<div id="description">
-        <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM</div>
-      
-      
-      
-      
-        Frequency ms <input type=text id="myText01" value=130 onChange="{
+    
+    
+Version 0.9.2, special only one image <br>
+
+    
+    <div id="description">
+        <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM: Cup or Pen</div>
+        Frequency ms <input type=text id="myText01" value=2000 onChange="{
              myFrequencyMs = this.value
              clearInterval(myTimer01)
             myTimer01 = setInterval(myPictureNow, myFrequencyMs);
@@ -27,67 +35,23 @@ Version 0.9.19 <br>
 
       
         <div id="myDiv01" style="font-size:30px">...</div>
-        Stop Data Collection: <input type=checkbox id="myCheckbox01"><br>
-        Stop All Sounds <input type=checkbox id="myCheckbox02sounds" ><br>
-        Stop 0 (First) label sound: <input type=checkbox id="myCheckbox03lable0" checked=true><br>
-        <input type=button value="Width -" onclick="{
-           document.getElementById('myGrowCanvas').style.width = parseInt(document.getElementById('myGrowCanvas').style.width) - 50                                                                                
-        }"><input type=button value="Width +" onclick="{
-           document.getElementById('myGrowCanvas').style.width = parseInt(document.getElementById('myGrowCanvas').style.width) + 50         
-        }">    
-        <input type=button value="Height -" onclick="{
-           document.getElementById('myGrowCanvas').style.height = parseInt(document.getElementById('myGrowCanvas').style.height) - 50                                                                              
-        }"><input type=button value="Height +" onclick="{
-           document.getElementById('myGrowCanvas').style.height = parseInt(document.getElementById('myGrowCanvas').style.height) + 50          
-        }">   
-  
-        <br>
-        Camera: <select id="mySelect" onChange="setupPage()"><option  value="user">Front Camera<option selected="selected" value="environment">Rear Camera</select><br>
+        Use data from chart below <input type=checkbox id="myCheckbox01"><br>
         Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
-        Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br><br>
+        Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
       
-       <textarea id="myTextArea01" style="display:none; " rows=10 cols=70>...</textarea> <br> <br> <br>
-  
-  </td></tr></table>
-    
-        
+        <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:640px; height:480px; " ></canvas> 
+      
+        <canvas id="myOverlap" style="position:relative; top:-160px; left:-640px;  width:320px; height:320px; background:transparent;  border:black 3px solid;  " ></canvas>  
+      
+        <textarea id="myTextArea01" rows=10 cols=70    style=" display:none; ">...</textarea> <br> <br> <br>
+      
 
-      
-      
-      
-    <video id="video" playsinline="" style="display:none; -webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>
-      
-    <canvas id="myOnTopOutput" style="display:none; background-color:white; border:black 3px solid;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
-    
-    <canvas id="output" style="display:none; " ></canvas>  
-    
-    <canvas id="myColorCanvas" style="display:none; " ></canvas>   <br>
-  
     </div>
       
 
 </body>
 
  <script src="edge-impulse-standalone.js"></script>
-
-<!-- Link to short internet sounds, load your own sound if uploaded to the same folder with the below code. .wav, .a4u, mp3 sound files should work -->
-<!--
-    <audio preload="auto" id="mySound8" src="mySound01.mp3"></audio>
- -->
-
-
-    <audio preload="auto" id="mySound0" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/clap.wav"></audio>
-    <audio preload="auto" id="mySound1" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/boom.wav"></audio>
-    <audio preload="auto" id="mySound2" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/kick.wav"></audio>
-    <audio preload="auto" id="mySound3" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/openhat.wav"></audio>
-    <audio preload="auto" id="mySound4" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/ride.wav"></audio>
-    <audio preload="auto" id="mySound5" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/snare.wav"></audio>
-    <audio preload="auto" id="mySound6" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tom.wav"></audio>
-    <audio preload="auto" id="mySound7" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tink.wav"></audio>
-    <audio preload="auto" id="mySound8" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/hihat.wav"></audio>
-
-
-
 
 
 <script> 
@@ -96,6 +60,10 @@ let myTimer01 = 0;
 let myOutputString = ''
 let myFrequencyMs = document.getElementById('myText01').value
 let myWidthHeightSquare = document.getElementById('myWidthHeight').value
+
+// to check persistence
+let myLabelOldX ;
+let myLabelOldY ;
   
   
   function RGBAToHex(r,g,b,a) {
@@ -121,14 +89,9 @@ let myWidthHeightSquare = document.getElementById('myWidthHeight').value
 const setupCamera = async function(){   
   
   video = document.getElementById('video');
-  
-  // stop it if running
-  video.pause()
-  video.srcObject = null
-  
   const stream = await navigator.mediaDevices.getUserMedia({
     'audio': false,
-    'video': { facingMode: document.getElementById('mySelect').value },
+    'video': { facingMode: 'user' },
   });
   video.srcObject = stream;
 
@@ -173,6 +136,7 @@ const setupCamera = async function(){
   
   
 const myPictureNow  = async function(){    
+    document.getElementById('myDiv01').innerHTML = '..'   // clear the output
   
    var classifier = new EdgeImpulseClassifier();
    await classifier.init(); 
@@ -183,8 +147,10 @@ const myPictureNow  = async function(){
    document.getElementById('myWidthHeight').value = props.input_width
     
 
-//  console.log(props.input_width)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
-   
+ // console.log(classifier)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
+  
+    
+ // console.log(props.input_width)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
     
   ctxOnTop.clearRect(0, 0, canvasOnTop.width, canvasOnTop.height); 
     
@@ -215,10 +181,8 @@ const myPictureNow  = async function(){
      //console.log('checked')
      //console.log(document.getElementById('myCheckbox01').checked)
      myOutputString = document.getElementById('myTextArea01').value  
-     document.getElementById('myTextArea01').style.display = 'inline'  
    
    } else { 
-     document.getElementById('myTextArea01').style.display = 'none' 
     
      for (var i = 0; i < pixels2.length; i += 4) {
         myOutputString += RGBAToHex(ImageData2.data[i], ImageData2.data[i+1], ImageData2.data[i+2], ImageData2.data[i+3])
@@ -232,15 +196,76 @@ const myPictureNow  = async function(){
       document.getElementById('myTextArea01').value = myOutputString
     }
 
-    
-     results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
-    
+
+    // results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
+     results = await classifier.classify( myOutputString.split(', ').map( n => Number(n) )  );      //, true  can set debug true auto shows in console
+  
+
+ // console.log('results.results[0]')
+  console.log('results.results[0]')
+  console.log(results.results[0])
+ // console.log('results.results[1]')
+//  console.log('results.results[1]')
+//  console.log(results.results[1])
+  
+ // console.log('results.results.length')
+//  console.log(results.results.length)
+  
+  
+  
+  
+    // check for new results if not then ignore it ALL    **************************************************** watch out ***************************
+  
+  /*  
+  
+  try {
+     if ( myLabelOldX == results.results[0].x ){  } 
+      myLabelOldX = results.results[0].x
+  } catch (exception_var) {
+      console.log()
+}
+
+  
+
+  
+  console.log('results.results.length')
+  console.log(results.results.length)
+
+  classifier.init().then(async () => {
+    //let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
+    let result = classifier.classify(myOutputString.split(', ').map(n => Number(n)));
+
+    console.log(result);
+}).catch(err => {
+    console.error('Failed to initialize classifier', err);
+});
+  
+  
+  
+  
+  */
     
   let myTemp = ''
+  
+ctxOverlap.beginPath();
+ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
+ctxOverlap.stroke();
+  
+
   myTemp =  '<table border=1  style="font-size:30px">'
     
   let myBestClassificationNumber = -1  
   let myBestClassificationValue = 0.25   // lowest best allowable value 
+  
+  
+  
+  
+  
+  
+  
+  
+/*  
+  
   for (let j = 0;  j < results.results.length; j++){  
       if (results.results[j].value > myBestClassificationValue ){
            myBestClassificationNumber = j;                      // find the biggest array value
@@ -249,43 +274,54 @@ const myPictureNow  = async function(){
   }
     
   
-  //////////////////////////////////////////// Where the magic happens //////////////////////////////////////////////////////////////////////////////
-  
-  
-  
-    
+  */
+   
+  /*
   for (let i = 0;  i < results.results.length; i++){  
     if (myBestClassificationNumber == i){   // check if this is the best one
-        if (! document.getElementById('myCheckbox02sounds').checked){
-          
-           if (! document.getElementById('myCheckbox03lable0').checked){         
-              if (i==0) { document.getElementById('mySound0').currentTime = 0; document.getElementById('mySound0').play() }
-           }
-           if (i==1) { document.getElementById('mySound1').currentTime = 0; document.getElementById('mySound1').play() }
-           if (i==2) { document.getElementById('mySound2').currentTime = 0; document.getElementById('mySound2').play() }
-           if (i==3) { document.getElementById('mySound3').currentTime = 0; document.getElementById('mySound3').play() }
-           if (i==4) { document.getElementById('mySound4').currentTime = 0; document.getElementById('mySound4').play() }
-           if (i==5) { document.getElementById('mySound5').currentTime = 0; document.getElementById('mySound5').play() }
-           if (i==6) { document.getElementById('mySound6').currentTime = 0; document.getElementById('mySound6').play() } 
-           if (i==7) { document.getElementById('mySound7').currentTime = 0; document.getElementById('mySound7').play() }
-           if (i==8) { document.getElementById('mySound8').currentTime = 0; document.getElementById('mySound8').play() }
-          }   
-      
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
         } else {
            myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
         }
-   }  
+    
+    
+    */
+    
+    /*
+    z = results.results[i].label
+    y = results.results[i].value.toFixed(3)
+    x = results.results[i].x
+  console.log('z') 
+  console.log(z)  
+  console.log('y')  
+  console.log(y)  
+  console.log('x')  
+  console.log(x)  
+    */
+    
+  //  ctxOverlap.putImageData(ImageData2,  0, 0);
+ctxOverlap.beginPath();
+ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
+    
+ctxOverlap.lineWidth = "3";
+ctxOverlap.strokeStyle = "red";
+ctxOverlap.rect(results.results[0].x, results.results[0].y, results.results[0].x+results.results[0].width, results.results[0].y+results.results[0].height); // rectangle x,y,width,height
+ctxOverlap.stroke();
+ctxOverlap.font = "30px Arial";
+ctxOverlap.fillText(results.results[0].label, results.results[0].x, results.results[0].y-20);   // Text, x, y
+    
+ //  }  
        
   myTemp += '</table>'   
-  //console.log(results) 
   
     
     
-  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
+ // document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
+    
+  document.getElementById('myDiv01').innerHTML = '<table border=1  style="font-size:30px"><tr><td>'+ results.results[0].label + '</td><td>' + results.results[0].value.toFixed(3) +'</td></tr></table>'
 }
   
-  
+//   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp 
   
   
 const setupPage = async function(){   
@@ -327,11 +363,32 @@ const setupPage = async function(){
   canvas.height = videoHeight;
   document.ctx = canvas.getContext('2d'); 
   
+  canvasOverlap = document.getElementById('myOverlap');
+  canvasOverlap.width = videoWidth;
+  canvasOverlap.height = videoHeight;
+  ctxOverlap = canvasOverlap.getContext('2d'); 
+    
+  canvasOverlap2 = document.getElementById('myOverlap2');
+  canvasOverlap2.width = videoWidth;
+  canvasOverlap2.height = videoHeight;
+  ctxOverlap2 = canvasOverlap2.getContext('2d'); 
+  
+  
+ // myOverlap
+  
  // setInterval(function(){ alert("Hello"); }, 3000);
   myTimer01 = setInterval(myPictureNow, myFrequencyMs);
  // myTimer01 = setInterval('myPictureNow', 3000); 
   renderPrediction();
+ 
   
+ctxOverlap2.beginPath();  
+//ctxOverlap2.lineWidth = "2";
+//ctxOverlap2.strokeStyle = "red"; 
+  //      context.strokeStyle = '#ff0000';
+ctxOverlap2.rect(160, 120, 320, 240); // rectangle x,y,width,height
+
+ctxOverlap2.stroke();
   
 };
 
@@ -356,20 +413,24 @@ setupPage();
   
  // From the old run_impulse.js file 
   
+  //const Module = require('./edge-impulse-standalone');
+//const fs = require('fs');
+  
 // Classifier module
 let classifierInitialized = false;
 Module.onRuntimeInitialized = function() {
     classifierInitialized = true;
 };
 
+  
+  
+  
 class EdgeImpulseClassifier {
     _initialized = false;
  
   
   // https://forum.edgeimpulse.com/t/wasm-sound-acceleration-camera-demos/1611/7
-      getProperties() {
-        return Module.get_properties();
-    }
+
 
     init() {
         if (classifierInitialized === true) return Promise.resolve();
@@ -399,26 +460,20 @@ class EdgeImpulseClassifier {
             results: []
         };
 
-        // if ret.size is a function, then this is a new module. Use this API call to prevent leaks.
-        // the old API (calling via ret.classification) is still there for backwards compatibility, but leaks some memory
-        if (typeof ret.size === 'function') {
-            for (let cx = 0; cx < ret.size(); cx++) {
-                let c = ret.get(cx);
-                jsResult.results.push({ label: c.label, value: c.value });
-                c.delete();
-            }
-        }
-        else {
-            for (let cx = 0; cx < ret.classification.size(); cx++) {
-                let c = ret.classification.get(cx);
-                jsResult.results.push({ label: c.label, value: c.value });
-                c.delete();
-            }
+        for (let cx = 0; cx < ret.size(); cx++) {
+            let c = ret.get(cx);
+            jsResult.results.push({ label: c.label, value: c.value, x: c.x, y: c.y, width: c.width, height: c.height });
+            c.delete();
         }
 
         ret.delete();
 
         return jsResult;
+    }
+  
+  
+    getProperties() {
+        return Module.get_properties();
     }
 
     _arrayToHeap(data) {
@@ -430,5 +485,32 @@ class EdgeImpulseClassifier {
         return { ptr: ptr, buffer: heapBytes };
     }
 }
+  
+
+
+/*
+
+if (!process.argv[2]) {
+    return console.error('Requires one parameter (a comma-separated list of raw features, or a file pointing at raw features)');
+}
+
+let features = process.argv[2];
+if (fs.existsSync(features)) {
+    features = fs.readFileSync(features, 'utf-8');
+}
+
+  
+
+  
+// Initialize the classifier, and invoke with the argument passed in
+let classifier = new EdgeImpulseClassifier();
+classifier.init().then(async () => {
+    let result = classifier.classify(features.trim().split(',').map(n => Number(n)));
+
+    console.log(result);
+}).catch(err => {
+    console.error('Failed to initialize classifier', err);
+});
+    */
   
 </script>
