@@ -1,345 +1,199 @@
-<!--   *******************************Start: What source js file to use? ****************************************************   -->
+
+<!-- Copyright 2019 Google LLC. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+==============================================================================-->
+
+<body>
+  <div id="main">
+      
+    <video id="video" playsinline="" style="
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      width: auto;
+      height: auto;
+      ">
+    </video>
+      
+    <canvas id="output" style="position:absolute; top:0; left:0;"></canvas>
+      
+    <div id="description">
+        <div id="description-title" style="font-size:30px">Blazeface Demo</div>
+        Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
+        <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a>
+      <div id="myDiv01">...</div>
+    </div>
+      
+    <video id="video" playsinline="" style="
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      visibility: hidden;
+      width: auto;
+      height: auto;
+      ">
+    </video>
+      
+  </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.5"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@2.0.0/dist/tf-backend-wasm.js"></script>
 
 
-<!-- the online version that these examples were made with  -->
+<!-- 
+For latest versions see:
 
-<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.0"></script>
- 
+https://www.npmjs.com/package/@tensorflow/tfjs
+https://www.npmjs.com/package/@tensorflow-models/blazeface
+https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.3"></script>
+The following tag without the @ can be used to get the latest version but may eventually break your code!
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>   
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"></script>
 
 -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
 
 
+    
+
+<!--  -------------------------------------------old index.js file -------------------------------------------  
 
 
-
-<!-- the newest version script tag is below but by using it all the examples may not work 
-
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+/**
+ * @license
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * =============================================================================
+ */
 
 -->
-
-
-
-<!-- Or you could download the newest version, save it as myNewDownloadedTensorflow.js and use the link below and work completely offline using a tag similar to
-
-
-<script src="myNewDownloadedTensorflow.js"></script>
-
--->
-
- <!-- Note: often nice to load the readable version of the src file. Remember to match the numbers to whatever the newest version is.
-
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.0/dist/tf.js"></script>
-
---> 
-
-
-
-<!--   *******************************Stop: What source js file to use? ****************************************************   -->
-
-
-
-    
-    
-<h2 align=center> As easy as I can make Loading Tensorflowjs Keras Pre-Trained Models. </h2>
-
-
-
-
-
-
-
-
-<div style="font-size:15px; background-color:lightyellow; width:88%;  border:5px solid blue; padding:5px; margin:5px;"> 
-This webcam MNIST model works best with white lettes on a black background. A fairly small model that only took about 10 minutes to train.
-Almost useless with any colored letters. Check out the black textarea to see the entire code and possibly make changes.<br>
- Everything is on one webpage with embedded javascript.
-</div><br>
-
-
-<div id="myDiv123Code"> 
-
-<input id="myInFile" size=120 type=text value="https://hpssjellis.github.io/beginner-tensorflowjs-examples-in-javascript/saved-models/mnist/convnet/my-mnist01.json"><br>
-<input type=button value="Load Model" onclick="{myLoadUrl()}"><br><br>
-  
-<select size=1 id="myCheck">
- <option value='environment'>Rear Mobile Camera
- <option value='user'>Front Mobile Camera
-</select>
-
-<input type=button id="myButtonActivateWebCam" value="Activate WebCam" onclick="{getVideo()}">  
-<input type=button id="myButtonActivateWebCam" value="Stop WebCam" onclick="{ stopVideo()  }">  <br><br>
- 
-<input type=button value="get Pic" onclick="{takeSnapshot()}">
-<input type=button id="myButtonPredict" value="Predict" onclick="{myPredict()}"><br><br>
- 
-Take snapshot every <input type=number id="myInterval"  value="500" size=5> milliseconds<br>
-<input type=button id="myButtonAuto" value="Auto" onclick="{takeAuto()}"> 
-<input type=button value="Stop Auto" onclick="{myStopAuto()}"><br><br>
-<video  id="myVideo" width="64" height="64" style="border: 1px solid #ddd;"></video>
-<canvas id="my32x32CanvasA" style="border: 1px solid #ddd; filter: grayscale(100%); background-color:lightgray;" width="28" height="28" style="border: 1px solid #ddd; image-rendering: pixelated; interpolation-mode: nearest-neighbor;"></canvas> 
-
-
-<div id="myDivLoss">...</div><br>
-<div id="myDivTest">...</div><br>
-
-<div id="myDivSummary">...</div><br><br>
-<input id="myButton123" type=button value="Tensorflowjs Version?"  onclick="{
-      document.getElementById('myDiv123').innerHTML = 'This version of Tensorflowjs = ' + tf.version.tfjs                                                           
-}"><br><br>
-<input id="myButtonTest" type=button value="Test"  onclick="{
-      document.getElementById('myDiv123').innerHTML += 'Added this stuff'                                                          
-}"><br><br>
- 
- 
- <!-- ************* Next we define the Javascript inside a web element so that the page can be refreshed dynamically **************-->
- 
- <!--  ************* The entire next line can be replaced with the <script> tag for a more conventional approch. ****************** -->
-
-<style id="myButton124"  onload="{document.getElementById('myButton124').click()}"  onclick="{
-
- ///////////////////////////////////// Global Variables ////////////////////////////////                                                                                            
-                                                                                            
-const MNIST_CLASSES = {
-    0: 'The number 0',
-    1: 'The number 1',
-    2: 'The number 2',
-    3: 'The number 3',
-    4: 'The number 4',
-    5: 'The number 5',
-    6: 'The number 6',
-    7: 'The number 7',
-    8: 'The number 8',
-    9: 'The number 9',
-   }
-                                                                                       
-                                                                                               
-///////////////////////////////////// webcam stuff /////////////////////////////////////                                                                                             
- 
-                                                                                             
-  var myVideoStream = document.getElementById('myVideo')     // make it a global variable
-  var myStoredInterval = 0
-                                                                                             
-stopVideo = async function() {  
-  clearInterval(myStoredInterval)   // god idea to stop the auto snapshot taking                                                                                         
-  myVideoStream.srcObject.getTracks().forEach(track => track.stop())  
-}
-   
-                                                                                          
-getVideo = async function() {  
-  const myCamera = await document.getElementById('myCheck').value
-                                                                                     
-  navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-  navigator.getMedia({video: { facingMode: myCamera }, audio: false},
-                     
-    function(stream) {
-      myVideoStream.srcObject = stream   
-      myVideoStream.play();
-  }, 
-                     
-   function(error) {
-     alert('webcam not working');
-  });
-}
-   
-                                                                                             
-                                                                                             
-                                                                                             
-                                                                                             
-  takeSnapshot = async function(){                                                                                           
-   var myCanvasElement = document.getElementById('my32x32CanvasA');
-   var myCTX = myCanvasElement.getContext('2d');
-   myCTX.drawImage(myVideoStream, 0, 0, myCanvasElement.width, myCanvasElement.height);
-}
-
-                                                                                             
-  takeAuto = async function(){                                                                                           
-     await takeSnapshot() // get snapshot right away then wait and repeat
-     await document.getElementById('myButtonPredict').click()      
-    clearInterval(myStoredInterval)
-    myStoredInterval = setInterval(async function(){                                                                                         
-       await takeSnapshot()
-       await document.getElementById('myButtonPredict').click()                                                                                       
-   }, document.getElementById('myInterval').value);        
-}
-  
-                                                                                           
-  myStopAuto  = async function(){                                                                                             
-    clearInterval(myStoredInterval)    
-}                                                                                            
-                                                                                             
- ///////////////////////////////////////////// Done Webcam functions ////////////////////////////////////////                                                                                               
-                                                                                             
- myLoadUrl = async function(){
-  //alert('The test function will need to be changed if other models are loaded')                                                                                             
-  document.getElementById('myDivTest').innerHTML = 'Expect major code changes if you load a different model than what is expected'  
-  const myFileName = document.getElementById('myInFile').value
-  if (myFileName != null){  
-    model = await tf.loadLayersModel(myFileName);     // should make the model a global variable
-    document.getElementById('myDivSummary').innerHTML = ''      
-    await model.summary(null,null,x => {document.getElementById('myDivSummary').innerHTML += x + '<br>'});
-   // await myPredict()
-  }                                                                           
-}                                                                                             
-                                                                                             
-                                                                                             
-
-myPredict = async function(){
-   // document.getElementById('myButtonTest').style.backgroundColor = 'red'
-  //  console.log('Model Predict')
-    
-                                                                                             
-  const image = tf.browser.fromPixels(document.getElementById('my32x32CanvasA'),1).reshape([1, 28, 28, 1]) ;
-   //   console.log('frompixels')                                                                                           
-  const inferenceResult = await model.predict(image);
-  //console.log('await model.predict(image);')   
-   // inferenceResult.print(true)      
-                                                                                             
-  const {values, indices} = await tf.topk(inferenceResult, 10);    // top 10 results 
-
-
-//values.print();
-//indices.print();                                                                                           
-  myValues = values.dataSync()                                                                              
-  myIndices = indices.dataSync()                                                                                           
-                                                                                             
-                                                                                         
-  document.getElementById('myDivTest').innerHTML = ''   // clear the div    
-  for (let x=0; x< myIndices.length; x++){                                                                                           
-      document.getElementById('myDivTest').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+MNIST_CLASSES[myIndices[x]] + '<br>'                                                                                         
-   }                                                                                          
-
-}                                                                                             
-                                                                                             
-                                                                                             
-                                                                                             
-                                                                                             
-                                                                                             
-                                                                                             
-                                                                                             
-                                                                                             
-/////////////////////////////////// END ALL FUNCTIONS ///////////////////////////////////////                                                                                             
-                                                                                             
-                                                                                             
-                                                                                             
-//////////////////////////////////   WEIRD STYLE TAG THAT IS ACTUALLY A DYNAMIC SCRIPT TAG ///////////////////                                                                                          
-                                                                                             
-                                                                                             
-}"></style>
-<!-- If you replaced the <style> tag with a <script> tag don't forget to change the above line to just </script>  -->
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-</div>
-<div id='myDiv123'>...</div><br>
-
-<input id="myUpdate123" type=button value="Update and Run" style="visibility:hidden;" onclick="{
-
-   // first remove first and last line since they are injected
-  myFred = document.getElementById('myTextarea123').value.split('\n')
-  myFred.pop()
-  myFred.push('')
-  myFred.shift()
-  myFred.shift()
-  myJoe = myFred.join('\n')
-
-  document.getElementById('myDiv123Code').innerHTML =    myJoe 
-  document.getElementById('myButton123').click()
-                                             
-}"><br>
-
-<textarea id="myTextarea123"  wrap="off"  style= "font-size:15px; color:white; background-color:black; width:90%;"   rows=2 onclick="{
-  if (myOnce123){
-     myTextGrow('myTextarea123', 'myDiv123Code')
-     document.getElementById('myUpdate123').style.visibility = 'visible'
-     myOnce123 = false
-  }
-}">
-Click here to see the working HTML code.
-</textarea><br>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-This <a href="https://github.com/hpssjellis/beginner-tensorflowjs-examples-in-javascript">Github</a>, ...  
-this <a href="https://hpssjellis.github.io/beginner-tensorflowjs-examples-in-javascript/">Github Website Version</a>, ... 
-this <a href="http://rocksetta.com/tensorflowjs/">Hosted Website Version</a>, ... 
-<a href="https://js.tensorflow.org/">Tensorflowjs</a> <br> <br>
-
-
-
-By Jeremy Ellis <br>
-Twitter<a href="https://twitter.com/@rocksetta">@rocksetta</a><br>
-Website <a href="http://rocksetta.com">http://rocksetta.com</a><br>
-Use at your own risk!
-    
-    
-    
-
-
- 
- 
- 
-
-<!--  Following is a helper functions  to grow the textareas  -->
 
 <script>
 
-myOnce123 = true    // so textareas are only clicked once
+//import * as blazeface from '@tensorflow-models/blazeface';
+//import * as tf from '@tensorflow/tfjs-core';
+//import * as tfjsWasm from '@tensorflow/tfjs-backend-wasm';
+
+   
+//tfjsWasm.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@latest/dist/tfjs-backend-wasm.wasm');
+
+async function setupCamera() {    
+    
+  video = document.getElementById('video');
+
+  const stream = await navigator.mediaDevices.getUserMedia({
+    'audio': false,
+    'video': { facingMode: 'user' },
+  });
+  video.srcObject = stream;
+
+  return new Promise((resolve) => {
+    video.onloadedmetadata = () => {
+      resolve(video);
+    };
+  });
+}
+
+const renderPrediction = async () => {
+
+  const returnTensors = false;
+  const flipHorizontal = true;
+  const annotateBoxes = true;
+  const predictions = await model.estimateFaces(
+    video, returnTensors, flipHorizontal, annotateBoxes);
+
+  document.getElementById('myDiv01').innerHTML = ''
+  if (predictions.length > 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < predictions.length; i++) {
+      if (returnTensors) {
+        predictions[i].topLeft = predictions[i].topLeft.arraySync();
+        predictions[i].bottomRight = predictions[i].bottomRight.arraySync();
+        if (annotateBoxes) {
+          predictions[i].landmarks = predictions[i].landmarks.arraySync();
+        }
+      }
+      try {
+          document.getElementById('myDiv01').innerHTML += 'Probability ' + i + ' : ' + predictions[i].probability + '<br>'
+          console.log(predictions[i])
+      }
+      catch(err){
+          document.getElementById('myDiv01').innerHTML = err.message
+      }
+      const start = predictions[i].topLeft;
+      const end = predictions[i].bottomRight;
+      const size = [end[0] - start[0], end[1] - start[1]];
+      ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+      ctx.fillRect(start[0], start[1], size[0], size[1]);
+
+      if (annotateBoxes) {
+        const landmarks = predictions[i].landmarks;
+
+        ctx.fillStyle = "blue";
+        for (let j = 0; j < landmarks.length; j++) {
+          const x = landmarks[j][0];
+          const y = landmarks[j][1];
+          ctx.fillRect(x, y, 5, 5);
+        }
+      }
+    }
+  }
 
 
-function myTextGrow(myT, myB){
-   var myCursorStart = document.getElementById(myT).selectionStart
-   var myCursorEnd = document.getElementById(myT).selectionEnd
 
-   myDivName = myB.replace('Code','')
-   document.getElementById(myT).value = '\x3Cscript src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.3"> \x3C/script> \n\n' + document.getElementById(myB).innerHTML 
-   document.getElementById(myT).value += '<div id=\''+myDivName+'\'>...</div><br>'     
-   setTimeout(function() {
-      while (  document.getElementById(myT).clientHeight < document.getElementById(myT).scrollHeight){                                                                                                                                              
-          document.getElementById(myT).rows += 3; 
-      } 
-   }, 100)
+  requestAnimationFrame(renderPrediction);
+};
 
-  document.getElementById(myT).selectionStart = myCursorStart
-  document.getElementById(myT).selectionEnd = myCursorEnd
+const setupPage = async () => {
+    
+  const state = {
+     backend: 'wasm'
+  }; 
+        
+  await tf.setBackend(state.backend);
+ // await tf.setBackend('wasm');
+  await setupCamera();
+  video.play();
 
-}  
+  videoWidth = video.videoWidth;
+  videoHeight = video.videoHeight;
+  video.width = videoWidth;
+  video.height = videoHeight;
 
+  canvas = document.getElementById('output');
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+  ctx = canvas.getContext('2d');
+  ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
 
-</script>  
- 
- 
-</body>
+  model = await blazeface.load();
+
+  renderPrediction();
+};
+
+setupPage();
+
+</script>
