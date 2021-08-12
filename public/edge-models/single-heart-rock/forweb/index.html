@@ -1,10 +1,10 @@
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0"> </script> 
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
  
 
 
 
-LOAD URL <input id="myInFile" type="text" size="120" value="https://www.rocksetta.com/tensorflowjs/saved-models/batches-20000-done.json"><br>  
+LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
 <!--	
 Test Data:<textarea id="myInData" rows=6 cols=60 wrap=false>0,0,
@@ -23,6 +23,9 @@ Data Shape <input id="myInShape" type=text value="4,2"><br>
   async function myGo6() {
 			
     const loadedModel6 = await	 tf.loadLayersModel(document.getElementById('myInFile').value)
+	
+    console.log(loadedModel6)											     
+												     
     const training_data6 = tf.tensor2d([[0,0],[0,1],[1,0],[1,1]]);  												    
 												    
     //const training_data6 = tf.tensor2d(document.getElementById('myInData').value.split(','),document.getElementById('myInShape').value.split(','));  
@@ -32,6 +35,7 @@ Data Shape <input id="myInShape" type=text value="4,2"><br>
 												    
 												    
     const myPredictArray6 = await loadedModel6.predict(training_data6).data()
+    console.log(myPredictArray6)												     
 
     document.getElementById('myDiv4950').innerHTML += '[0,0] = ' + myPredictArray6[0].toFixed(4) +'<br>'
     document.getElementById('myDiv4950').innerHTML += '[1,0] = ' + myPredictArray6[1].toFixed(4) +'<br>'
