@@ -1,0 +1,42 @@
+<!-- Load TensorFlow.js. This is required to use MobileNet. -->
+
+<script src="https://unpkg.com/@tensorflow/tfjs@2.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.0.4"></script>
+
+
+<h1 align=center> Basic starter on Mobilenet</h1>
+
+<img id="img" width = 200 src="coffee.jpg"/>
+<div id="myDiv01">...</div>
+
+<script>
+  const img = document.getElementById('img');
+  const version = 2;
+  const alpha = 0.5;
+
+  async function run() {
+    // Load the model.
+    const model = await mobilenet.load({version, alpha});
+
+    // Classify the image.
+    const predictions = await model.classify(img);
+    document.getElementById('myDiv01').innerHTML = 'Predictions: Probability, Class Names<br>' + 
+      predictions[0].probability + ', '+ predictions[0].className +'<br>' + 
+      predictions[1].probability + ', '+ predictions[1].className +'<br>' + 
+      predictions[2].probability + ', '+ predictions[2].className +'<br>' +
+      'See console for other info'
+    console.log('Predictions');
+    console.log(predictions);
+
+    // Get the logits.
+    const logits = model.infer(img);
+    console.log('Logits');
+    logits.print(true);
+
+    // Get the embedding.
+    const embedding = model.infer(img, true);
+    console.log('Embedding');
+    embedding.print(true);
+  }
+  run();
+</script>
