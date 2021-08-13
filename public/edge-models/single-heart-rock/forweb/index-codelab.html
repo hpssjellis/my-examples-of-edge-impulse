@@ -65,9 +65,36 @@ section {
     
     
     
+  
+    
+    
+    
+  </head>  
+  <body>
+    <h5>  Version   0.1.1  </h5>
+    <h1>Multiple object detection using pre trained model in TensorFlow.js</h1>
+
+    <p>Wait for the model to load before clicking the button to enable the webcam - at which point it will become visible to use.</p>
+    
+    <section id="demos" class="invisible">
+
+      <p>Hold some objects up close to your webcam to get a real-time classification! When ready click "enable webcam" below and accept access to the webcam when the browser asks (check the top left of your window)</p>
+      
+      <div id="liveView" class="camView">
+        <button id="webcamButton">Enable Webcam</button>
+        <video id="webcam" autoplay width="640" height="480"></video>
+      </div>
+    </section>
+
+    <!-- Import TensorFlow.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" type="text/javascript"></script>
+    <!-- Load the coco-ssd model to use to recognize things in images -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    
+    
     <script>
      
-      
+     // script tag here so web components are already known and loaded 
     
 const video = document.getElementById('webcam');
 const liveView = document.getElementById('liveView');
@@ -177,31 +204,6 @@ function predictWebcam() {
       
       
     </script>  
-    
-    
-    
-  </head>  
-  <body>
-    <h5>  Version   0.1.0  </h5>
-    <h1>Multiple object detection using pre trained model in TensorFlow.js</h1>
-
-    <p>Wait for the model to load before clicking the button to enable the webcam - at which point it will become visible to use.</p>
-    
-    <section id="demos" class="invisible">
-
-      <p>Hold some objects up close to your webcam to get a real-time classification! When ready click "enable webcam" below and accept access to the webcam when the browser asks (check the top left of your window)</p>
-      
-      <div id="liveView" class="camView">
-        <button id="webcamButton">Enable Webcam</button>
-        <video id="webcam" autoplay width="640" height="480"></video>
-      </div>
-    </section>
-
-    <!-- Import TensorFlow.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" type="text/javascript"></script>
-    <!-- Load the coco-ssd model to use to recognize things in images -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
-    
 
   </body>
 </html>
