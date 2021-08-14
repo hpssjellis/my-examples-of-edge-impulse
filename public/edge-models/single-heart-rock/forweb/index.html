@@ -72,7 +72,9 @@ const renderPrediction = async function(){
   const flipHorizontal = true;
   const annotateBoxes = true;
   const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
-
+  console.log('predictions')
+  console.log(predictions)
+    
   document.getElementById('myDiv01').innerHTML = ''
   if (predictions.length > 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
