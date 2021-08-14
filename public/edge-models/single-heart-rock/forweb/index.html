@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.2.7  </h5>
+    <h5>  Version 0.2.8  </h5>
     
     
     
@@ -30,7 +30,11 @@
     -->
     
     <input type=button id="myStop" value="Stop" onclick="{                                                      
-       if( this.value == 'stop') {this.value = 'Go'} else {this.value = 'Stop'}                                        
+       if( document.getElementById('myStop').value == 'Stop') {
+           document.getElementById('myStop').value = 'Go'
+       } else {
+           document.getElementById('myStop').value = 'Stop'
+       }                                        
     }"> <br>
     
     
@@ -57,7 +61,7 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 -->    
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7"></script>  -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.js"></script>
     
     
