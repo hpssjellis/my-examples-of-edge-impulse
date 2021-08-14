@@ -6,7 +6,7 @@
 
  
 
-<h5>    Version   0.1.2   </h5>
+<h5>    Version   0.1.3   </h5>
 LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
 
@@ -52,22 +52,21 @@ function preprocess(imageTensor) {
 const image = document.getElementById('myLoadImage');
 							
 const imageTensor = tf.browser.fromPixels(image);
-const features = model.predict(preprocess(imageTensor));
-    console.log('features');
-    console.log(features);	
+const predictions = model.predict(preprocess(imageTensor));
+    console.log('predictions');
+    console.log(predictions);	
 												     
 												     
 												     
 												     
     // Classify the image.
-    const predictions = await model.classify(imageTensor);
+   // const predictions = await model.classify(imageTensor);
     document.getElementById('myDiv4950').innerHTML = 'Predictions: Probability, Class Names<br>' + 
       predictions[0].probability + ', '+ predictions[0].className +'<br>' + 
       predictions[1].probability + ', '+ predictions[1].className +'<br>' + 
       predictions[2].probability + ', '+ predictions[2].className +'<br>' +
       'See console for other info'
-    console.log('Predictions');
-    console.log(predictions);
+
 
     // Get the logits.
     const logits = model.infer(imageTensor);
