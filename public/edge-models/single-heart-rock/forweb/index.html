@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.1.1  </h5>
+    <h5>  Version 0.1.2  </h5>
     <video id="video" playsinline="" style="
       -webkit-transform: scaleX(-1);
       transform: scaleX(-1);
@@ -97,7 +97,7 @@ const renderPrediction = async function(){
         }
       }
       try {
-          document.getElementById('myDiv01').innerHTML += JSON.stringify(predictions, null, '<br>')
+          document.getElementById('myDiv01').innerHTML += 'predictions object output: <br>'+JSON.stringify(predictions, null, '<br>')
         //  console.log(predictions[i])
       }
       catch(err){
