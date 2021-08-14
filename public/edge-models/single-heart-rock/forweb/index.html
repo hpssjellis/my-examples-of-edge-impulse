@@ -1,22 +1,12 @@
-
-<!-- Copyright 2019 Google LLC. All Rights Reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-==============================================================================-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    
+</head>
 
 <body>
-  <div id="main">
-      
+    
     <video id="video" playsinline="" style="
       -webkit-transform: scaleX(-1);
       transform: scaleX(-1);
@@ -26,84 +16,42 @@ limitations under the License.
     </video>
       
     <canvas id="output" style="position:absolute; top:0; left:0;"></canvas>
+     
+     <div style="font-size:30px">Blazeface Demo</div>
+     Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
+     <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a>
       
-    <div id="description">
-        <div id="description-title" style="font-size:30px">Blazeface Demo</div>
-        Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
-        <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a>
-      <div id="myDiv01">...</div>
-    </div>
+     <div id="myDiv01">Output eventually goes here</div>
+
       
     <video id="video" playsinline="" style="
-      -webkit-transform: scaleX(-1);
-      transform: scaleX(-1);
-      visibility: hidden;
-      width: auto;
-      height: auto;
-      ">
+       -webkit-transform: scaleX(-1);
+       transform: scaleX(-1);
+       visibility: hidden;
+       width: auto;
+       height: auto;
+     ">
     </video>
-      
-  </div>
-</body>
 
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.5"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@2.0.0/dist/tf-backend-wasm.js"></script>
 
 
-<!-- 
-For latest versions see:
-
-https://www.npmjs.com/package/@tensorflow/tfjs
-https://www.npmjs.com/package/@tensorflow-models/blazeface
-https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
-
-The following tag without the @ can be used to get the latest version but may eventually break your code!
-
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>   
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"></script>
-
--->
-
-
-    
-
-<!--  -------------------------------------------old index.js file -------------------------------------------  
-
-
-/**
- * @license
- * Copyright 2019 Google LLC. All Rights Reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * =============================================================================
- */
-
--->
-
+<!-- Following could be in it's own index.js file. Easier to have it here  -->
 <script>
 
+// If using a transpiler this code is useful
 //import * as blazeface from '@tensorflow-models/blazeface';
 //import * as tf from '@tensorflow/tfjs-core';
 //import * as tfjsWasm from '@tensorflow/tfjs-backend-wasm';
 
-   
+// does not seem to help   
 //tfjsWasm.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@latest/dist/tfjs-backend-wasm.wasm');
-
-async function setupCamera() {    
     
+const setupCamera = async function(){  
   video = document.getElementById('video');
-
   const stream = await navigator.mediaDevices.getUserMedia({
     'audio': false,
     'video': { facingMode: 'user' },
@@ -117,13 +65,13 @@ async function setupCamera() {
   });
 }
 
-const renderPrediction = async () => {
-
+    
+    
+const renderPrediction = async function(){   
   const returnTensors = false;
   const flipHorizontal = true;
   const annotateBoxes = true;
-  const predictions = await model.estimateFaces(
-    video, returnTensors, flipHorizontal, annotateBoxes);
+  const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
 
   document.getElementById('myDiv01').innerHTML = ''
   if (predictions.length > 0) {
@@ -167,15 +115,13 @@ const renderPrediction = async () => {
   requestAnimationFrame(renderPrediction);
 };
 
-const setupPage = async () => {
-    
-  const state = {
-     backend: 'wasm'
-  }; 
+const setupPage = async function(){     
+  const state = { backend: 'wasm' }; 
         
   await tf.setBackend(state.backend);
- // await tf.setBackend('wasm');
+
   await setupCamera();
+    
   video.play();
 
   videoWidth = video.videoWidth;
@@ -197,3 +143,8 @@ const setupPage = async () => {
 setupPage();
 
 </script>
+    
+          
+</body>
+
+
