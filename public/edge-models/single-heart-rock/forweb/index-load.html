@@ -6,17 +6,14 @@
 
  
 
-
-
+<h5>    Version   0.1.6   </h5>
 LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
-<!--	
-Test Data:<textarea id="myInData" rows=6 cols=60 wrap=false>0,0,
-0,1,
-1,0,
-1,1</textarea><br>
-Data Shape <input id="myInShape" type=text value="4,2"><br>
--->
+
+<img id="myLoadImage" width = 200 src="coffee.jpg"/><br>
+
+
+
  
 <input id="myButton4950" type="button" value="Load everything from a URL and test the data" onclick="{
 
@@ -26,17 +23,13 @@ Data Shape <input id="myInShape" type=text value="4,2"><br>
                                                                                                                                                         
   async function myGo6() {
 			
-// Be sure to load TensorFlow.js on your page. See
-// https://github.com/tensorflow/tfjs#getting-started.
+
 
 const model = await tf.loadGraphModel(
     'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1',
     { fromTFHub: true });
 
-// Preprocesses a single image tensor to prepare it as input for the model.
-//
-// Returns a tensor of shape [batch_size, height, width, channels], where the
-// batch_size in this case is 1.
+
 function preprocess(imageTensor) {
   const widthToHeight = imageTensor.shape[1] / imageTensor.shape[0];
   let squareCrop;
@@ -56,9 +49,25 @@ function preprocess(imageTensor) {
   return crop.div(255);
 }
 
-const image = document.getElementById('img-id');
+const image = document.getElementById('myLoadImage');
+							
 const imageTensor = tf.browser.fromPixels(image);
-const features = model.predict(preprocess(imageTensor));
+const predictions = model.predict(preprocess(imageTensor));
+    console.log('predictions');
+    console.log(predictions);	
+												     
+												     
+												     
+												     
+    // Classify the image.
+   // const predictions = await model.classify(imageTensor);
+    document.getElementById('myDiv4950').innerHTML = 'Predictions: Label, Amount<br>' + 
+      '0 unknown: ' + predictions.shape[0] +  '<br>' + 
+      '1 heart rock: ' + predictions.shape[1] +  '<br>' +
+      'See console for other info'
+
+
+								     											     
 											  
     document.getElementById('myButton4950').style.backgroundColor = 'lightgrey'                    
   }
