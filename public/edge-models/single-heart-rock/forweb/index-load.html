@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
+
+ 
+
+
+
+LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
+
+<!--	
+Test Data:<textarea id="myInData" rows=6 cols=60 wrap=false>0,0,
+0,1,
+1,0,
+1,1</textarea><br>
+Data Shape <input id="myInShape" type=text value="4,2"><br>
+-->
+ 
+<input id="myButton4950" type="button" value="Load everything from a URL and test the data" onclick="{
+
+  const startTime = performance.now();
+  document.getElementById('myDiv4950').innerHTML = '<br>'
+  document.getElementById('myButton4950').style.backgroundColor = 'red'  
+                                                                                                                                                        
+  async function myGo6() {
+			
+// Be sure to load TensorFlow.js on your page. See
+// https://github.com/tensorflow/tfjs#getting-started.
+
+const model = await tf.loadGraphModel(
+    'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1',
+    { fromTFHub: true });
+
+// Preprocesses a single image tensor to prepare it as input for the model.
+//
+// Returns a tensor of shape [batch_size, height, width, channels], where the
+// batch_size in this case is 1.
+function preprocess(imageTensor) {
+  const widthToHeight = imageTensor.shape[1] / imageTensor.shape[0];
+  let squareCrop;
+  if (widthToHeight > 1) {
+    const heightToWidth = imageTensor.shape[0] / imageTensor.shape[1];
+    const cropTop = (1-heightToWidth) / 2;
+    const cropBottom = 1 - cropTop;
+    squareCrop = [[cropTop, 0, cropBottom, 1]];
+  } else {
+    const cropLeft = (1-widthToHeight) / 2;
+    const cropRight = 1 - cropLeft;
+    squareCrop = [[0, cropLeft, 1, cropRight]];
+  }
+  // Expand image input dimensions to add a batch dimension of size 1.
+  const crop = tf.image.cropAndResize(
+      tf.expandDims(imageTensor), squareCrop, [0], [224, 224]);
+  return crop.div(255);
+}
+
+const image = document.getElementById('img-id');
+const imageTensor = tf.browser.fromPixels(image);
+const features = model.predict(preprocess(imageTensor));
+											  
+    document.getElementById('myButton4950').style.backgroundColor = 'lightgrey'                    
+  }
+
+  setTimeout(function(){  myGo6() }, 10);   // wait a bit for the GUI to update	
+}" style="background-color: red;">
+	
+	
+	<br><br>
+
+<div id='myDiv4950'>...</div><br>
+
+	
+</html>
