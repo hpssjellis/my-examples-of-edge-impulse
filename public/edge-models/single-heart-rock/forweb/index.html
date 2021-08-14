@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.2.1  </h5>
+    <h5>  Version 0.2.2  </h5>
     
     
     
@@ -104,7 +104,7 @@ const renderPrediction = async function(){
         }
       }
       try {
-          document.getElementById('myDiv01').innerHTML += 'predictions object output: <br>'+JSON.stringify(predictions, null, '<br>')
+          document.getElementById('myDiv01').innerHTML += 'predictions object output: <br>'+JSON.stringify(predictions, null, 3)
         //  console.log(predictions[i])
       }
       catch(err){
