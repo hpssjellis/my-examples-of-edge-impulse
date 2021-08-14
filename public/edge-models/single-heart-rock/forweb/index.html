@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.2.10  </h5>
+    <h5>  Version 0.2.11  </h5>
     
     
     
@@ -119,7 +119,8 @@ function preprocess(imageTensor) {
 const renderPrediction = async function(){   
 
   //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
-  const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([1, 224, 224, 3]) ;
+ // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([1, 224, 224, 3]) ;
+  const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
   const predictions = await model.predict( image );
   console.log('predictions')
   console.log(predictions)
