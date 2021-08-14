@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.2.9  </h5>
+    <h5>  Version 0.2.10  </h5>
     
     
     
@@ -95,7 +95,8 @@ const setupCamera = async function(){
   });
 }
 
-  
+
+// might not be needed
 function preprocess(imageTensor) {
   const widthToHeight = imageTensor.shape[1] / imageTensor.shape[0];
   let squareCrop;
@@ -118,7 +119,8 @@ function preprocess(imageTensor) {
 const renderPrediction = async function(){   
 
   //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
-  const predictions = await model.predict( preprocess(video) );
+  const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([1, 224, 224, 3]) ;
+  const predictions = await model.predict( image );
   console.log('predictions')
   console.log(predictions)
     
@@ -127,7 +129,7 @@ const renderPrediction = async function(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     try {
-          document.getElementById('myDiv01').innerHTML += 'predictions object output: <br>'+JSON.stringify(predictions, null, 3)
+          document.getElementById('myDiv01').innerHTML += 'predictions object output: <br>'+JSON.stringify(predictions, null, '<br>')
         //  console.log(predictions[i])
       }
       catch(err){
@@ -135,7 +137,7 @@ const renderPrediction = async function(){
       }
      
       ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-      ctx.fillRect(0, 10, 20, 20);
+      ctx.fillRect(0, 10, 200, 200);
 
       // ctx.fillStyle = "blue";
       //  ctx.fillRect(x, y, 5, 5);
@@ -144,8 +146,9 @@ const renderPrediction = async function(){
   }
 
 
-
+if (document.getElementById('myStop').value == 'Stop') {  // reverse logic
   requestAnimationFrame(renderPrediction);
+}
 };
 
 const setupPage = async function(){     
