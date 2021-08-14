@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.2.2  </h5>
+    <h5>  Version 0.2.3  </h5>
     
     
     
@@ -25,9 +25,9 @@
      <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a>
      
     LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
-    Top Left <input id="myTopLeft" type="text" size="120" value="predictions[i].topLeft" placeholder="predictions[i].topLeft" ><br>  
+   <!-- Top Left <input id="myTopLeft" type="text" size="120" value="predictions[i].topLeft" placeholder="predictions[i].topLeft" ><br>  
     Bottom Right <input id="myBottomRight" type="text" size="120" value="predictions[i].bottomRight"  placeholder="predictions[i].bottomRight"><br>  
-    
+    -->
      <div id="myDiv01">Output eventually goes here</div>
 
       
@@ -40,6 +40,9 @@
      ">
     </video>
 
+    <input type=button value="stop" onclick="{
+                                                
+    }"> 
     
 <!-- check latest version numbers at
 
@@ -82,50 +85,51 @@ const setupCamera = async function(){
   });
 }
 
-    
+  
+function preprocess(imageTensor) {
+  const widthToHeight = imageTensor.shape[1] / imageTensor.shape[0];
+  let squareCrop;
+  if (widthToHeight > 1) {
+    const heightToWidth = imageTensor.shape[0] / imageTensor.shape[1];
+    const cropTop = (1-heightToWidth) / 2;
+    const cropBottom = 1 - cropTop;
+    squareCrop = [[cropTop, 0, cropBottom, 1]];
+  } else {
+    const cropLeft = (1-widthToHeight) / 2;
+    const cropRight = 1 - cropLeft;
+    squareCrop = [[0, cropLeft, 1, cropRight]];
+  }
+  // Expand image input dimensions to add a batch dimension of size 1.
+  const crop = tf.image.cropAndResize(
+      tf.expandDims(imageTensor), squareCrop, [0], [224, 224]);
+  return crop.div(255);
+}  
     
 const renderPrediction = async function(){   
-  const returnTensors = false;
-  const flipHorizontal = true;
-  const annotateBoxes = true;
-  const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
+
+  //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
+  const predictions = await model.predict(preprocess(video));
   console.log('predictions')
   console.log(predictions)
     
   document.getElementById('myDiv01').innerHTML = ''
   if (predictions.length > 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < predictions.length; i++) {
-      if (returnTensors) {
-        predictions[i].topLeft = predictions[i].topLeft.arraySync();
-        predictions[i].bottomRight = predictions[i].bottomRight.arraySync();
-        if (annotateBoxes) {
-          predictions[i].landmarks = predictions[i].landmarks.arraySync();
-        }
-      }
-      try {
+
+    try {
           document.getElementById('myDiv01').innerHTML += 'predictions object output: <br>'+JSON.stringify(predictions, null, 3)
         //  console.log(predictions[i])
       }
       catch(err){
           document.getElementById('myDiv01').innerHTML = err.message
       }
-      const start =   document.getElementById('myTopLeft').value //predictions[i].topLeft;
-      const end = document.getElementById('myBottomRight').value  //predictions[i].bottomRight;
-      const size = [end[0] - start[0], end[1] - start[1]];
+     
       ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-      ctx.fillRect(start[0], start[1], size[0], size[1]);
+      ctx.fillRect(0, 10, 20, 20);
 
-      if (annotateBoxes) {
-        const landmarks = predictions[i].landmarks;
-
-        ctx.fillStyle = "blue";
-        for (let j = 0; j < landmarks.length; j++) {
-          const x = landmarks[j][0];
-          const y = landmarks[j][1];
-          ctx.fillRect(x, y, 5, 5);
-        }
-      }
+      // ctx.fillStyle = "blue";
+      //  ctx.fillRect(x, y, 5, 5);
+        
     }
   }
 
@@ -154,8 +158,12 @@ const setupPage = async function(){
   ctx = canvas.getContext('2d');
   ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
 
-  model = await blazeface.load();
-
+  //model = await blazeface.load();
+const model = await tf.loadGraphModel(
+    'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1',
+    { fromTFHub: true });
+    
+    
   renderPrediction();
 };
 
