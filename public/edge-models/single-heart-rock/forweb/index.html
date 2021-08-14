@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.2.5  </h5>
+    <h5>  Version 0.2.6  </h5>
     
     
     
@@ -40,8 +40,9 @@
      ">
     </video>
 
-    <input type=button value="stop" onclick="{
-                                                
+    <input type=button id="myStop" value="Stop" onclick="{
+                                                         
+       if( this.value == 'stop') {this.value == 'Go'} else {this.value == 'Stop'}                                        
     }"> 
     
 <!-- check latest version numbers at
@@ -61,7 +62,9 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 
 <!-- Following could be in it's own index.js file. Easier to have it here  -->
 <script>
-
+    
+    
+    
 // If using a transpiler this code is useful
 //import * as blazeface from '@tensorflow-models/blazeface';
 //import * as tf from '@tensorflow/tfjs-core';
