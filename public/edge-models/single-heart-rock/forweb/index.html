@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.2.15  </h5>
+    <h5>  Version 0.3.0  </h5>
     
     
     
@@ -24,8 +24,11 @@
      Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
      <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a>
      
-    LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
-   <!-- Top Left <input id="myTopLeft" type="text" size="120" value="predictions[i].topLeft" placeholder="predictions[i].topLeft" ><br>  
+  
+<input id="myInFile" size="120" type="text" value="https://storage.googleapis.com/tfjs-models/tfjs/squeezenet_v1.1/model.json"><br>
+  <input type="button" value="Load Model" onclick="{myLoadUrl()}"><br> <br>
+    
+    <!-- Top Left <input id="myTopLeft" type="text" size="120" value="predictions[i].topLeft" placeholder="predictions[i].topLeft" ><br>  
     Bottom Right <input id="myBottomRight" type="text" size="120" value="predictions[i].bottomRight"  placeholder="predictions[i].bottomRight"><br>  
     -->
     
@@ -79,6 +82,21 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 
 // does not seem to help   
 //tfjsWasm.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@latest/dist/tfjs-backend-wasm.wasm');
+  
+    
+                                                                                             
+ myLoadUrl = async function(){
+  //alert('The test function will need to be changed if other models are loaded')                                                                                             
+  document.getElementById('myDivTest').innerHTML = 'Expect major code changes if you load a different model than what is expected'  
+  const myFileName = document.getElementById('myInFile').value
+  if (myFileName != null){  
+    model = await tf.loadLayersModel(myFileName);     // should make the model a global variable
+    document.getElementById('myDiv01').innerHTML = ''      
+    await model.summary(null,null,x => {document.getElementById('myDiv01').innerHTML += x + '<br>'});
+   // await myPredict()
+  }                                                                           
+}      
+    
     
 const setupCamera = async function(){  
   video = document.getElementById('video');
