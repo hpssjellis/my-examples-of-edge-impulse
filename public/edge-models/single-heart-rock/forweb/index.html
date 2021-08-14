@@ -192,12 +192,14 @@ const setupPage = async function(){
   ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
 
   //model = await blazeface.load();
+ /*   
+    
 model = await tf.loadGraphModel(
     'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1',
     { fromTFHub: true });
  
     
-/*
+
   const myFileName = document.getElementById('myInFile').value
   if (myFileName != null){  
     model = await tf.loadLayersModel(myFileName);     // should make the model a global variable
