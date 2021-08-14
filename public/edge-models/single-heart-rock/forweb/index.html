@@ -6,7 +6,7 @@
 
  
 
-<h5>    Version   0.0.3   </h5>
+<h5>    Version   0.0.5   </h5>
 LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
 
@@ -45,7 +45,7 @@ function preprocess(imageTensor) {
   return crop.div(255);
 }
 
-const image = document.getElementById('coffee.jpg');
+const image = document.getElementById('./coffee.jpg');
 const imageTensor = tf.browser.fromPixels(image);
 const features = model.predict(preprocess(imageTensor));
 											  
