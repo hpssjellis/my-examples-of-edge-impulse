@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.0.6  </h5>
+    <h5>  Version 0.1.0  </h5>
     <video id="video" playsinline="" style="
       -webkit-transform: scaleX(-1);
       transform: scaleX(-1);
@@ -88,7 +88,7 @@ const renderPrediction = async function(){
       }
       try {
           document.getElementById('myDiv01').innerHTML += 'Probability ' + i + ' : ' + predictions[i].probability + '<br>'
-          console.log(predictions[i])
+        //  console.log(predictions[i])
       }
       catch(err){
           document.getElementById('myDiv01').innerHTML = err.message
