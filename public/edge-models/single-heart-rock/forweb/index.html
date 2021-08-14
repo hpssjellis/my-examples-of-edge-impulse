@@ -33,10 +33,20 @@
      ">
     </video>
 
+    
+<!-- check latest version numbers at
+
+https://www.npmjs.com/package/@tensorflow/tfjs  
+https://www.npmjs.com/package/@tensorflow-models/blazeface
+https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
+
+-->    
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.js"></script>
+    
+    
 
 
 <!-- Following could be in it's own index.js file. Easier to have it here  -->
@@ -87,7 +97,7 @@ const renderPrediction = async function(){
         }
       }
       try {
-          document.getElementById('myDiv01').innerHTML += 'Probability ' + i + ' : ' + predictions[i].probability + '<br>'
+          document.getElementById('myDiv01').innerHTML += JSON.stringify(predictions, null, '<br>')
         //  console.log(predictions[i])
       }
       catch(err){
