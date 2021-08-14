@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.2.6  </h5>
+    <h5>  Version 0.2.7  </h5>
     
     
     
@@ -28,6 +28,12 @@
    <!-- Top Left <input id="myTopLeft" type="text" size="120" value="predictions[i].topLeft" placeholder="predictions[i].topLeft" ><br>  
     Bottom Right <input id="myBottomRight" type="text" size="120" value="predictions[i].bottomRight"  placeholder="predictions[i].bottomRight"><br>  
     -->
+    
+    <input type=button id="myStop" value="Stop" onclick="{                                                      
+       if( this.value == 'stop') {this.value = 'Go'} else {this.value = 'Stop'}                                        
+    }"> <br>
+    
+    
      <div id="myDiv01">Output eventually goes here</div>
 
       
@@ -40,10 +46,7 @@
      ">
     </video>
 
-    <input type=button id="myStop" value="Stop" onclick="{
-                                                         
-       if( this.value == 'stop') {this.value == 'Go'} else {this.value == 'Stop'}                                        
-    }"> 
+
     
 <!-- check latest version numbers at
 
@@ -162,7 +165,7 @@ const setupPage = async function(){
   ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
 
   //model = await blazeface.load();
-const model = await tf.loadGraphModel(
+model = await tf.loadGraphModel(
     'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1',
     { fromTFHub: true });
     
