@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.2.3  </h5>
+    <h5>  Version 0.2.5  </h5>
     
     
     
@@ -108,7 +108,7 @@ function preprocess(imageTensor) {
 const renderPrediction = async function(){   
 
   //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
-  const predictions = await model.predict(preprocess(video));
+  const predictions = await model.predict(video);
   console.log('predictions')
   console.log(predictions)
     
@@ -130,7 +130,7 @@ const renderPrediction = async function(){
       // ctx.fillStyle = "blue";
       //  ctx.fillRect(x, y, 5, 5);
         
-    }
+   // }
   }
 
 
