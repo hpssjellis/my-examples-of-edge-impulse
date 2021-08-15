@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
+
+
+<h5>   Webpage Version   0.2.2   </h5>
+<h3 aling=center>To load a web based graph model saved for tensorflowjs converted from a tensorflow saved model</h3>	
+	
+Trying to load this model that I converted from an Edge Impulse Tensorflow Saved model to load for TensorflowJS<br>
+	<pre>https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json</pre>
+	
+	
+LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json"><br>  
+
+	
+
+ Shows summary on this site but also in the console<br>
+	Open console using, ctrl shift i <br>
+	right-click view source to see this one page Vanilla Javascript code<br><br>
+	
+	
+	try for a TensorflowJS layers model try:<br>
+	<span style="color:green">
+	
+	<pre>https://www.rocksetta.com/tensorflowjs/saved-models/batches-20000-done.json</pre>	
+	<pre>https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json</pre>
+	<pre>https://hpssjellis.github.io/beginner-tensorflowjs-examples-in-javascript/saved-models/mnist/convnet/my-mnist01.json</pre>
+	<pre>https://storage.googleapis.com/tfjs-models/tfjs/squeezenet_v1.1/model.json</pre>
+	</span>
+
+
+	
+<input id="myButton124" type="button" value="Load layers model" onclick="{
+                                                                                     
+  (async function myGo() {
+ 
+      document.getElementById('myDiv123').innerHTML = ''  
+      const myFileName = document.getElementById('myInFile').value  
+      const model = await tf.loadLayersModel(myFileName);
+      model.summary();    
+      await model.summary(null,null,x => {document.getElementById('myDiv123').innerHTML += x + '<br>'});
+                                                                              
+  } )() // end Async function
+                                                                                                                                                                                                                                        
+}"><br><br>	
+	
+	
+
+<div id='myDiv123'>...</div><br>
+	
+	
+LOAD Graph Model From TF Hub <input id="myInFile2" type="text" size="120" value="https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2"><br>  
+
+	For a TensorflowJS graph model from TF-Hub try<br>
+        <span style="color:green">
+	<pre>https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2</pre>  
+	</span>
+	
+	Presently tested with tf.zeros([1, 224, 224, 3]);<br>
+	 
+<input id="myButton126" type="button" value="Load graph model from TF Hub" onclick="{
+                                                                                     
+  (async function myGo() {
+      document.getElementById('myDiv1235').innerHTML = ''  
+      const myFileName = document.getElementById('myInFile2').value  
+      const model = await tf.loadGraphModel(myFileName, {fromTFHub: true});
+      const zeros = tf.zeros([1, 224, 224, 3]);
+      model.predict(zeros).print();    
+	
+      const myOutput = model.predict(zeros);    
+	
+      document.getElementById('myDiv1237').innerHTML += JSON.stringify(myOutput,null,'<br>')									
+									
+  } )() // end Async function
+                                                                                                                                                                                                                                        
+}"><br><br>
+
+
+<div id='myDiv1235'>check console</div><br>	
+	
+	
+	
+LOAD Graph Model From anywhere <input id="myInFile3" type="text" size="120" value="https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json"><br>  
+
+	For a TensorflowJS graph model try<br>
+        <span style="color:green">
+	<pre>https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json</pre>  
+	</span>
+	Presently tested with tf.zeros([1, 224, 224, 3]); <br>
+	 
+<input id="myButton126" type="button" value="Load graph model from anywhere" onclick="{
+                                                                                     
+  (async function myGo() {
+      document.getElementById('myDiv1237').innerHTML = ''  
+      const myFileName = document.getElementById('myInFile3').value  
+      const model = await tf.loadGraphModel(myFileName);
+      const zeros = tf.zeros([1, 224, 224, 3]);
+      model.predict(zeros).print(); 
+      const myOutput = model.predict(zeros);    
+	
+      document.getElementById('myDiv1237').innerHTML += JSON.stringify(myOutput,null,'<br>')							
+									
+  } )() // end Async function
+                                                                                                                                                                                                                                        
+}"><br><br>
+
+
+<div id='myDiv1237'>See the console</div><br>		
+	
+	
+	
+	
+	
+
+</html>
