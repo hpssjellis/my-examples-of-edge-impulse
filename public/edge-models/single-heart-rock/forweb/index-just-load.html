@@ -5,7 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
 
-<h5>   Webpage Version   0.2.0   </h5>
+<h5>   Webpage Version   0.2.1   </h5>
 <h3 aling=center>To load a web based graph model saved for tensorflowjs converted from a tensorflow saved model</h3>	
 LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
@@ -62,18 +62,20 @@ LOAD Graph Model From TF Hub <input id="myInFile2" type="text" size="120" value=
       const zeros = tf.zeros([1, 224, 224, 3]);
       model.predict(zeros).print();    
 	
-      await model.predict(zeros).print(null,null,x => {document.getElementById('myDiv1235').innerHTML += x + '<br>'});								
+      const myOutput = model.predict(zeros);    
+	
+      adocument.getElementById('myDiv1237').innerHTML += JSON.stringify(myOutput,null,'<br>')									
 									
   } )() // end Async function
                                                                                                                                                                                                                                         
 }"><br><br>
 
 
-<div id='myDiv1235'>...</div><br>	
+<div id='myDiv1235'>check console</div><br>	
 	
 	
 	
-LOAD Graph Model From anywhere <input id="myInFile3" type="text" size="120" value="https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2"><br>  
+LOAD Graph Model From anywhere <input id="myInFile3" type="text" size="120" value="https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json<"><br>  
 
 	For a TensorflowJS graph model try<br>
         <span style="color:green">
@@ -87,16 +89,17 @@ LOAD Graph Model From anywhere <input id="myInFile3" type="text" size="120" valu
       const myFileName = document.getElementById('myInFile3').value  
       const model = await tf.loadGraphModel(myFileName);
       const zeros = tf.zeros([1, 224, 224, 3]);
-      model.predict(zeros).print();    
+      model.predict(zeros).print(); 
+      const myOutput = model.predict(zeros);    
 	
-      await model.predict(zeros).print(null,null,x => {document.getElementById('myDiv1237').innerHTML += x + '<br>'});								
+      adocument.getElementById('myDiv1237').innerHTML += JSON.stringify(myOutput,null,'<br>')							
 									
   } )() // end Async function
                                                                                                                                                                                                                                         
 }"><br><br>
 
 
-<div id='myDiv1237'>...</div><br>		
+<div id='myDiv1237'>See the console</div><br>		
 	
 	
 	
