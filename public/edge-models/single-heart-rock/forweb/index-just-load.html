@@ -2,12 +2,12 @@
 <html lang="en">
 
 
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"> </script> 
 
 
-<h5>   Webpage Version   0.1.1   </h5>
-	<h3 aling=center>To load a web based graph model saved for tensorflowjs converted from a tensorflow saved model</h3>	
-LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
+<h5>   Webpage Version   0.1.2   </h5>
+<h3 aling=center>To load a web based graph model saved for tensorflowjs converted from a tensorflow saved model</h3>	
+LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
 	
 
@@ -24,25 +24,6 @@ LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.g
 	<pre>https://hpssjellis.github.io/beginner-tensorflowjs-examples-in-javascript/saved-models/mnist/convnet/my-mnist01.json</pre>
 	<pre>https://storage.googleapis.com/tfjs-models/tfjs/squeezenet_v1.1/model.json</pre>
 	
-	For a TensorflowJS graph model try<br>
-	<pre>https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json</pre>
-	From TFHUB might not work without code change<br>
-	const model = await tf.loadGraphModel(myFileName, {fromTFHub: true});<br>
-	<pre>https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2</pre>
-
- 
-<input id="myButton123" type="button" value="Load graph model" onclick="{
-                                                                                     
-  (async function myGo() {
-      document.getElementById('myDiv123').innerHTML = ''  
-      const myFileName = document.getElementById('myInFile').value  
-      const model = await tf.loadGraphModel(myFileName);
-      model.summary();									    
-      await model.summary(null,null,x => {document.getElementById('myDiv123').innerHTML += x + '<br>'});
-                                                                              
-  } )() // end Async function
-                                                                                                                                                                                                                                        
-}"><br><br>
 
 
 	
@@ -63,5 +44,33 @@ LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.g
 	
 
 <div id='myDiv123'>...</div><br>
+	
+	
+LOAD Graph Model URL <input id="myInFile2" type="text" size="120" value="https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2"><br>  
+
+	For a TensorflowJS graph model try<br>
+	<pre>https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json</pre>
+	From TFHUB might not work without code change<br>
+	const model = await tf.loadGraphModel(myFileName, {fromTFHub: true});  or otherwise false<br>
+	<pre>https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2</pre>
+	
+	 
+<input id="myButton126" type="button" value="Load graph model" onclick="{
+                                                                                     
+  (async function myGo() {
+      document.getElementById('myDiv123').innerHTML = ''  
+      const myFileName = document.getElementById('myInFile2').value  
+      const model = await tf.loadGraphModel(myFileName, {fromTFHub: true});
+      model.summary();									    
+      await model.summary(null,null,x => {document.getElementById('myDiv1235').innerHTML += x + '<br>'});
+                                                                              
+  } )() // end Async function
+                                                                                                                                                                                                                                        
+}"><br><br>
+
+
+<div id='myDiv1235'>...</div><br>	
+	
+	
 
 </html>
