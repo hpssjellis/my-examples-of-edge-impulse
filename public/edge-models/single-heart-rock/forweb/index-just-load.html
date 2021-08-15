@@ -5,7 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"> </script> 
 
 
-<h5>   Webpage Version   0.1.4   </h5>
+<h5>   Webpage Version   0.1.6   </h5>
 <h3 aling=center>To load a web based graph model saved for tensorflowjs converted from a tensorflow saved model</h3>	
 LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
@@ -16,14 +16,14 @@ LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://hpssj
 	right-click view source to see this one page Vanilla Javascript code<br><br>
 	
 	
-	try for a TensorflowJS layers model try
+	try for a TensorflowJS layers model try:<br>
+	<span style="color:green">
 	
-	<pre>https://www.rocksetta.com/tensorflowjs/saved-models/batches-20000-done.json</pre>
-	
+	<pre>https://www.rocksetta.com/tensorflowjs/saved-models/batches-20000-done.json</pre>	
 	<pre>https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json</pre>
 	<pre>https://hpssjellis.github.io/beginner-tensorflowjs-examples-in-javascript/saved-models/mnist/convnet/my-mnist01.json</pre>
 	<pre>https://storage.googleapis.com/tfjs-models/tfjs/squeezenet_v1.1/model.json</pre>
-	
+	</span>
 
 
 	
@@ -49,11 +49,10 @@ LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://hpssj
 LOAD Graph Model URL <input id="myInFile2" type="text" size="120" value="https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2"><br>  
 
 	For a TensorflowJS graph model try<br>
-	<pre>https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json</pre>
-	From TFHUB might not work without code change<br>
-	const model = await tf.loadGraphModel(myFileName, {fromTFHub: true});  or otherwise false<br>
-	<pre>https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2</pre>
-	
+        <span style="color:green">
+	<pre>https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json</pre>  
+	<pre>https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2</pre>  
+	</span>
 	 
 <input id="myButton126" type="button" value="Load graph model" onclick="{
                                                                                      
@@ -63,7 +62,7 @@ LOAD Graph Model URL <input id="myInFile2" type="text" size="120" value="https:/
       const model = await tf.loadGraphModel(myFileName, {fromTFHub: true});
       const zeros = tf.zeros([1, 224, 224, 3]);
       model.predict(zeros).print();
-                                                                              
+      document.getElementById('myDiv1235').innerHTML =  model.predict(zeros).print();                                                                      
   } )() // end Async function
                                                                                                                                                                                                                                         
 }"><br><br>
