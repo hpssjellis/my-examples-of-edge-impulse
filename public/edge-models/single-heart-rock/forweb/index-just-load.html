@@ -5,7 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
 
-<h5>   Webpage Version   0.2.1   </h5>
+<h5>   Webpage Version   0.2.2   </h5>
 <h3 aling=center>To load a web based graph model saved for tensorflowjs converted from a tensorflow saved model</h3>	
 LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
@@ -52,6 +52,8 @@ LOAD Graph Model From TF Hub <input id="myInFile2" type="text" size="120" value=
         <span style="color:green">
 	<pre>https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2</pre>  
 	</span>
+	
+	Presently tested with tf.zeros([1, 224, 224, 3]);<br>
 	 
 <input id="myButton126" type="button" value="Load graph model from TF Hub" onclick="{
                                                                                      
@@ -64,7 +66,7 @@ LOAD Graph Model From TF Hub <input id="myInFile2" type="text" size="120" value=
 	
       const myOutput = model.predict(zeros);    
 	
-      adocument.getElementById('myDiv1237').innerHTML += JSON.stringify(myOutput,null,'<br>')									
+      document.getElementById('myDiv1237').innerHTML += JSON.stringify(myOutput,null,'<br>')									
 									
   } )() // end Async function
                                                                                                                                                                                                                                         
@@ -81,6 +83,7 @@ LOAD Graph Model From anywhere <input id="myInFile3" type="text" size="120" valu
         <span style="color:green">
 	<pre>https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json</pre>  
 	</span>
+	Presently tested with tf.zeros([1, 224, 224, 3]); <br>
 	 
 <input id="myButton126" type="button" value="Load graph model from anywhere" onclick="{
                                                                                      
@@ -92,7 +95,7 @@ LOAD Graph Model From anywhere <input id="myInFile3" type="text" size="120" valu
       model.predict(zeros).print(); 
       const myOutput = model.predict(zeros);    
 	
-      adocument.getElementById('myDiv1237').innerHTML += JSON.stringify(myOutput,null,'<br>')							
+      document.getElementById('myDiv1237').innerHTML += JSON.stringify(myOutput,null,'<br>')							
 									
   } )() // end Async function
                                                                                                                                                                                                                                         
