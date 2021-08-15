@@ -6,9 +6,11 @@
 
  
 
-<h5>    Version   0.1.6   </h5>
+<h5>    Version   0.1.7   </h5>
 LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
+	
+	
 
 <img id="myLoadImage" width = 200 src="coffee.jpg"/><br>
 
@@ -22,13 +24,30 @@ LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.g
   document.getElementById('myButton4950').style.backgroundColor = 'red'  
                                                                                                                                                         
   async function myGo6() {
-			
 
+												     
 
+  //alert('The test function will need to be changed if other models are loaded')                                                                                             
+  document.getElementById('myDiv4950').innerHTML = 'Expect major code changes if you load a different model than what is expected'  
+  const myFileName = document.getElementById('myInFile').value
+  if (myFileName != null){  
+    model = await tf.loadLayersModel(myFileName);     // should make the model a global variable
+    document.getElementById('myDiv4950').innerHTML = ''      
+    await model.summary(null,null,x => {document.getElementById('myDiv4950').innerHTML += x + '<br>'});
+   // await myPredict()
+  }                                                                           
+                                                                                           
+     												     
+												     
+												     
+												     
+												     
+
+/*
 const model = await tf.loadGraphModel(
     'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1',
     { fromTFHub: true });
-
+*/
 
 function preprocess(imageTensor) {
   const widthToHeight = imageTensor.shape[1] / imageTensor.shape[0];
