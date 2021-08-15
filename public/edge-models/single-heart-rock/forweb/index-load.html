@@ -6,7 +6,7 @@
 
  
 
-<h5>    Version   0.1.7   </h5>
+<h5>    Version   0.1.8   </h5>
 LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
 	
@@ -31,7 +31,7 @@ LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.g
   document.getElementById('myDiv4950').innerHTML = 'Expect major code changes if you load a different model than what is expected'  
   const myFileName = document.getElementById('myInFile').value
   if (myFileName != null){  
-    model = await tf.loadLayersModel(myFileName);     // should make the model a global variable
+    model = await tf.loadGraphModel(myFileName);     // should make the model a global variable
     document.getElementById('myDiv4950').innerHTML = ''      
     await model.summary(null,null,x => {document.getElementById('myDiv4950').innerHTML += x + '<br>'});
    // await myPredict()
