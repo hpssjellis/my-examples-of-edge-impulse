@@ -7,7 +7,12 @@
 
 <h5>   Webpage Version   0.2.2   </h5>
 <h3 aling=center>To load a web based graph model saved for tensorflowjs converted from a tensorflow saved model</h3>	
-LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
+	
+Trying to load this model that I converted from an Edge Impulse Tensorflow Saved model to load for TensorflowJS<br>
+	<pre>https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json</pre>
+	
+	
+LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json"><br>  
 
 	
 
@@ -58,7 +63,7 @@ LOAD Graph Model From TF Hub <input id="myInFile2" type="text" size="120" value=
 <input id="myButton126" type="button" value="Load graph model from TF Hub" onclick="{
                                                                                      
   (async function myGo() {
-      document.getElementById('myDiv123').innerHTML = ''  
+      document.getElementById('myDiv1235').innerHTML = ''  
       const myFileName = document.getElementById('myInFile2').value  
       const model = await tf.loadGraphModel(myFileName, {fromTFHub: true});
       const zeros = tf.zeros([1, 224, 224, 3]);
@@ -77,7 +82,7 @@ LOAD Graph Model From TF Hub <input id="myInFile2" type="text" size="120" value=
 	
 	
 	
-LOAD Graph Model From anywhere <input id="myInFile3" type="text" size="120" value="https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json<"><br>  
+LOAD Graph Model From anywhere <input id="myInFile3" type="text" size="120" value="https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json"><br>  
 
 	For a TensorflowJS graph model try<br>
         <span style="color:green">
@@ -88,7 +93,7 @@ LOAD Graph Model From anywhere <input id="myInFile3" type="text" size="120" valu
 <input id="myButton126" type="button" value="Load graph model from anywhere" onclick="{
                                                                                      
   (async function myGo() {
-      document.getElementById('myDiv123').innerHTML = ''  
+      document.getElementById('myDiv1237').innerHTML = ''  
       const myFileName = document.getElementById('myInFile3').value  
       const model = await tf.loadGraphModel(myFileName);
       const zeros = tf.zeros([1, 224, 224, 3]);
