@@ -5,7 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
 
-<h5>   Webpage Version   0.0.5   </h5>
+<h5>   Webpage Version   0.1.1   </h5>
 	<h3 aling=center>To load a web based graph model saved for tensorflowjs converted from a tensorflow saved model</h3>	
 LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
@@ -13,24 +13,32 @@ LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.g
 
  Shows summary on this site but also in the console<br>
 	Open console using, ctrl shift i <br>
-	try for a layers model
+	right-click view source to see this one page Vanilla Javascript code<br><br>
+	
+	
+	try for a TensorflowJS layers model try
 	
 	<pre>https://www.rocksetta.com/tensorflowjs/saved-models/batches-20000-done.json</pre>
 	
-	For graph model <br>
 	<pre>https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json</pre>
+	<pre>https://hpssjellis.github.io/beginner-tensorflowjs-examples-in-javascript/saved-models/mnist/convnet/my-mnist01.json</pre>
+	<pre>https://storage.googleapis.com/tfjs-models/tfjs/squeezenet_v1.1/model.json</pre>
+	
+	For a TensorflowJS graph model try<br>
+	<pre>https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json</pre>
+	From TFHUB might not work without code change<br>
+	const model = await tf.loadGraphModel(myFileName, {fromTFHub: true});<br>
+	<pre>https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2</pre>
 
  
 <input id="myButton123" type="button" value="Load graph model" onclick="{
                                                                                      
   (async function myGo() {
- 
-const myFileName = document.getElementById('myInFile').value  
-//const modelUrl = 'https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json';
-const model = await tf.loadGraphModel(myFileName);
-model.summary();									
-document.getElementById('myDiv123').innerHTML = ''      
-await model.summary(null,null,x => {document.getElementById('myDiv123').innerHTML += x + '<br>'});
+      document.getElementById('myDiv123').innerHTML = ''  
+      const myFileName = document.getElementById('myInFile').value  
+      const model = await tf.loadGraphModel(myFileName);
+      model.summary();									    
+      await model.summary(null,null,x => {document.getElementById('myDiv123').innerHTML += x + '<br>'});
                                                                               
   } )() // end Async function
                                                                                                                                                                                                                                         
@@ -42,11 +50,11 @@ await model.summary(null,null,x => {document.getElementById('myDiv123').innerHTM
                                                                                      
   (async function myGo() {
  
-const myFileName = document.getElementById('myInFile').value  
-const model = await tf.loadLayersModel(myFileName);
-model.summary();
-document.getElementById('myDiv123').innerHTML = ''      
-await model.summary(null,null,x => {document.getElementById('myDiv123').innerHTML += x + '<br>'});
+      document.getElementById('myDiv123').innerHTML = ''  
+      const myFileName = document.getElementById('myInFile').value  
+      const model = await tf.loadLayersModel(myFileName);
+      model.summary();    
+      await model.summary(null,null,x => {document.getElementById('myDiv123').innerHTML += x + '<br>'});
                                                                               
   } )() // end Async function
                                                                                                                                                                                                                                         
