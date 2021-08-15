@@ -5,7 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
 
-<h5>   Webpage Version   0.3.3  </h5>
+<h5>   Webpage Version   0.3.4   </h5>
 <h3 aling=center>To load a web based graph or layers model saved for tensorflowjs </h3>	
 	
 Trying to load this model that I converted from an Edge Impulse Tensorflow Saved model to load for TensorflowJS<br>
@@ -58,7 +58,7 @@ LOAD Vision Graph Model From TF Hub <input id="myInFile2" type="text" size="120"
 	<pre>https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2</pre>  
 	</span>
 	
-	Presently tested with const zeros = tf.zeros([1, <input type=number value=224 id="myNum1a">, <input type=number value=224 id="myNum2a">, <input type=number value=3 id="myNum3a">]); <br>
+	Presently tested with const zeros = tf.zeros([1, <input type=number value=224 id="myNum1a" size=4 >, <input type=number value=224 id="myNum2a" size=4 >, <input type=number value=3 id="myNum3a"  size=4 >]); <br>
 
 	 
 <input id="myButton126" type="button" value="Load graph model from TF Hub" onclick="{
@@ -89,7 +89,7 @@ LOAD Vision Graph Model From anywhere <input id="myInFile3" type="text" size="12
         <span style="color:green">
 	<pre>https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json</pre>  
 	</span>
-	Presently tested with const zeros = tf.zeros([1, <input type=number value=224 id="myNum1">, <input type=number value=224 id="myNum2">, <input type=number value=3 id="myNum3">]); <br>
+	Presently tested with const zeros = tf.zeros([1, <input type=number value=224 id="myNum1" size=4 >, <input type=number value=224 id="myNum2" size=4 >, <input type=number value=3 id="myNum3" size=4 >]); <br>
 	 
 <input id="myButton126" type="button" value="Load graph model from anywhere" onclick="{
                                                                                      
