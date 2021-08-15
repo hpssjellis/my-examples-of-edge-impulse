@@ -2,10 +2,10 @@
 <html lang="en">
 
 
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0"> </script> 
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
 
-<h5>   Webpage Version   0.1.6   </h5>
+<h5>   Webpage Version   0.2.0   </h5>
 <h3 aling=center>To load a web based graph model saved for tensorflowjs converted from a tensorflow saved model</h3>	
 LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
@@ -46,29 +46,60 @@ LOAD Layers URL <input id="myInFile" type="text" size="120" value="https://hpssj
 <div id='myDiv123'>...</div><br>
 	
 	
-LOAD Graph Model URL <input id="myInFile2" type="text" size="120" value="https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2"><br>  
+LOAD Graph Model From TF Hub <input id="myInFile2" type="text" size="120" value="https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2"><br>  
 
-	For a TensorflowJS graph model try<br>
+	For a TensorflowJS graph model from TF-Hub try<br>
         <span style="color:green">
-	<pre>https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json</pre>  
 	<pre>https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2</pre>  
 	</span>
 	 
-<input id="myButton126" type="button" value="Load graph model" onclick="{
+<input id="myButton126" type="button" value="Load graph model from TF Hub" onclick="{
                                                                                      
   (async function myGo() {
       document.getElementById('myDiv123').innerHTML = ''  
       const myFileName = document.getElementById('myInFile2').value  
       const model = await tf.loadGraphModel(myFileName, {fromTFHub: true});
       const zeros = tf.zeros([1, 224, 224, 3]);
-      model.predict(zeros).print();
-      document.getElementById('myDiv1235').innerHTML =  model.predict(zeros).print();                                                                      
+      model.predict(zeros).print();    
+	
+      await model.predict(zeros).print(null,null,x => {document.getElementById('myDiv1235').innerHTML += x + '<br>'});								
+									
   } )() // end Async function
                                                                                                                                                                                                                                         
 }"><br><br>
 
 
 <div id='myDiv1235'>...</div><br>	
+	
+	
+	
+LOAD Graph Model From anywhere <input id="myInFile3" type="text" size="120" value="https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2"><br>  
+
+	For a TensorflowJS graph model try<br>
+        <span style="color:green">
+	<pre>https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json</pre>  
+	</span>
+	 
+<input id="myButton126" type="button" value="Load graph model from anywhere" onclick="{
+                                                                                     
+  (async function myGo() {
+      document.getElementById('myDiv123').innerHTML = ''  
+      const myFileName = document.getElementById('myInFile3').value  
+      const model = await tf.loadGraphModel(myFileName);
+      const zeros = tf.zeros([1, 224, 224, 3]);
+      model.predict(zeros).print();    
+	
+      await model.predict(zeros).print(null,null,x => {document.getElementById('myDiv1237').innerHTML += x + '<br>'});								
+									
+  } )() // end Async function
+                                                                                                                                                                                                                                        
+}"><br><br>
+
+
+<div id='myDiv1237'>...</div><br>		
+	
+	
+	
 	
 	
 
