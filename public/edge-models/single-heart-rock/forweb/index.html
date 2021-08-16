@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.3.8  </h5>
+    <h5>  Version 0.3.9  </h5>
     
     
     
@@ -148,7 +148,10 @@ function preprocess(imageTensor) {
 const renderPrediction = async function(){   
 
   //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
-  const image = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
+    
+   // possibly best but try others 
+  //const image = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
+    
  // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
  // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
   
@@ -193,9 +196,9 @@ const renderPrediction = async function(){
 */
     
     
-if (document.getElementById('myStop').value == 'Stop') {  // reverse logic
-  requestAnimationFrame(renderPrediction);
-}
+  if (document.getElementById('myStop').value == 'Stop') {  // reverse logic
+      requestAnimationFrame(renderPrediction);
+  }
 };
 
 const setupPage = async function(){     
