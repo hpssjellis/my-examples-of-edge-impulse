@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.4.21 </h5>
+    <h5>  Version 0.4.22 </h5>
     
     
     
@@ -163,11 +163,11 @@ const renderPrediction = async function(){
    if(video.readyState >= 3){
       // const input_tensor = await tf.browser.fromPixels(video).reshape([-1, 224, 224, 3]) ;
      //  const input_tensor = await tf.browser.fromPixels(video).toFloat().sub(255 / 2).div(255 / 2).reshape([1, 224, 224, 3]);
-       const input_tensor = await tf.data.webcam(video, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  });
+       const input_tensor = await tf.data.webcam(video, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  }).expandDims(0);
       // console.log('input_tensor')
      //  console.log(input_tensor)
       // const img = await input_tensor.capture();
-       const myInputImage = await input_tensor.capture().expandDims(0)
+       const myInputImage = await input_tensor.capture()
        
        const predictions = await model.predict( myInputImage ).data();
      //  img.print(); 
