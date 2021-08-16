@@ -6,7 +6,10 @@
 </head>
 
 <body>
-    <h5>  Version 0.1.2  </h5>
+    <h5>  Version 0.3.9  </h5>
+    
+    
+    
     <video id="video" playsinline="" style="
       -webkit-transform: scaleX(-1);
       transform: scaleX(-1);
@@ -17,10 +20,29 @@
       
     <canvas id="output" style="position:absolute; top:0; left:0;"></canvas>
      
-     <div style="font-size:30px">Blazeface Demo</div>
+     <div style="font-size:30px">Load Vision TensorflowJS Demo</div>
      Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
-     <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a>
-      
+     <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a><br>
+     
+  
+<input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
+  <input type="button" value="Load Model" onclick="{myLoadUrl()}"><br> <br>
+    
+    <!-- Top Left <input id="myTopLeft" type="text" size="120" value="predictions[i].topLeft" placeholder="predictions[i].topLeft" ><br>  
+    Bottom Right <input id="myBottomRight" type="text" size="120" value="predictions[i].bottomRight"  placeholder="predictions[i].bottomRight"><br>  
+    -->
+    
+    <input type=button id="myStop" value="Go" onclick="{                                                      
+       if( document.getElementById('myStop').value == 'Stop') {  // means  itshould be running but click button to stop it
+           document.getElementById('myStop').value = 'Go'      // if clicked button now says Go
+       } else {                                               // means it was stopped and now it needs to run
+           document.getElementById('myStop').value = 'Stop'   // button now says stop
+           //requestAnimationFrame(renderPrediction);    
+           renderPrediction();                                              
+       }                                        
+    }"> <br>
+    
+    
      <div id="myDiv01">Output eventually goes here</div>
 
       
@@ -33,6 +55,7 @@
      ">
     </video>
 
+
     
 <!-- check latest version numbers at
 
@@ -43,7 +66,7 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 -->    
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7"></script>  -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.js"></script>
     
     
@@ -51,7 +74,9 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 
 <!-- Following could be in it's own index.js file. Easier to have it here  -->
 <script>
-
+    
+    
+    
 // If using a transpiler this code is useful
 //import * as blazeface from '@tensorflow-models/blazeface';
 //import * as tf from '@tensorflow/tfjs-core';
@@ -59,6 +84,30 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 
 // does not seem to help   
 //tfjsWasm.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@latest/dist/tfjs-backend-wasm.wasm');
+  
+ async function getImage() {
+  const img = await webcam.capture();
+  const processedImg =
+      tf.tidy(() => img.expandDims(0).toFloat().div(127).sub(1));
+  img.dispose();
+  return processedImg;
+}
+    
+    
+                                                                                             
+ myLoadUrl = async function(){
+  const myFileName = document.getElementById('myInFile').value
+  if (myFileName != null){  
+    model = await tf.loadGraphModel(myFileName);     // should make the model a global variable
+    const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+    model.predict(zeros).print();                  // print to console
+   // document.getElementById('myDiv01').innerHTML = ''   
+    // below only works for layers models  
+   // await model.summary(null,null,x => {document.getElementById('myDiv01').innerHTML += x + '<br>'});
+      
+  }                                                                           
+}      
+    
     
 const setupCamera = async function(){  
   video = document.getElementById('video');
@@ -75,56 +124,81 @@ const setupCamera = async function(){
   });
 }
 
-    
+
+// might not be needed
+function preprocess(imageTensor) {
+  const widthToHeight = imageTensor.shape[1] / imageTensor.shape[0];
+  let squareCrop;
+  if (widthToHeight > 1) {
+    const heightToWidth = imageTensor.shape[0] / imageTensor.shape[1];
+    const cropTop = (1-heightToWidth) / 2;
+    const cropBottom = 1 - cropTop;
+    squareCrop = [[cropTop, 0, cropBottom, 1]];
+  } else {
+    const cropLeft = (1-widthToHeight) / 2;
+    const cropRight = 1 - cropLeft;
+    squareCrop = [[0, cropLeft, 1, cropRight]];
+  }
+  // Expand image input dimensions to add a batch dimension of size 1.
+  const crop = tf.image.cropAndResize(
+      tf.expandDims(imageTensor), squareCrop, [0], [224, 224]);
+  return crop.div(255);
+}  
     
 const renderPrediction = async function(){   
-  const returnTensors = false;
-  const flipHorizontal = true;
-  const annotateBoxes = true;
-  const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
+
+  //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
+    
+   // possibly best but try others 
+  //const image = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
+    
+ // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
+ // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
+  
+    
+  // just testing
+  const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+    
+    
+  const predictions = await model.predict( zeros ).data();
+ // const predictions = await model.predict( getImage( image) ).data();
+ // const predictions = await model.predict( preprocess( image) ).data();
   console.log('predictions')
   console.log(predictions)
     
   document.getElementById('myDiv01').innerHTML = ''
+   
+  document.getElementById('myDiv01').innerHTML += JSON.stringify(predictions, null,'<br>')	 
+    
+    
+  /*  
+    
   if (predictions.length > 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < predictions.length; i++) {
-      if (returnTensors) {
-        predictions[i].topLeft = predictions[i].topLeft.arraySync();
-        predictions[i].bottomRight = predictions[i].bottomRight.arraySync();
-        if (annotateBoxes) {
-          predictions[i].landmarks = predictions[i].landmarks.arraySync();
-        }
-      }
-      try {
+
+    try {
           document.getElementById('myDiv01').innerHTML += 'predictions object output: <br>'+JSON.stringify(predictions, null, '<br>')
         //  console.log(predictions[i])
       }
       catch(err){
           document.getElementById('myDiv01').innerHTML = err.message
       }
-      const start = predictions[i].topLeft;
-      const end = predictions[i].bottomRight;
-      const size = [end[0] - start[0], end[1] - start[1]];
+     
       ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-      ctx.fillRect(start[0], start[1], size[0], size[1]);
+      ctx.fillRect(0, 10, 200, 200);
 
-      if (annotateBoxes) {
-        const landmarks = predictions[i].landmarks;
-
-        ctx.fillStyle = "blue";
-        for (let j = 0; j < landmarks.length; j++) {
-          const x = landmarks[j][0];
-          const y = landmarks[j][1];
-          ctx.fillRect(x, y, 5, 5);
-        }
-      }
-    }
+      // ctx.fillStyle = "blue";
+      //  ctx.fillRect(x, y, 5, 5);
+        
+   // }
   }
 
-
-
-  requestAnimationFrame(renderPrediction);
+*/
+    
+    
+  if (document.getElementById('myStop').value == 'Stop') {  // reverse logic
+      requestAnimationFrame(renderPrediction);
+  }
 };
 
 const setupPage = async function(){     
@@ -147,9 +221,29 @@ const setupPage = async function(){
   ctx = canvas.getContext('2d');
   ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
 
-  model = await blazeface.load();
+  //model = await blazeface.load();
+ /*   
+    
+model = await tf.loadGraphModel(
+    'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1',
+    { fromTFHub: true });
+ 
+    
 
-  renderPrediction();
+  const myFileName = document.getElementById('myInFile').value
+  if (myFileName != null){  
+    model = await tf.loadLayersModel(myFileName);     // should make the model a global variable
+    document.getElementById('myDivSummary').innerHTML = ''      
+    await model.summary(null,null,x => {document.getElementById('myDivSummary').innerHTML += x + '<br>'});
+   // await myPredict()
+  } 
+
+*/
+    
+    
+    
+    
+  //renderPrediction();
 };
 
 setupPage();
