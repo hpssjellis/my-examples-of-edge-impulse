@@ -1,7 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
  
- <h5> Web Page Version 0.0.6  </h5>
+ <h5> Web Page Version 0.0.7  </h5>
 
 <input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
 <input type="button" value="Load Model" onclick="{myLoadUrl()}"><br><br>
@@ -135,13 +135,13 @@ myPredict = async function(){
   //console.log('await model.predict(image);')   
   // inferenceResult.print(true)      
    
-  console.log(myPredictions)                                                                                         
+ // console.log(myPredictions)                                                                                         
                                                                                            
   //const {values, indices} = await tf.topk(inferenceResult, 2);    // top 10 results 
                                                                                            
            
  // document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
-document.getElementById('myDivTest').innerHTML += myPredictions
+document.getElementById('myDivTest').innerHTML += image
 
 //values.print();
 //indices.print();                                                                                           
