@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.5.0  </h5>
+    <h5>  Version 0.5.1  </h5>
     
     
     
@@ -154,7 +154,10 @@ const renderPrediction = async function(){
     
  // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
  // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
-  
+  const input_tensor = await tf.data.webcam(video, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  });
+           //const input_tensor = await tf.data.webcam(video, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  }).expandDims(0);
+  console.log('input_tensor.data()')
+  console.log(input_tensor.data())
     
   // just testing
   const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
@@ -163,8 +166,8 @@ const renderPrediction = async function(){
   const predictions = await model.predict( zeros ).data();
  // const predictions = await model.predict( getImage( image) ).data();
  // const predictions = await model.predict( preprocess( image) ).data();
-  console.log('predictions')
-  console.log(predictions)
+//  console.log('predictions')
+// console.log(predictions)
     
   document.getElementById('myDiv01').innerHTML = ''
    
