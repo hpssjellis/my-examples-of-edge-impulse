@@ -5,7 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
 
-<h5>   Webpage Version   0.5.4  </h5>
+<h5>   Webpage Version   0.5.5  </h5>
 <h3 aling=center>To load a web based graph or layers model saved for tensorflowjs </h3>	
 	
 Trying to load this model that I converted from an Edge Impulse Tensorflow Saved model to load for TensorflowJS<br>
@@ -55,6 +55,7 @@ LOAD any TFJS Layers URL <input id="myInFile" type="text" size="120" value="http
 	
 	LOAD Vision Graph Model From <a href="https://tfhub.dev/s?deployment-format=tfjs&fine-tunable=yes&tf-version=tf2">TF Hub</a> <input id="myInFile2" type="text" size="120" value="https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2"><br>  
 
+	Shows the results after loading zeros data since Graph models can't show a summary<br>
 	For a TensorflowJS graph model from TF-Hub try<br>
 	<span style="color:blue;background-color:yellow;">
 	https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2<br>
@@ -91,6 +92,7 @@ LOAD any TFJS Layers URL <input id="myInFile" type="text" size="120" value="http
 	
 LOAD Vision Graph Model From anywhere <input id="myInFile3" type="text" size="120" value="https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json"><br>  
 
+	Shows the results after loading zeros data since Graph models can't show a summary<br>
 	For a TensorflowJS graph model try<br>
 	<span style="color:blue;background-color:yellow;">
 	https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v2_1.0_224/model.json<br> 
