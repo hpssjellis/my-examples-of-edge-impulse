@@ -1,7 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
  
- <h5> Web Page Version 0.0.2  </h5>
+ <h5> Web Page Version 0.0.3  </h5>
 
 <input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
 <input type="button" value="Load Model" onclick="{myLoadUrl()}"><br><br>
@@ -45,16 +45,9 @@ Take snapshot every <input type="number" id="myInterval" value="500" size="5"> m
  ///////////////////////////////////// Global Variables ////////////////////////////////                                                                                            
                                                                                             
 const MNIST_CLASSES = {
-    0: 'The number 0',
-    1: 'The number 1',
-    2: 'The number 2',
-    3: 'The number 3',
-    4: 'The number 4',
-    5: 'The number 5',
-    6: 'The number 6',
-    7: 'The number 7',
-    8: 'The number 8',
-    9: 'The number 9',
+    0: 'Unknown',
+    1: 'Heart Rock'
+
    }
                                                                                        
                                                                                                
@@ -133,13 +126,13 @@ myPredict = async function(){
   //  console.log('Model Predict')
     
                                                                                              
-  const image = tf.browser.fromPixels(document.getElementById('my32x32CanvasA'),1).reshape([1, 28, 28, 1]) ;
+  const image = tf.browser.fromPixels(document.getElementById('my32x32CanvasA'),1).reshape([1, 224, 224, 3]) ;
    //   console.log('frompixels')                                                                                           
   const inferenceResult = await model.predict(image);
   //console.log('await model.predict(image);')   
    // inferenceResult.print(true)      
                                                                                              
-  const {values, indices} = await tf.topk(inferenceResult, 10);    // top 10 results 
+  const {values, indices} = await tf.topk(inferenceResult, 2);    // top 10 results 
 
 
 //values.print();
