@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.4.23 </h5>
+    <h5>  Version 0.4.24 </h5>
     
     
     
@@ -169,10 +169,11 @@ const renderPrediction = async function(){
      //  console.log(input_tensor)
       // const img = await input_tensor.capture();
        const myInputImage = await input_tensor.capture()
-       
-       const predictions = await model.predict( myInputImage ).data();
+       console.log('myInputImage')
+       console.log(myInputImage)
+      // const predictions = await model.predict( myInputImage ).data();
      //  img.print(); 
-       await console.log(predictions)
+      // await console.log(predictions)
    }  else {console.log('bad')}
     
     
