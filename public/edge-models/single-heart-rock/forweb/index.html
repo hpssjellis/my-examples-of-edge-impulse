@@ -168,8 +168,10 @@ const renderPrediction = async function(){
      //  console.log(input_tensor)
       // const img = await input_tensor.capture();
        const myInputImage = await input_tensor.capture()
+       
+       const predictions = await model.predict( myInputImage ).data();
      //  img.print(); 
-       console.log(myInputImage)
+       await console.log(predictions)
    }  else {console.log('bad')}
     
     
@@ -179,10 +181,10 @@ const renderPrediction = async function(){
   
     
   // just testing
-  const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+ // const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
     
     
-  const predictions = await model.predict( zeros).data();
+ // const predictions = await model.predict( zeros).data();
  // const predictions = await model.predict( image ).data();
 //  const predictions = await model.predict( myInputImage ).data();
 //  const predictions = await model.predict( getImage(image) ).data();
