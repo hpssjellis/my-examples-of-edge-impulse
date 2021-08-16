@@ -73,7 +73,8 @@ LOAD Vision Graph Model From TF Hub <input id="myInFile2" type="text" size="120"
       model.predict(zeros).print();    
 	
       const myOutput = model.predict(zeros);    
-	
+      console.log('myOutput')	
+      console.log(myOutput)	
       document.getElementById('myDiv1235').innerHTML += JSON.stringify(myOutput,null,'<br>')									
 									
   } )() // end Async function
@@ -103,7 +104,8 @@ LOAD Vision Graph Model From anywhere <input id="myInFile3" type="text" size="12
 
       model.predict(zeros).print(); 
       const myOutput = model.predict(zeros);    
-	
+      console.log('myOutput')	
+      console.log(myOutput)	
       document.getElementById('myDiv1237').innerHTML += JSON.stringify(myOutput,null,'<br>')							
 									
   } )() // end Async function
