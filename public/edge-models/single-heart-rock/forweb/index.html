@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.3.5  </h5>
+    <h5>  Version 0.3.6  </h5>
     
     
     
@@ -99,6 +99,8 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
   const myFileName = document.getElementById('myInFile').value
   if (myFileName != null){  
     model = await tf.loadGraphModel(myFileName);     // should make the model a global variable
+    const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+    model.predict(zeros).print();                  // print to console
    // document.getElementById('myDiv01').innerHTML = ''   
     // below only works for layers models  
    // await model.summary(null,null,x => {document.getElementById('myDiv01').innerHTML += x + '<br>'});
