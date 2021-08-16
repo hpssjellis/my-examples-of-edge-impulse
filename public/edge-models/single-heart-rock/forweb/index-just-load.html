@@ -5,7 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
 
-<h5>   Webpage Version   0.5.1  </h5>
+<h5>   Webpage Version   0.5.3  </h5>
 <h3 aling=center>To load a web based graph or layers model saved for tensorflowjs </h3>	
 	
 Trying to load this model that I converted from an Edge Impulse Tensorflow Saved model to load for TensorflowJS<br>
@@ -72,7 +72,7 @@ LOAD Vision Graph Model From TF Hub <input id="myInFile2" type="text" size="120"
       const zeros = tf.zeros([1, parseInt(document.getElementById('myNum1a').value), parseInt(document.getElementById('myNum2a').value), parseInt(document.getElementById('myNum3a').value)]);
       model.predict(zeros).print();    
 	
-      const myOutput = model.predict(zeros).data();    
+      const myOutput = await model.predict(zeros).data();    
       console.log('myOutput')	
       console.log(myOutput)	
 		 								    
@@ -106,7 +106,7 @@ LOAD Vision Graph Model From anywhere <input id="myInFile3" type="text" size="12
       const zeros = tf.zeros([1, parseInt(document.getElementById('myNum1').value), parseInt(document.getElementById('myNum2').value), parseInt(document.getElementById('myNum3').value)]);
 
       model.predict(zeros).print(); 
-      const myOutput = model.predict(zeros);    
+      const myOutput = await model.predict(zeros).data();    
       console.log('myOutput')	
       console.log(myOutput)	
       document.getElementById('myDiv1237').innerHTML += JSON.stringify(myOutput,null,'<br>')							
