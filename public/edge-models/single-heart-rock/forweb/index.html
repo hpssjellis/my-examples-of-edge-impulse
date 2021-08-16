@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.3.6  </h5>
+    <h5>  Version 0.3.7  </h5>
     
     
     
@@ -151,7 +151,14 @@ const renderPrediction = async function(){
   const image = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
  // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
  // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
-  const predictions = await model.predict( getImage( image) ).data();
+  
+    
+  // just testing
+  const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+    
+    
+  const predictions = await model.predict( zeros ).data();
+ // const predictions = await model.predict( getImage( image) ).data();
  // const predictions = await model.predict( preprocess( image) ).data();
   console.log('predictions')
   console.log(predictions)
