@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.4.0  </h5>
+    <h5>  Version 0.4.1  </h5>
     
     
     
@@ -150,7 +150,7 @@ const renderPrediction = async function(){
   //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
     
    // possibly best but try others 
-  //const image = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
+  const image = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
     
  // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
  // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
