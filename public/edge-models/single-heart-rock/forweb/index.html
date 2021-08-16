@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.4.12 </h5>
+    <h5>  Version 0.4.14 </h5>
     
     
     
@@ -155,14 +155,19 @@ const renderPrediction = async function(){
 //const img = await cam.capture();
 //img.print();  
     
+    //  const webcam = await tf.data.webcam(player, {
+   // resizeWidth: 224,
+   // resizeHeight: 224,
+  //});
+    
    if(video.readyState >= 3){
       // const input_tensor = await tf.browser.fromPixels(video).reshape([-1, 224, 224, 3]) ;
      //  const input_tensor = await tf.browser.fromPixels(video).toFloat().sub(255 / 2).div(255 / 2).reshape([1, 224, 224, 3]);
-       const input_tensor = await tf.data.webcam(video);
+       const input_tensor = await tf.data.webcam(video, {resizeWidth: 224, resizeHeight: 224, });
       // console.log('input_tensor')
      //  console.log(input_tensor)
       // const img = await input_tensor.capture();
-       const myInputImage = await input_tensor.capture().reshape([-1, 224, 224, 3]) ;
+       const myInputImage = await input_tensor.capture()
      //  img.print(); 
    }  else {console.log('bad')}
     
