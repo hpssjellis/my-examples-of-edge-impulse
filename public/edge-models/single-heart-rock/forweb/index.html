@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.3.1  </h5>
+    <h5>  Version 0.3.2  </h5>
     
     
     
@@ -33,10 +33,12 @@
     -->
     
     <input type=button id="myStop" value="Stop" onclick="{                                                      
-       if( document.getElementById('myStop').value == 'Stop') {
-           document.getElementById('myStop').value = 'Go'
-       } else {
-           document.getElementById('myStop').value = 'Stop'
+       if( document.getElementById('myStop').value == 'Stop') {  // means  itshould be running but click button to stop it
+           document.getElementById('myStop').value = 'Go'      // if clicked button now says Go
+       } else {                                               // means it was stopped and now it needs to run
+           document.getElementById('myStop').value = 'Stop'   // button now says stop
+           //requestAnimationFrame(renderPrediction);    
+           renderPrediction();                                              
        }                                        
     }"> <br>
     
@@ -83,6 +85,14 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 // does not seem to help   
 //tfjsWasm.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@latest/dist/tfjs-backend-wasm.wasm');
   
+ async function getImage() {
+  const img = await webcam.capture();
+  const processedImg =
+      tf.tidy(() => img.expandDims(0).toFloat().div(127).sub(1));
+  img.dispose();
+  return processedImg;
+}
+    
     
                                                                                              
  myLoadUrl = async function(){
@@ -90,10 +100,11 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
   document.getElementById('myDivTest').innerHTML = 'Expect major code changes if you load a different model than what is expected'  
   const myFileName = document.getElementById('myInFile').value
   if (myFileName != null){  
-    model = await tf.loadLayersModel(myFileName);     // should make the model a global variable
-    document.getElementById('myDiv01').innerHTML = ''      
-    await model.summary(null,null,x => {document.getElementById('myDiv01').innerHTML += x + '<br>'});
-   // await myPredict()
+    model = await tf.loadGraphModel(myFileName);     // should make the model a global variable
+    document.getElementById('myDiv01').innerHTML = ''   
+    // below only works for layers models  
+   // await model.summary(null,null,x => {document.getElementById('myDiv01').innerHTML += x + '<br>'});
+      
   }                                                                           
 }      
     
@@ -140,7 +151,7 @@ const renderPrediction = async function(){
   const image = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
  // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
  // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
-  const predictions = await model.predict( image );
+  const predictions = await model.predict( preprocess( image) ).data();
   console.log('predictions')
   console.log(predictions)
     
