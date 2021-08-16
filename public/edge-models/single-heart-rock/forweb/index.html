@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.4.25 </h5>
+    <h5>  Version 0.3.9  </h5>
     
     
     
@@ -86,8 +86,9 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 //tfjsWasm.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@latest/dist/tfjs-backend-wasm.wasm');
   
  async function getImage() {
-  const img = await video.play();
-  const processedImg = tf.tidy(() => img.expandDims(0).toFloat().div(127).sub(1));
+  const img = await webcam.capture();
+  const processedImg =
+      tf.tidy(() => img.expandDims(0).toFloat().div(127).sub(1));
   img.dispose();
   return processedImg;
 }
@@ -149,54 +150,25 @@ const renderPrediction = async function(){
   //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
     
    // possibly best but try others 
-//  const image = tf.browser.fromPixels(document.getElementById('video'), 1).reshape([-1, 224, 224, 3]) ;
-    
-//  const cam = await tf.data.webcam(videoElement);
-//const img = await cam.capture();
-//img.print();  
-    
-    //  const webcam = await tf.data.webcam(player, {
-   // resizeWidth: 224,
-   // resizeHeight: 224,
-  //});
-    
-   if(video.readyState >= 3){
-      // const input_tensor = await tf.browser.fromPixels(video).reshape([-1, 224, 224, 3]) ;
-     //  const input_tensor = await tf.browser.fromPixels(video).toFloat().sub(255 / 2).div(255 / 2).reshape([1, 224, 224, 3]);
-       const input_tensor = await tf.data.webcam(video, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  });
-           //const input_tensor = await tf.data.webcam(video, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  }).expandDims(0);
-       console.log('input_tensor')
-       console.log(input_tensor)
-      // const img = await input_tensor.capture();
-       //const myInputImage = await input_tensor.capture()
-      // console.log('myInputImage')
-      // console.log(myInputImage)
-      // const predictions = await model.predict( myInputImage ).data();
-     //  img.print(); 
-      // await console.log(predictions)
-   }  else {console.log('bad')}
-    
-    
+  //const image = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
     
  // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
  // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
   
     
   // just testing
- // const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+  const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
     
     
- // const predictions = await model.predict( zeros).data();
- // const predictions = await model.predict( image ).data();
-//  const predictions = await model.predict( myInputImage ).data();
-//  const predictions = await model.predict( getImage(image) ).data();
+  const predictions = await model.predict( zeros ).data();
+ // const predictions = await model.predict( getImage( image) ).data();
  // const predictions = await model.predict( preprocess( image) ).data();
- // console.log('predictions')
-  //console.log(predictions)
+  console.log('predictions')
+  console.log(predictions)
     
- // document.getElementById('myDiv01').innerHTML = ''
+  document.getElementById('myDiv01').innerHTML = ''
    
- // document.getElementById('myDiv01').innerHTML += JSON.stringify(predictions, null,'<br>')	 
+  document.getElementById('myDiv01').innerHTML += JSON.stringify(predictions, null,'<br>')	 
     
     
   /*  
@@ -280,5 +252,3 @@ setupPage();
     
           
 </body>
-
-
