@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.3.3  </h5>
+    <h5>  Version 0.3.4  </h5>
     
     
     
@@ -97,7 +97,7 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
                                                                                              
  myLoadUrl = async function(){
   //alert('The test function will need to be changed if other models are loaded')                                                                                             
-  document.getElementById('myDivTest').innerHTML = 'Expect major code changes if you load a different model than what is expected'  
+  document.getElementById('myDivO1').innerHTML = 'Expect major code changes if you load a different model than what is expected'  
   const myFileName = document.getElementById('myInFile').value
   if (myFileName != null){  
     model = await tf.loadGraphModel(myFileName);     // should make the model a global variable
@@ -151,7 +151,8 @@ const renderPrediction = async function(){
   const image = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
  // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
  // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
-  const predictions = await model.predict( preprocess( image) ).data();
+  const predictions = await model.predict( getImage( image) ).data();
+ // const predictions = await model.predict( preprocess( image) ).data();
   console.log('predictions')
   console.log(predictions)
     
