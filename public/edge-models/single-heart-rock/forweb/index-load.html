@@ -6,7 +6,7 @@
 
  
 
-<h5>    Version   0.1.8   </h5>
+<h5>    Version   0.1.9   </h5>
 LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>  
 
 	
@@ -71,7 +71,7 @@ function preprocess(imageTensor) {
 const image = document.getElementById('myLoadImage');
 							
 const imageTensor = tf.browser.fromPixels(image);
-const predictions = model.predict(preprocess(imageTensor));
+const predictions = model.predict(preprocess(imageTensor)).data();
     console.log('predictions');
     console.log(predictions);	
 												     
@@ -81,8 +81,8 @@ const predictions = model.predict(preprocess(imageTensor));
     // Classify the image.
    // const predictions = await model.classify(imageTensor);
     document.getElementById('myDiv4950').innerHTML = 'Predictions: Label, Amount<br>' + 
-      '0 unknown: ' + predictions.shape[0] +  '<br>' + 
-      '1 heart rock: ' + predictions.shape[1] +  '<br>' +
+      '0 unknown: ' + predictions[0] +  '<br>' + 
+      '1 heart rock: ' + predictions[1] +  '<br>' +
       'See console for other info'
 
 
