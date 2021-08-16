@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.3.2  </h5>
+    <h5>  Version 0.3.3  </h5>
     
     
     
@@ -22,17 +22,17 @@
      
      <div style="font-size:30px">Load Vision TensorflowJS Demo</div>
      Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
-     <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a>
+     <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a><br>
      
   
-<input id="myInFile" size="120" type="text" value="https://storage.googleapis.com/tfjs-models/tfjs/squeezenet_v1.1/model.json"><br>
+<input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
   <input type="button" value="Load Model" onclick="{myLoadUrl()}"><br> <br>
     
     <!-- Top Left <input id="myTopLeft" type="text" size="120" value="predictions[i].topLeft" placeholder="predictions[i].topLeft" ><br>  
     Bottom Right <input id="myBottomRight" type="text" size="120" value="predictions[i].bottomRight"  placeholder="predictions[i].bottomRight"><br>  
     -->
     
-    <input type=button id="myStop" value="Stop" onclick="{                                                      
+    <input type=button id="myStop" value="Go" onclick="{                                                      
        if( document.getElementById('myStop').value == 'Stop') {  // means  itshould be running but click button to stop it
            document.getElementById('myStop').value = 'Go'      // if clicked button now says Go
        } else {                                               // means it was stopped and now it needs to run
@@ -224,7 +224,7 @@ model = await tf.loadGraphModel(
     
     
     
-  renderPrediction();
+  //renderPrediction();
 };
 
 setupPage();
