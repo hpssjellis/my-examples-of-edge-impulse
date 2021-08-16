@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.3.7  </h5>
+    <h5>  Version 0.3.8  </h5>
     
     
     
@@ -164,6 +164,12 @@ const renderPrediction = async function(){
   console.log(predictions)
     
   document.getElementById('myDiv01').innerHTML = ''
+   
+  document.getElementById('myDiv01').innerHTML += JSON.stringify(predictions, null,'<br>')	 
+    
+    
+  /*  
+    
   if (predictions.length > 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -184,7 +190,9 @@ const renderPrediction = async function(){
    // }
   }
 
-
+*/
+    
+    
 if (document.getElementById('myStop').value == 'Stop') {  // reverse logic
   requestAnimationFrame(renderPrediction);
 }
