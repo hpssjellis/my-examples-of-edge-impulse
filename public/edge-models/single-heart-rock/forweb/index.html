@@ -86,9 +86,8 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 //tfjsWasm.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@latest/dist/tfjs-backend-wasm.wasm');
   
  async function getImage() {
-  const img = await webcam.capture();
-  const processedImg =
-      tf.tidy(() => img.expandDims(0).toFloat().div(127).sub(1));
+  const img = await video.play();
+  const processedImg = tf.tidy(() => img.expandDims(0).toFloat().div(127).sub(1));
   img.dispose();
   return processedImg;
 }
@@ -150,18 +149,19 @@ const renderPrediction = async function(){
   //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
     
    // possibly best but try others 
-  const image = tf.browser.fromPixels(document.getElementById('video'), 1).reshape([-1, 224, 224, 3]) ;
+//  const image = tf.browser.fromPixels(document.getElementById('video'), 1).reshape([-1, 224, 224, 3]) ;
     
  // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
  // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
   
     
   // just testing
-  const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+  //const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
     
     
-  const predictions = await model.predict( zeros ).data();
+ // const predictions = await model.predict( zeros).data();
 //  const predictions = await model.predict( image ).data();
+//  const predictions = await model.predict( getImage(image) ).data();
  // const predictions = await model.predict( preprocess( image) ).data();
   console.log('predictions')
   console.log(predictions)
