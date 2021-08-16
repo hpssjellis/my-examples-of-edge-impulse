@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.4.3  </h5>
+    <h5>  Version 0.4.4  </h5>
     
     
     
@@ -151,15 +151,24 @@ const renderPrediction = async function(){
    // possibly best but try others 
 //  const image = tf.browser.fromPixels(document.getElementById('video'), 1).reshape([-1, 224, 224, 3]) ;
     
+    
+   if(video.readyState >= 3){
+       const input_tensor = await tf.browser.fromPixels(video);
+       console.log('input_tensor')
+       console.log(input_tensor)
+   }  else {console.log('bad')}
+    
+    
+    
  // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
  // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
   
     
   // just testing
-  //const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+  const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
     
     
- // const predictions = await model.predict( zeros).data();
+  const predictions = await model.predict( zeros).data();
 //  const predictions = await model.predict( image ).data();
 //  const predictions = await model.predict( getImage(image) ).data();
  // const predictions = await model.predict( preprocess( image) ).data();
