@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.19     </h5>
+    <h5>  Version 0.6.20    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>  
     <canvas id="myVideoCanvas" style="position:absolute; top:0; left:0;"></canvas>    
@@ -16,10 +16,11 @@
      <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a><br>
      This workspace <a href="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/index.html">here</a><br>   
        
-    <input type="button" value="Load Vision TFJS Graph Model" id="myLoadButton" onclick="{myLoadUrl()}">: <input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
+    <input type="button" value="Load Vision TFJS Graph Model" id="myLoadButton" onclick="{myLoadUrl()}">: 
+    <input id="myInFile" size="100" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
     
-    <!-- Top Left <input id="myTopLeft" type="text" size="120" value="predictions[i].topLeft" placeholder="predictions[i].topLeft" ><br>  
-    Bottom Right <input id="myBottomRight" type="text" size="120" value="predictions[i].bottomRight"  placeholder="predictions[i].bottomRight"><br>  
+    <!-- Top Left <input id="myTopLeft" type="text" size="120" value="mymyPredictions[i].topLeft" placeholder="mymyPredictions[i].topLeft" ><br>  
+    Bottom Right <input id="myBottomRight" type="text" size="120" value="mymyPredictions[i].bottomRight"  placeholder="mymyPredictions[i].bottomRight"><br>  
     -->
     
     <input type=button id="myStop" value="Go" onclick="{                                                      
@@ -39,8 +40,8 @@ https://www.npmjs.com/package/@tensorflow/tfjs
 https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 -->    
 
-     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
-     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.js"></script>
     
 <!-- Following could be in it's own index.js file. Easier to have it here so the web elements are pre-added  -->
 <script>
@@ -95,6 +96,7 @@ const setupCamera = async function(){
     'video': { facingMode: 'user' },
   });
   myVideoSrc.srcObject = stream;
+  
   // put in await style later
   return new Promise((resolve) => {
     myVideoSrc.onloadedmetadata = () => {
@@ -104,7 +106,7 @@ const setupCamera = async function(){
 }
 
 
-// might not be needed
+// might not be used
 function preprocess(myImageTensor) {
   const widthToHeight = myImageTensor.shape[1] / myImageTensor.shape[0];
   let squareCrop;
@@ -138,7 +140,7 @@ const renderPrediction = async function(){
    //console.log('myImg')         
    //console.log(myImg)  
 
-  //const predictions = await model.estimateFaces(myVideoSrc, returnTensors, flipHorizontal, annotateBoxes);
+  //const mymyPredictions = await model.estimateFaces(myVideoSrc, returnTensors, flipHorizontal, annotateBoxes);
     
    // possibly best but try others 
     // const myImageTensor = tf.browser.fromPixels(document.getElementById('myVideoCanvas'), 1).reshape([-1, 224, 224, 3]) ;
@@ -160,27 +162,27 @@ const renderPrediction = async function(){
   // just testing
  // const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
         
- // const predictions = await model.predict( zeros ).data();
-  //const predictions = await model.predict( myImageTensor ).data();
-  //const predictions = await model.predict( myImageTensor ).data();
- // const predictions = await model.predict( getImage( myImageTensor) ).data();
- // const predictions = await model.predict( preprocess( myImageTensor) ).data();
- // console.log('predictions')
- // console.log(predictions)
+ // const myPredictions = await model.predict( zeros ).data();
+  //const myPredictions = await model.predict( myImageTensor ).data();
+  //const myPredictions = await model.predict( myImageTensor ).data();
+ // const myPredictions = await model.predict( getImage( myImageTensor) ).data();
+ // const myPredictions = await model.predict( preprocess( myImageTensor) ).data();
+ // console.log('myPredictions')
+ // console.log(myPredictions)
     
   //document.getElementById('myDiv01').innerHTML = ''
    
-  //document.getElementById('myDiv01').innerHTML += JSON.stringify(predictions, null,'<br>')	 
+  //document.getElementById('myDiv01').innerHTML += JSON.stringify(myPredictions, null,'<br>')	 
    
     
  
-  const predictions = await model.predict( myImageTensor );  
-  const {values, indices} = await tf.topk(predictions, predictions.shape.length);    // top 2 (last dimension) results 
- // const {values, indices} = await tf.topk(myPredictions, 2);    // top 2 (last dimension) results 
+  const myPredictions = await model.predict( myImageTensor );  
+  const {values, indices} = await tf.topk(myPredictions, myPredictions.shape.length);    // top 2 (last dimension) results 
+ // const {values, indices} = await tf.topk(mymyPredictions, 2);    // top 2 (last dimension) results 
                                                                                                      
  //document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
- //document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
- //document.getElementById('myDivTest').innerHTML += myPredictions.data
+ //document.getElementById('myDivTest').innerHTML += mymyPredictions                                                                                      
+ //document.getElementById('myDivTest').innerHTML += mymyPredictions.data
 
  values.print();
  //indices.print();                                                                                           
@@ -195,12 +197,12 @@ const renderPrediction = async function(){
        
   /*  
     
-  if (predictions.length > 0) {
+  if (myPredictions.length > 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     try {
-          document.getElementById('myDiv01').innerHTML += 'predictions object output: <br>'+JSON.stringify(predictions, null, '<br>')
-        //  console.log(predictions[i])
+          document.getElementById('myDiv01').innerHTML += 'myPredictions object output: <br>'+JSON.stringify(myPredictions, null, '<br>')
+        //  console.log(myPredictions[i])
       }
       catch(err){
           document.getElementById('myDiv01').innerHTML = err.message
