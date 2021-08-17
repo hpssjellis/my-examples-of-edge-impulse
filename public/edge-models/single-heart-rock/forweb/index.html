@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.5.16  </h5>
+    <h5>  Version 0.5.17  </h5>
     
     
     
@@ -156,9 +156,9 @@ const renderPrediction = async function(){
     
    const image = await tf.browser.fromPixels(document.getElementById('my32x32CanvasA')).toFloat().reshape([1, 224, 224, 3]) ;
   // const image = await tf.browser.fromPixels(document.getElementById('my32x32CanvasA')).reshape([1, 224, 224, 3]) ;
-   const myImg = await image.data()  
-   console.log('myImg')         
-   console.log(myImg)  
+   //const myImg = await image.data()  
+   //console.log('myImg')         
+   //console.log(myImg)  
    
    
   //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
@@ -183,14 +183,15 @@ const renderPrediction = async function(){
   //console.log(input_tensor)
     
   // just testing
-  const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+ // const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
     
     
-  const predictions = await model.predict( zeros ).data();
+ // const predictions = await model.predict( zeros ).data();
+  const predictions = await model.predict( image );
  // const predictions = await model.predict( getImage( image) ).data();
  // const predictions = await model.predict( preprocess( image) ).data();
-//  console.log('predictions')
-// console.log(predictions)
+  console.log('predictions')
+console.log(predictions)
     
   document.getElementById('myDiv01').innerHTML = ''
    
