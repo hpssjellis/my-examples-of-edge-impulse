@@ -1,20 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>    
-<script>
-        //Global variables
-   const EDGE_LABELS = {
-      0: 'Unknown',
-      1: 'Heart Rock',
-      2: '2 not set',
-      3: '3 not set',
-      4: '4 not set',
-      5: '5 not set',
-      6: '6 not set'   
-
-    }
-        
-</script>    
+  
 </head>
 
 <body>
@@ -52,10 +39,10 @@ https://www.npmjs.com/package/@tensorflow/tfjs
 https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 -->    
 
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.js"></script>
     
-<!-- Following could be in it's own index.js file. Easier to have it here  -->
+<!-- Following could be in it's own index.js file. Easier to have it here so the web elements are pre-added  -->
 <script>
         
 // If using a transpiler this code is useful
@@ -75,13 +62,25 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 }
     
 */    
-                                                                                             
+    
+   //Global variables
+   const EDGE_LABELS = {
+      0: 'Unknown',
+      1: 'Heart Rock',
+      2: '2 not set',
+      3: '3 not set',
+      4: '4 not set',
+      5: '5 not set',
+      6: '6 not set'   
+
+    }       
+                
  myLoadUrl = async function(){
   const myFileName = document.getElementById('myInFile').value
   if (myFileName != null){  
     model = await tf.loadGraphModel(myFileName);     // should make the model a global variable
-    const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data on for Graph vision model
-    model.predict(zeros).print();                  // print to console
+    const myZeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data on for Graph vision model
+    model.predict(myZeros).print();                  // print to console
    // document.getElementById('myDiv01').innerHTML = ''   
     // below only works for layers models  
    // await model.summary(null,null,x => {document.getElementById('myDiv01').innerHTML += x + '<br>'});      
@@ -96,7 +95,7 @@ const setupCamera = async function(){
     'video': { facingMode: 'user' },
   });
   myVideoSrc.srcObject = stream;
-
+  // put in await style later
   return new Promise((resolve) => {
     myVideoSrc.onloadedmetadata = () => {
       resolve(myVideoSrc);
@@ -124,24 +123,21 @@ function preprocess(myImageTensor) {
       tf.expandDims(myImageTensor), squareCrop, [0], [224, 224]);
   return crop.div(255);
 }  
-    
+  
+        
 const renderPrediction = async function(){   
     
    var myCanvasElement = document.getElementById('my224x224Canvas');
    var myCTX = myCanvasElement.getContext('2d');
-       // cmyCTX.scale(-1, 1);
-       // myCTX.translate(-720,0)
    myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
-   //myCTX.scale(-1, 1);
-   //myCTX.translate(0,0) 
     
    const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
-  // const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
+
+   // const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
    //const myImg = await myImageTensor.data()  
    //console.log('myImg')         
    //console.log(myImg)  
-   
-   
+
   //const predictions = await model.estimateFaces(myVideoSrc, returnTensors, flipHorizontal, annotateBoxes);
     
    // possibly best but try others 
@@ -155,21 +151,17 @@ const renderPrediction = async function(){
  // const myImageTensor = tf.browser.fromPixels(document.getElementById('myVideoCanvas'),1).reshape([307200]) ;  //  307200
  // const myImageTensor = tf.browser.fromPixels(document.getElementById('myVideoCanvas'), 1) ;
   //const input_tensor = await tf.data.webcam(myVideoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  });
-           //const input_tensor = await tf.data.webcam(myVideoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  }).expandDims(0);
+ //const input_tensor = await tf.data.webcam(myVideoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  }).expandDims(0);
  //const myInputImage = await input_tensor.capture()
-    
-    
-    
+     
  // console.log('input_tensor')
   //console.log(input_tensor)
     
   // just testing
  // const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
-    
-    
+        
  // const predictions = await model.predict( zeros ).data();
   //const predictions = await model.predict( myImageTensor ).data();
-  const predictions = await model.predict( myImageTensor );
   //const predictions = await model.predict( myImageTensor ).data();
  // const predictions = await model.predict( getImage( myImageTensor) ).data();
  // const predictions = await model.predict( preprocess( myImageTensor) ).data();
@@ -181,11 +173,11 @@ const renderPrediction = async function(){
   //document.getElementById('myDiv01').innerHTML += JSON.stringify(predictions, null,'<br>')	 
    
     
-   
+ 
+  const predictions = await model.predict( myImageTensor );  
   const {values, indices} = await tf.topk(predictions, predictions.shape.length);    // top 2 (last dimension) results 
  // const {values, indices} = await tf.topk(myPredictions, 2);    // top 2 (last dimension) results 
-                                                                                           
-           
+                                                                                                     
  //document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
  //document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
  //document.getElementById('myDivTest').innerHTML += myPredictions.data
@@ -194,23 +186,13 @@ const renderPrediction = async function(){
  //indices.print();                                                                                           
  myValues = values.dataSync()                                                                              
  myIndices = indices.dataSync()                                                                                           
-                                                                                             
-                                                                                         
-  document.getElementById('myDiv01').innerHTML = ''   // clear the div    
+                                                                                                                                                                                      
+ document.getElementById('myDiv01').innerHTML = ''   // clear the div    
  for (let x=0; x< myIndices.length; x++){                                                                                           
       document.getElementById('myDiv01').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+EDGE_LABELS[myIndices[x]] + '<br>'                                                                                         
   }                     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+       
   /*  
     
   if (predictions.length > 0) {
