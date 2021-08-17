@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.5.9  </h5>
+    <h5>  Version 0.5.10  </h5>
     
     
     
@@ -151,7 +151,7 @@ const renderPrediction = async function(){
     
    // possibly best but try others 
     // const myImage = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
-  const myImage = await tf.browser.fromPixels(document.getElementById('output'), 1).toFloat().reshape([1, 224, 224, 3]).data() ;
+  const myImage = await tf.browser.fromPixels(document.getElementById('output'), 1).toFloat().reshape([-1, 224, 224, 3]);
     
   console.log('myImage')
   console.log(myImage)
