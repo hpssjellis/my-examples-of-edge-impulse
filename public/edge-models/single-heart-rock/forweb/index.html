@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.5.15  </h5>
+    <h5>  Version 0.5.16  </h5>
     
     
     
@@ -19,6 +19,8 @@
     </video>
       
     <canvas id="output" style="position:absolute; top:0; left:0;"></canvas>
+    
+    <canvas id="my32x32CanvasA" style="border: 1px solid #ddd;" width="224" height="224"></canvas>
      
      <div style="font-size:30px">Load Vision TensorflowJS Demo</div>
      Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
@@ -146,16 +148,28 @@ function preprocess(imageTensor) {
 }  
     
 const renderPrediction = async function(){   
+    
+   var myCanvasElement = document.getElementById('my32x32CanvasA');
+   var myCTX = myCanvasElement.getContext('2d');
+   myCTX.drawImage(video, 0, 0, myCanvasElement.width, myCanvasElement.height);
 
+    
+   const image = await tf.browser.fromPixels(document.getElementById('my32x32CanvasA')).toFloat().reshape([1, 224, 224, 3]) ;
+  // const image = await tf.browser.fromPixels(document.getElementById('my32x32CanvasA')).reshape([1, 224, 224, 3]) ;
+   const myImg = await image.data()  
+   console.log('myImg')         
+   console.log(myImg)  
+   
+   
   //const predictions = await model.estimateFaces(video, returnTensors, flipHorizontal, annotateBoxes);
     
    // possibly best but try others 
     // const myImage = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
  // const myImage = await tf.browser.fromPixels(document.getElementById('output'), 1).toFloat().reshape([-1, 224, 224, 3]);
-  const myImage = await tf.browser.fromPixels(document.getElementById('output')).reshape([224, 224, 3]);
+ // const myImage = await tf.browser.fromPixels(document.getElementById('output')).reshape([224, 224, 3]);
     
-  console.log('myImage')
-  console.log(myImage)
+ // console.log('myImage')
+ // console.log(myImage)
     
  // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
  // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
