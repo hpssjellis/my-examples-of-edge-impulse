@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.7.0    </h5>
+    <h5>  Version 0.7.1    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -23,7 +23,7 @@
     Bottom Right <input id="myBottomRight" type="text" size="120" value="mymyPredictions[i].bottomRight"  placeholder="mymyPredictions[i].bottomRight"><br>  
     -->
     
-  // Work on pause and go video stream
+ 
     <input type=button id="myStop" value="Go" onclick="{                                                      
        if( document.getElementById('myStop').value == 'Stop') {  // means it should be running but click button to stop it
            document.getElementById('myStop').value = 'Go'        // if clicked button now says Go
@@ -34,7 +34,7 @@
           // myVideoSrc.play()   // does this work??
            renderPrediction();                                              
        }                                        
-     }"> <br>
+     }"> Stops only the predictions not yet the video stream yet<br>
         
      <div id="myDiv01">Output eventually goes here</div>
   
