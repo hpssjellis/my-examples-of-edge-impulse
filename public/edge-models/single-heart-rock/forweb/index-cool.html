@@ -1,7 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
  
- <h5> Web Page Version 0.0.7  </h5>
+ <h5> Web Page Version 0.0.8  </h5>
 
 <input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
 <input type="button" value="Load Model" onclick="{myLoadUrl()}"><br><br>
@@ -116,7 +116,8 @@ getVideo = async function() {
     model = await tf.loadGraphModel(myFileName);     // should make the model a global variable
    // document.getElementById('myDivSummary').innerHTML = ''      
    // await model.summary(null,null,x => {document.getElementById('myDivSummary').innerHTML += x + '<br>'});
-
+    const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+    model.predict(zeros).print();                  // print to console
   }                                                                           
 }                                                                                             
                                                                                              
@@ -127,15 +128,17 @@ myPredict = async function(){
   //  console.log('Model Predict')
     
                                                                                              
-  const image = tf.browser.fromPixels(document.getElementById('my32x32CanvasA'),1).reshape([1, 224, 224, 3]) ;
+  const image = tf.browser.fromPixels(document.getElementById('my32x32CanvasA'),1).reshape([-1, 224, 224, 3]) ;
    //   console.log('frompixels')   
+         console.log('image')         
          console.log(image)                                                                                  
   // const inferenceResult = await model.predict(image);
   const myPredictions = await model.predict(image).data();
   //console.log('await model.predict(image);')   
   // inferenceResult.print(true)      
    
- // console.log(myPredictions)                                                                                         
+  console.log('myPredictions')    
+  console.log(myPredictions)                                                                                       
                                                                                            
   //const {values, indices} = await tf.topk(inferenceResult, 2);    // top 10 results 
                                                                                            
