@@ -5,10 +5,10 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.24    </h5>
+    <h5>  Version 0.6.25    </h5>
         
-    <video id="myVideo" playsinline="" style="-webkit-transform: display:none; scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>  
-    <canvas id="myVideoCanvas" style="position:absolute; top:0; left:0;"></canvas>    
+    <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>  
+    <canvas id="myVideoCanvas" style="position:absolute; top:0; left:0; display:none; "></canvas>    
     <canvas id="my224x224Canvas" style="border: 1px solid #ddd; -webkit-transform: scaleX(-1); transform: scaleX(-1); " width="224" height="224"></canvas>
      
      <div style="font-size:30px">Load Vision TensorflowJS Demo</div>
@@ -24,11 +24,12 @@
     -->
     
     <input type=button id="myStop" value="Go" onclick="{                                                      
-       if( document.getElementById('myStop').value == 'Stop') {  // means  itshould be running but click button to stop it
+       if( document.getElementById('myStop').value == 'Stop') {  // means it should be running but click button to stop it
            document.getElementById('myStop').value = 'Go'        // if clicked button now says Go
+           myVideoSrc.getTracks().forEach(track => track.stop())                                           
        } else {                                                  // means it was stopped and now it needs to run
            document.getElementById('myStop').value = 'Stop'      // button now says stop
-           //requestAnimationFrame(renderPrediction);    
+           myVideoSrc.play()
            renderPrediction();                                              
        }                                        
      }"> <br>
@@ -98,6 +99,8 @@ const setupCamera = async function(){
     'video': { facingMode: 'user' },
   });
   myVideoSrc.srcObject = stream;
+  
+  //myVideoSrc.getTracks().forEach(track => track.stop())
   
   // put in await style later
   return new Promise((resolve) => {
