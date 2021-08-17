@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.15     </h5>
+    <h5>  Version 0.6.16     </h5>
         
     <video id="myVideo" playsinline="" style="
       -webkit-transform: scaleX(-1);
@@ -140,7 +140,7 @@ const renderPrediction = async function(){
        // myCTX.translate(-720,0)
    myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
    myCTX.scale(-1, 1);
-
+   myCTX.translate(0,0) 
     
    const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
   // const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
