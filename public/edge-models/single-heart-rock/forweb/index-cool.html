@@ -1,7 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
  
-Web Page Version 0.1.1 <br>
+Web Page Version 0.1.2 <br>
 
 <input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
 <input type="button" value="Load Model" onclick="{myLoadUrl()}"><br>
@@ -148,16 +148,16 @@ myPredict = async function(){
   console.log('myPredictions.data')    
   console.log(myPredictions.data)                                                                                       
                                                                                            
-  const {values, indices} = await tf.topk(myPredictions, 2);    // top 10 results 
+  const {values, indices} = await tf.topk(myPredictions, 4);    // top 4 results 
                                                                                            
            
  //document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
  //document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
  //document.getElementById('myDivTest').innerHTML += myPredictions.data
 
-values.print();
-indices.print();                                                                                           
-myValues = values.dataSync()                                                                              
+ values.print();
+ //indices.print();                                                                                           
+ myValues = values.dataSync()                                                                              
  myIndices = indices.dataSync()                                                                                           
                                                                                              
                                                                                          
