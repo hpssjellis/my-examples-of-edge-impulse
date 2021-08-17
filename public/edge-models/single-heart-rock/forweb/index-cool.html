@@ -1,10 +1,10 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
  
- <h5> Web Page Version 0.0.8  </h5>
+Web Page Version 0.0.9 <br>
 
 <input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
-<input type="button" value="Load Model" onclick="{myLoadUrl()}"><br><br>
+<input type="button" value="Load Model" onclick="{myLoadUrl()}"><br>
   
 <select size="1" id="myCheck">
  <option value="environment">Rear Mobile Camera
@@ -12,10 +12,10 @@
 </option></select>
 
 <input type="button" id="myButtonActivateWebCam" value="Activate WebCam" onclick="{getVideo()}">  
-<input type="button" id="myButtonActivateWebCam" value="Stop WebCam" onclick="{ stopVideo()  }">  <br><br>
+<input type="button" id="myButtonActivateWebCam" value="Stop WebCam" onclick="{ stopVideo()  }">  <br>
  
 <input type="button" value="get Pic" onclick="{takeSnapshot()}">
-<input type="button" id="myButtonPredict" value="Predict" onclick="{myPredict()}"><br><br>
+<input type="button" id="myButtonPredict" value="Predict" onclick="{myPredict()}"><br>
  
 Take snapshot every <input type="number" id="myInterval" value="500" size="5"> milliseconds<br>
 <input type="button" id="myButtonAuto" value="Auto" onclick="{takeAuto()}"> 
