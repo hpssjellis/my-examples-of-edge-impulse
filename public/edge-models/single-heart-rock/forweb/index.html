@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.5.18  </h5>
+    <h5>  Version 0.5.19  </h5>
     
     
     
@@ -193,9 +193,39 @@ const renderPrediction = async function(){
   console.log('predictions')
   console.log(predictions)
     
-  document.getElementById('myDiv01').innerHTML = ''
+  //document.getElementById('myDiv01').innerHTML = ''
    
-  document.getElementById('myDiv01').innerHTML += JSON.stringify(predictions, null,'<br>')	 
+  //document.getElementById('myDiv01').innerHTML += JSON.stringify(predictions, null,'<br>')	 
+   
+    
+   
+  const {values, indices} = await tf.topk(predictions, predictions.shape.length);    // top 2 (last dimension) results 
+ // const {values, indices} = await tf.topk(myPredictions, 2);    // top 2 (last dimension) results 
+                                                                                           
+           
+ //document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
+ //document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
+ //document.getElementById('myDivTest').innerHTML += myPredictions.data
+
+ values.print();
+ //indices.print();                                                                                           
+ myValues = values.dataSync()                                                                              
+ myIndices = indices.dataSync()                                                                                           
+                                                                                             
+                                                                                         
+  document.getElementById('myDivTest').innerHTML = ''   // clear the div    
+ for (let x=0; x< myIndices.length; x++){                                                                                           
+      document.getElementById('myDivTest').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+MNIST_CLASSES[myIndices[x]] + '<br>'                                                                                         
+  }                     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
   /*  
