@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.10</h5>
+    <h5>  Version 0.6.11     </h5>
         
     <video id="myVideo" playsinline="" style="
       -webkit-transform: scaleX(-1);
@@ -256,16 +256,16 @@ const setupPage = async function(){
     
   myVideoSrc.play();
 
-  videoWidth = video.videoWidth;
-  videoHeight = video.videoHeight;
-  video.width = videoWidth;
-  video.height = videoHeight;
+  videoWidth = myVideoSrc.videoWidth;
+  videoHeight = myVideoSrc.videoHeight;
+  myVideo.width = videoWidth;
+  myVideo.height = videoHeight;
 
   canvas = document.getElementById('output');
   canvas.width = videoWidth;
   canvas.height = videoHeight;
-  ctx = canvas.getContext('2d');
-  ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+  ctx = canvas.getContext('2d');            // extra context for layers
+  ctx.fillStyle = "rgba(255, 0, 0, 0.5)";  // extra context for layers
 
   //model = await blazeface.load();
  /*   
