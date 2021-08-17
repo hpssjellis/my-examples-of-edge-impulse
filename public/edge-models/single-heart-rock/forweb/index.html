@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.0  </h5>
+    <h5>  Version 0.6.1  </h5>
     
     <script>
         //Global variable
@@ -162,13 +162,13 @@ function preprocess(imageTensor) {
     
 const renderPrediction = async function(){   
     
-   var myCanvasElement = document.getElementById('my32x32CanvasA');
+   var myCanvasElement = document.getElementById('my224x224Canvas');
    var myCTX = myCanvasElement.getContext('2d');
    myCTX.drawImage(video, 0, 0, myCanvasElement.width, myCanvasElement.height);
 
     
-   const image = await tf.browser.fromPixels(document.getElementById('my32x32CanvasA')).toFloat().reshape([1, 224, 224, 3]) ;
-  // const image = await tf.browser.fromPixels(document.getElementById('my32x32CanvasA')).reshape([1, 224, 224, 3]) ;
+   const image = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
+  // const image = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
    //const myImg = await image.data()  
    //console.log('myImg')         
    //console.log(myImg)  
