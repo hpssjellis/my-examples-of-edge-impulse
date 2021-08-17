@@ -1,7 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"> </script> 
 
  
-Web Page Version 0.0.22 <br>
+Web Page Version 0.0.23 <br>
 
 <input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
 <input type="button" value="Load Model" onclick="{myLoadUrl()}"><br>
@@ -130,7 +130,7 @@ myPredict = async function(){
                                                                                              
  // const image = tf.browser.fromPixels(document.getElementById('my32x32CanvasA'),1).reshape([224, 224, 3]) ;
    const image = await tf.browser.fromPixels(document.getElementById('my32x32CanvasA')).toFloat().reshape([1, 224, 224, 3]) ;
-   const myImg = image.data()                                                                                        
+   const myImg = await image.data()                                                                                        
    //   console.log('frompixels')   
    console.log('myImg')         
    console.log(myImg)   
