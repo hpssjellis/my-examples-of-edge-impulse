@@ -113,11 +113,11 @@ const setupCamera = async function(){
 
 
 // might not be needed
-function preprocess(imageTensor) {
-  const widthToHeight = imageTensor.shape[1] / imageTensor.shape[0];
+function preprocess(myImageTensor) {
+  const widthToHeight = myImageTensor.shape[1] / myImageTensor.shape[0];
   let squareCrop;
   if (widthToHeight > 1) {
-    const heightToWidth = imageTensor.shape[0] / imageTensor.shape[1];
+    const heightToWidth = myImageTensor.shape[0] / myImageTensor.shape[1];
     const cropTop = (1-heightToWidth) / 2;
     const cropBottom = 1 - cropTop;
     squareCrop = [[cropTop, 0, cropBottom, 1]];
@@ -128,7 +128,7 @@ function preprocess(imageTensor) {
   }
   // Expand image input dimensions to add a batch dimension of size 1.
   const crop = tf.image.cropAndResize(
-      tf.expandDims(imageTensor), squareCrop, [0], [224, 224]);
+      tf.expandDims(myImageTensor), squareCrop, [0], [224, 224]);
   return crop.div(255);
 }  
     
@@ -139,9 +139,9 @@ const renderPrediction = async function(){
    myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
 
     
-   const imageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
-  // const imageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
-   //const myImg = await imageTensor.data()  
+   const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
+  // const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
+   //const myImg = await myImageTensor.data()  
    //console.log('myImg')         
    //console.log(myImg)  
    
@@ -149,15 +149,15 @@ const renderPrediction = async function(){
   //const predictions = await model.estimateFaces(myVideoSrc, returnTensors, flipHorizontal, annotateBoxes);
     
    // possibly best but try others 
-    // const imageTensor = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
- // const imageTensor = await tf.browser.fromPixels(document.getElementById('output'), 1).toFloat().reshape([-1, 224, 224, 3]);
- // const imageTensor = await tf.browser.fromPixels(document.getElementById('output')).reshape([224, 224, 3]);
+    // const myImageTensor = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
+ // const myImageTensor = await tf.browser.fromPixels(document.getElementById('output'), 1).toFloat().reshape([-1, 224, 224, 3]);
+ // const myImageTensor = await tf.browser.fromPixels(document.getElementById('output')).reshape([224, 224, 3]);
     
- // console.log('imageTensor')
- // console.log(imageTensor)
+ // console.log('myImageTensor')
+ // console.log(myImageTensor)
     
- // const imageTensor = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
- // const imageTensor = tf.browser.fromPixels(document.getElementById('output'), 1) ;
+ // const myImageTensor = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
+ // const myImageTensor = tf.browser.fromPixels(document.getElementById('output'), 1) ;
   //const input_tensor = await tf.data.webcam(myVideoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  });
            //const input_tensor = await tf.data.webcam(myVideoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  }).expandDims(0);
  //const myInputImage = await input_tensor.capture()
@@ -172,11 +172,11 @@ const renderPrediction = async function(){
     
     
  // const predictions = await model.predict( zeros ).data();
-  //const predictions = await model.predict( imageTensor ).data();
-  const predictions = await model.predict( imageTensor );
-  //const predictions = await model.predict( imageTensor ).data();
- // const predictions = await model.predict( getImage( imageTensor) ).data();
- // const predictions = await model.predict( preprocess( imageTensor) ).data();
+  //const predictions = await model.predict( myImageTensor ).data();
+  const predictions = await model.predict( myImageTensor );
+  //const predictions = await model.predict( myImageTensor ).data();
+ // const predictions = await model.predict( getImage( myImageTensor) ).data();
+ // const predictions = await model.predict( preprocess( myImageTensor) ).data();
  // console.log('predictions')
  // console.log(predictions)
     
