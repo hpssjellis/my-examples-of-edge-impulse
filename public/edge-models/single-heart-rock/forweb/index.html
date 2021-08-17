@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.20    </h5>
+    <h5>  Version 0.6.21    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>  
     <canvas id="myVideoCanvas" style="position:absolute; top:0; left:0;"></canvas>    
@@ -81,7 +81,9 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
   if (myFileName != null){  
     model = await tf.loadGraphModel(myFileName);     // should make the model a global variable
     const myZeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data on for Graph vision model
+    console.log('Testing model with zeros');
     model.predict(myZeros).print();                  // print to console
+    console.log('Zeros test done above')
    // document.getElementById('myDiv01').innerHTML = ''   
     // below only works for layers models  
    // await model.summary(null,null,x => {document.getElementById('myDiv01').innerHTML += x + '<br>'});      
