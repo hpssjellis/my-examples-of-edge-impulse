@@ -18,25 +18,18 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.18     </h5>
+    <h5>  Version 0.6.19     </h5>
         
-    <video id="myVideo" playsinline="" style="
-      -webkit-transform: scaleX(-1);
-      transform: scaleX(-1);
-      width: auto;
-      height: auto;
-      ">
-    </video>
-      
+    <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>  
     <canvas id="myVideoCanvas" style="position:absolute; top:0; left:0;"></canvas>    
     <canvas id="my224x224Canvas" style="border: 1px solid #ddd; -webkit-transform: scaleX(-1); transform: scaleX(-1); " width="224" height="224"></canvas>
      
      <div style="font-size:30px">Load Vision TensorflowJS Demo</div>
      Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
      <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a><br>
+     This workspace <a href="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/index.html">here</a><br>   
        
-    <input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
-    <input type="button" value="Load Model" onclick="{myLoadUrl()}"><br> <br>
+    <input type="button" value="Load Vision TFJS Graph Model" id="myLoadButton" onclick="{myLoadUrl()}">: <input id="myInFile" size="120" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
     
     <!-- Top Left <input id="myTopLeft" type="text" size="120" value="predictions[i].topLeft" placeholder="predictions[i].topLeft" ><br>  
     Bottom Right <input id="myBottomRight" type="text" size="120" value="predictions[i].bottomRight"  placeholder="predictions[i].bottomRight"><br>  
