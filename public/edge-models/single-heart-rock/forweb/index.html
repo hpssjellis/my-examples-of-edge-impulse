@@ -18,11 +18,11 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.8 scale  </h5>
+    <h5>  Version 0.6.9 scale  </h5>
         
     <video id="myVideo" playsinline="" style="
-      -webkit-transform: scaleX(1);
-      transform: scaleX(1);
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
       width: auto;
       height: auto;
       ">
@@ -136,6 +136,8 @@ const renderPrediction = async function(){
     
    var myCanvasElement = document.getElementById('my224x224Canvas');
    var myCTX = myCanvasElement.getContext('2d');
+       // cmyCTX.scale(-1, 1);
+       // myCTX.translate(-720,0)
    myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
 
     
