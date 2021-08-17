@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.21    </h5>
+    <h5>  Version 0.6.22    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>  
     <canvas id="myVideoCanvas" style="position:absolute; top:0; left:0;"></canvas>    
@@ -267,11 +267,12 @@ model = await tf.loadGraphModel(
 */
     
     
-    
-    
-  //renderPrediction();
+  await myLoadUrl()      
+  await renderPrediction();
 };
 
+  
+// Run the main program  
 setupPage();
 
 </script>
