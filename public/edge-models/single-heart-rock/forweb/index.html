@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.27    </h5>
+    <h5>  Version 0.7.0    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -14,7 +14,7 @@
      <div style="font-size:30px">Load Vision TensorflowJS Demo</div>
      Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
      <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a><br>
-     This workspace <a href="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/index.html">here</a><br>   
+     This workspace <a href="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/index.html">here</a><br> <br>  
        
     <input type="button" value="Load Vision TFJS Graph Model" id="myLoadButton" onclick="{myLoadUrl()}">: 
     <input id="myInFile" size="100" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
@@ -23,14 +23,15 @@
     Bottom Right <input id="myBottomRight" type="text" size="120" value="mymyPredictions[i].bottomRight"  placeholder="mymyPredictions[i].bottomRight"><br>  
     -->
     
+  // Work on pause and go video stream
     <input type=button id="myStop" value="Go" onclick="{                                                      
        if( document.getElementById('myStop').value == 'Stop') {  // means it should be running but click button to stop it
            document.getElementById('myStop').value = 'Go'        // if clicked button now says Go
           // stream.getTracks().forEach(track => track.stop())     
-          myVideoSrc.stop);
+          //myVideoSrc.stop);
        } else {                                                  // means it was stopped and now it needs to run
            document.getElementById('myStop').value = 'Stop'      // button now says stop
-           myVideoSrc.play()   // does this work??
+          // myVideoSrc.play()   // does this work??
            renderPrediction();                                              
        }                                        
      }"> <br>
