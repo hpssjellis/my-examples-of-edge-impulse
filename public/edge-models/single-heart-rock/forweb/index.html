@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.16     </h5>
+    <h5>  Version 0.6.17     </h5>
         
     <video id="myVideo" playsinline="" style="
       -webkit-transform: scaleX(-1);
@@ -29,7 +29,7 @@
     </video>
       
     <canvas id="output" style="position:absolute; top:0; left:0;"></canvas>    
-    <canvas id="my224x224Canvas" style="border: 1px solid #ddd;" width="224" height="224"></canvas>
+    <canvas id="my224x224Canvas" style="border: 1px solid #ddd; -webkit-transform: scaleX(-1); transform: scaleX(-1); " width="224" height="224"></canvas>
      
      <div style="font-size:30px">Load Vision TensorflowJS Demo</div>
      Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
@@ -139,8 +139,8 @@ const renderPrediction = async function(){
        // cmyCTX.scale(-1, 1);
        // myCTX.translate(-720,0)
    myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
-   myCTX.scale(-1, 1);
-   myCTX.translate(0,0) 
+   //myCTX.scale(-1, 1);
+   //myCTX.translate(0,0) 
     
    const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
   // const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
