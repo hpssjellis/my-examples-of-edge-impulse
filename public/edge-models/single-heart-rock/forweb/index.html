@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.4  </h5>
+    <h5>  Version 0.6.7  </h5>
         
     <video id="myVideo" playsinline="" style="
       -webkit-transform: scaleX(-1);
@@ -97,16 +97,16 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
     
     
 const setupCamera = async function(){  
-  videoSrc = document.getElementById('myVideo');
+  myVideoSrc = document.getElementById('myVideo');
   const stream = await navigator.mediaDevices.getUserMedia({
     'audio': false,
     'video': { facingMode: 'user' },
   });
-  videoSrc.srcObject = stream;
+  myVideoSrc.srcObject = stream;
 
   return new Promise((resolve) => {
-    videoSrc.onloadedmetadata = () => {
-      resolve(videoSrc);
+    myVideoSrc.onloadedmetadata = () => {
+      resolve(myVideoSrc);
     };
   });
 }
@@ -136,30 +136,30 @@ const renderPrediction = async function(){
     
    var myCanvasElement = document.getElementById('my224x224Canvas');
    var myCTX = myCanvasElement.getContext('2d');
-   myCTX.drawImage(videoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
+   myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
 
     
-   const image = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
-  // const image = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
-   //const myImg = await image.data()  
+   const imageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
+  // const imageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
+   //const myImg = await imageTensor.data()  
    //console.log('myImg')         
    //console.log(myImg)  
    
    
-  //const predictions = await model.estimateFaces(videoSrc, returnTensors, flipHorizontal, annotateBoxes);
+  //const predictions = await model.estimateFaces(myVideoSrc, returnTensors, flipHorizontal, annotateBoxes);
     
    // possibly best but try others 
-    // const myImage = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
- // const myImage = await tf.browser.fromPixels(document.getElementById('output'), 1).toFloat().reshape([-1, 224, 224, 3]);
- // const myImage = await tf.browser.fromPixels(document.getElementById('output')).reshape([224, 224, 3]);
+    // const imageTensor = tf.browser.fromPixels(document.getElementById('output'), 1).reshape([-1, 224, 224, 3]) ;
+ // const imageTensor = await tf.browser.fromPixels(document.getElementById('output'), 1).toFloat().reshape([-1, 224, 224, 3]);
+ // const imageTensor = await tf.browser.fromPixels(document.getElementById('output')).reshape([224, 224, 3]);
     
- // console.log('myImage')
- // console.log(myImage)
+ // console.log('imageTensor')
+ // console.log(imageTensor)
     
- // const image = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
- // const image = tf.browser.fromPixels(document.getElementById('output'), 1) ;
-  //const input_tensor = await tf.data.webcam(videoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  });
-           //const input_tensor = await tf.data.webcam(videoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  }).expandDims(0);
+ // const imageTensor = tf.browser.fromPixels(document.getElementById('output'),1).reshape([307200]) ;  //  307200
+ // const imageTensor = tf.browser.fromPixels(document.getElementById('output'), 1) ;
+  //const input_tensor = await tf.data.webcam(myVideoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  });
+           //const input_tensor = await tf.data.webcam(myVideoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  }).expandDims(0);
  //const myInputImage = await input_tensor.capture()
     
     
@@ -172,11 +172,11 @@ const renderPrediction = async function(){
     
     
  // const predictions = await model.predict( zeros ).data();
-  //const predictions = await model.predict( image ).data();
-  const predictions = await model.predict( image );
-  //const predictions = await model.predict( image ).data();
- // const predictions = await model.predict( getImage( image) ).data();
- // const predictions = await model.predict( preprocess( image) ).data();
+  //const predictions = await model.predict( imageTensor ).data();
+  const predictions = await model.predict( imageTensor );
+  //const predictions = await model.predict( imageTensor ).data();
+ // const predictions = await model.predict( getImage( imageTensor) ).data();
+ // const predictions = await model.predict( preprocess( imageTensor) ).data();
  // console.log('predictions')
  // console.log(predictions)
     
@@ -252,7 +252,7 @@ const setupPage = async function(){
 
   await setupCamera();
     
-  videoSrc.play();
+  myVideoSrc.play();
 
   videoWidth = video.videoWidth;
   videoHeight = video.videoHeight;
