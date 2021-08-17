@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    
+<head>    
     
 </head>
 
 <body>
-    <h5>  Version 0.6.2  </h5>
+    <h5>  Version 0.6.3  </h5>
     
     <script>
         //Global variable
-    const MNIST_CLASSES = {
+    const EDGE_LABELS = {
       0: 'Unknown',
       1: 'Heart Rock',
       2: '2 not set',
@@ -23,7 +22,7 @@
         
     </script>    
     
-    <video id="video" playsinline="" style="
+    <video id="myVideo" playsinline="" style="
       -webkit-transform: scaleX(-1);
       transform: scaleX(-1);
       width: auto;
@@ -60,15 +59,7 @@
     
      <div id="myDiv01">Output eventually goes here</div>
 
-      
-    <video id="video" playsinline="" style="
-       -webkit-transform: scaleX(-1);
-       transform: scaleX(-1);
-       visibility: hidden;
-       width: auto;
-       height: auto;
-     ">
-    </video>
+
 
 
     
@@ -125,7 +116,7 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
     
     
 const setupCamera = async function(){  
-  video = document.getElementById('video');
+  video = document.getElementById('myVideo');
   const stream = await navigator.mediaDevices.getUserMedia({
     'audio': false,
     'video': { facingMode: 'user' },
@@ -230,7 +221,7 @@ const renderPrediction = async function(){
                                                                                          
   document.getElementById('myDiv01').innerHTML = ''   // clear the div    
  for (let x=0; x< myIndices.length; x++){                                                                                           
-      document.getElementById('myDiv01').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+MNIST_CLASSES[myIndices[x]] + '<br>'                                                                                         
+      document.getElementById('myDiv01').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+EDGE_LABELS[myIndices[x]] + '<br>'                                                                                         
   }                     
     
     
