@@ -5,10 +5,10 @@
 </head>
 
 <body>
-    <h5>  Version 0.6.26    </h5>
+    <h5>  Version 0.6.27    </h5>
         
-    <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>  
-    <canvas id="myVideoCanvas" style=" visibility:hidden "></canvas>    
+    <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
+    <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
     <canvas id="my224x224Canvas" style="border: 1px solid #ddd; -webkit-transform: scaleX(-1); transform: scaleX(-1); " width="224" height="224"></canvas>
      
      <div style="font-size:30px">Load Vision TensorflowJS Demo</div>
@@ -26,7 +26,8 @@
     <input type=button id="myStop" value="Go" onclick="{                                                      
        if( document.getElementById('myStop').value == 'Stop') {  // means it should be running but click button to stop it
            document.getElementById('myStop').value = 'Go'        // if clicked button now says Go
-           stream.getTracks().forEach(track => track.stop())                                           
+          // stream.getTracks().forEach(track => track.stop())     
+          myVideoSrc.stop);
        } else {                                                  // means it was stopped and now it needs to run
            document.getElementById('myStop').value = 'Stop'      // button now says stop
            myVideoSrc.play()   // does this work??
