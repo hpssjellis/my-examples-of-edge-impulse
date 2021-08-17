@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.5.21  </h5>
+    <h5>  Version 0.5.22  </h5>
     
     
     
@@ -215,9 +215,9 @@ const renderPrediction = async function(){
  myIndices = indices.dataSync()                                                                                           
                                                                                              
                                                                                          
-  document.getElementById('myDivTest').innerHTML = ''   // clear the div    
+  document.getElementById('myDiv01').innerHTML = ''   // clear the div    
  for (let x=0; x< myIndices.length; x++){                                                                                           
-      document.getElementById('myDivTest').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+MNIST_CLASSES[myIndices[x]] + '<br>'                                                                                         
+      document.getElementById('myDiv01').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+MNIST_CLASSES[myIndices[x]] + '<br>'                                                                                         
   }                     
     
     
