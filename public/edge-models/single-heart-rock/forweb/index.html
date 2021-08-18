@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.7.10    </h5>
+    <h5>  Version 0.7.11    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -201,13 +201,13 @@ const renderPrediction = async function(){
    myValues = values.dataSync()                                                                              
    myIndices = indices.dataSync()  
      
-    return {myValues, myIndices}      
+    return {values, indices}      
 });  
   
  
 
- //myValues = values.dataSync()                                                                              
- //myIndices = indices.dataSync() 
+ myValues = values.dataSync()                                                                              
+ myIndices = indices.dataSync() 
   
   
   
