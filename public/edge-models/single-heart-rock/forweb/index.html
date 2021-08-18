@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.7.3    </h5>
+    <h5>  Version 0.7.4    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -187,12 +187,12 @@ const renderPrediction = async function(){
  
   const myPredictions = await model.predict( myImageTensor );  
   myImageTensor.dispose()
-  const {values, indices} = await tf.topk(myPredictions, 2);    // grab the top 3 choices
- // const {values, indices} = await tf.topk(mymyPredictions, 2);   
+  const {values, indices} = await tf.topk(myPredictions, 2);    // the number of outputs from your model
+ // const {values, indices} = await tf.topk(myPredictions, 2);   
                                                                                                      
  //document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
- //document.getElementById('myDivTest').innerHTML += mymyPredictions                                                                                      
- //document.getElementById('myDivTest').innerHTML += mymyPredictions.data
+ //document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
+ //document.getElementById('myDivTest').innerHTML += myPredictions.data
 
  values.print();
  //indices.print();                                                                                           
@@ -204,7 +204,10 @@ const renderPrediction = async function(){
       document.getElementById('myDiv01').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+EDGE_LABELS[myIndices[x]] + '<br>'                                                                                         
   }                     
     
-       
+  myValues.dispose()
+  myIndices.dispose()
+  myPredictions.dispose()
+  
   /*  
     
   if (myPredictions.length > 0) {
