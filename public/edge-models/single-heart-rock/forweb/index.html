@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.7.8    </h5>
+    <h5>  Version 0.7.9    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -142,8 +142,11 @@ const renderPrediction = async function(){
   
   //  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     
-   const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
+  
 
+  
+  
+  
    // const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
    //const myImg = await myImageTensor.data()  
    //console.log('myImg')         
@@ -183,21 +186,42 @@ const renderPrediction = async function(){
    
   //document.getElementById('myDiv01').innerHTML += JSON.stringify(myPredictions, null,'<br>')	 
    
-    
  
-  const myPredictions = await model.predict( myImageTensor );  
- // myImageTensor.dispose()
-  const {values, indices} = await tf.topk(myPredictions, 2);    // the number of outputs from your model
- // const {values, indices} = await tf.topk(myPredictions, 2);   
-                                                                                                     
+  
+
+   const y = tf.tidy(() => {
+ 
+   const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ; 
+   const myPredictions = await model.predict( myImageTensor );  
+    
+   console.log('numTensors (in tidy): ' + tf.memory().numTensors);
+   return myPredictions;
+   const {values, indices} = await tf.topk(myPredictions, 2);    // the number of outputs from your model
+                                                                                      
+   myValues = values.dataSync()                                                                              
+   myIndices = indices.dataSync()  
+     
+    return {myValues, myIndices}      
+});  
+  
+ 
+
+ //myValues = values.dataSync()                                                                              
+ //myIndices = indices.dataSync() 
+  
+  
+  
+  
+  
+  
  //document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
  //document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
  //document.getElementById('myDivTest').innerHTML += myPredictions.data
 
  //values.print();
- //indices.print();                                                                                           
- myValues = values.dataSync()                                                                              
- myIndices = indices.dataSync()                                                                                           
+ //indices.print();     
+  
+                                                                                            
                                                                                                                                                                                       
  document.getElementById('myDiv01').innerHTML = ''   // clear the div    
  for (let x=0; x< myIndices.length; x++){                                                                                           
@@ -210,11 +234,14 @@ const renderPrediction = async function(){
   
   //console.log(`    Error: ${err.message}`); 
   console.log('  Tensors after:', tf.memory().numTensors);
-  tf.dispose(myImageTensor)
-  tf.dispose(myValues)
-  tf.dispose(myIndices)
-  tf.dispose(myPredictions)
-  tf.disposeVariables() 
+  
+  // following does not seem to help. will have to use const y = tf.tidy(() => {
+  
+ // tf.dispose(myImageTensor)
+ // tf.dispose(myValues)
+ // tf.dispose(myIndices)
+ // tf.dispose(myPredictions)
+//  tf.disposeVariables() 
   
   /*  
     
