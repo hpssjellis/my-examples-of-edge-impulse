@@ -139,6 +139,8 @@ const renderPrediction = async function(){
    var myCanvasElement = document.getElementById('my224x224Canvas');
    var myCTX = myCanvasElement.getContext('2d');
    myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
+  
+  //  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     
    const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
 
