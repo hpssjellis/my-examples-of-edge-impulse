@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.7.1    </h5>
+    <h5>  Version 0.7.2    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -186,8 +186,9 @@ const renderPrediction = async function(){
     
  
   const myPredictions = await model.predict( myImageTensor );  
-  const {values, indices} = await tf.topk(myPredictions, myPredictions.shape.length);    // top 2 (last dimension) results 
- // const {values, indices} = await tf.topk(mymyPredictions, 2);    // top 2 (last dimension) results 
+  myImageTensor.dispose()
+  const {values, indices} = await tf.topk(myPredictions, 3);    // grab the top 3 choices
+ // const {values, indices} = await tf.topk(mymyPredictions, 2);   
                                                                                                      
  //document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
  //document.getElementById('myDivTest').innerHTML += mymyPredictions                                                                                      
