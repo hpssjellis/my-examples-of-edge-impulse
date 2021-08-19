@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>    
+  
+</head>
+
+<body>
+    <h5>  Version 0.7.26    </h5>
+        
+    <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
+    <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
+    <canvas id="my224x224Canvas" style="border: 1px solid #ddd; -webkit-transform: scaleX(-1); transform: scaleX(-1); " width="224" height="224"></canvas>
+     
+     <div style="font-size:30px">Load Vision TensorflowJS Demo</div>
+     Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
+     <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a><br>
+     This workspace <a href="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/index.html">here</a><br> <br>  
+       
+    <input type="button" value="Load Vision TFJS Graph Model" id="myLoadButton" onclick="{myLoadUrl()}">: 
+    <input id="myInFile" size="100" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
+    
+    <!-- Top Left <input id="myTopLeft" type="text" size="120" value="mymyPredictions[i].topLeft" placeholder="mymyPredictions[i].topLeft" ><br>  
+    Bottom Right <input id="myBottomRight" type="text" size="120" value="mymyPredictions[i].bottomRight"  placeholder="mymyPredictions[i].bottomRight"><br>  
+    -->
+    
+ 
+    <input type=button id="myStop" value="Go" onclick="{                                                      
+       if( document.getElementById('myStop').value == 'Stop') {  // means it should be running but click button to stop it
+           document.getElementById('myStop').value = 'Go'        // if clicked button now says Go
+          // stream.getTracks().forEach(track => track.stop())     
+          //myVideoSrc.stop);
+       } else {                                                  // means it was stopped and now it needs to run
+           document.getElementById('myStop').value = 'Stop'      // button now says stop
+          // myVideoSrc.play()   // does this work??
+           renderPrediction();                                              
+       }                                        
+     }"> Stops only the predictions not yet the video stream yet<br>
+        
+     <div id="myDiv01">Output eventually goes here</div>
+  
+<!-- check latest version numbers at
+https://www.npmjs.com/package/@tensorflow/tfjs  
+https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
+-->    
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@3.8.0/dist/tf-backend-wasm.js"></script>
+    
+<!-- Following could be in it's own index.js file. Easier to have it here so the web elements are pre-added  -->
+<script>
+        
+// If using a transpiler this code is useful
+//import * as tf from '@tensorflow/tfjs-core';
+//import * as tfjsWasm from '@tensorflow/tfjs-backend-wasm';
+
+// does not seem to help   
+//tfjsWasm.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@latest/dist/tfjs-backend-wasm.wasm');
+  
+    
+ /*   
+ async function getImage() {
+   const img = await webcam.capture();
+   const processedImg = tf.tidy(() => img.expandDims(0).toFloat().div(127).sub(1));
+   img.dispose();
+   return processedImg;
+}
+    
+*/    
+    
+   //Global variables
+   const EDGE_LABELS = {
+      0: 'Unknown',
+      1: 'Heart Rock',
+      2: '2 not set',
+      3: '3 not set',
+      4: '4 not set',
+      5: '5 not set',
+      6: '6 not set'   
+
+    }       
+                
+ myLoadUrl = async function(){
+  const myFileName = document.getElementById('myInFile').value
+  if (myFileName != null){  
+    model = await tf.loadGraphModel(myFileName);     // should make the model a global variable
+    const myZeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data on for Graph vision model
+    console.log('Testing model with zeros');
+    model.predict(myZeros).print();                  // print to console
+    console.log('Zeros test done above')
+   // document.getElementById('myDiv01').innerHTML = ''   
+    // below only works for layers models  
+   // await model.summary(null,null,x => {document.getElementById('myDiv01').innerHTML += x + '<br>'});      
+  }                                                                           
+}      
+    
+    
+const setupCamera = async function(){  
+  myVideoSrc = document.getElementById('myVideo');
+  const stream = await navigator.mediaDevices.getUserMedia({
+    'audio': false,
+    'video': { facingMode: 'user' },
+  });
+  myVideoSrc.srcObject = stream;
+  
+  //myVideoSrc.getTracks().forEach(track => track.stop())
+  
+  // put in await style later
+  return new Promise((resolve) => {
+    myVideoSrc.onloadedmetadata = () => {
+      resolve(myVideoSrc);
+    };
+  });
+}
+
+
+// might not be used
+function preprocess(myImageTensor) {
+  const widthToHeight = myImageTensor.shape[1] / myImageTensor.shape[0];
+  let squareCrop;
+  if (widthToHeight > 1) {
+    const heightToWidth = myImageTensor.shape[0] / myImageTensor.shape[1];
+    const cropTop = (1-heightToWidth) / 2;
+    const cropBottom = 1 - cropTop;
+    squareCrop = [[cropTop, 0, cropBottom, 1]];
+  } else {
+    const cropLeft = (1-widthToHeight) / 2;
+    const cropRight = 1 - cropLeft;
+    squareCrop = [[0, cropLeft, 1, cropRight]];
+  }
+  // Expand image input dimensions to add a batch dimension of size 1.
+  const crop = tf.image.cropAndResize(
+      tf.expandDims(myImageTensor), squareCrop, [0], [224, 224]);
+  return crop.div(255);
+}  
+  
+        
+const renderPrediction = async function(){   
+    
+   var myCanvasElement = document.getElementById('my224x224Canvas');
+   var myCTX = myCanvasElement.getContext('2d');
+   myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
+  
+  //  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    
+  
+
+  
+  
+  
+   // const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
+   //const myImg = await myImageTensor.data()  
+   //console.log('myImg')         
+   //console.log(myImg)  
+
+  //const mymyPredictions = await model.estimateFaces(myVideoSrc, returnTensors, flipHorizontal, annotateBoxes);
+    
+   // possibly best but try others 
+    // const myImageTensor = tf.browser.fromPixels(document.getElementById('myVideoCanvas'), 1).reshape([-1, 224, 224, 3]) ;
+ // const myImageTensor = await tf.browser.fromPixels(document.getElementById('myVideoCanvas'), 1).toFloat().reshape([-1, 224, 224, 3]);
+ // const myImageTensor = await tf.browser.fromPixels(document.getElementById('myVideoCanvas')).reshape([224, 224, 3]);
+    
+ // console.log('myImageTensor')
+ // console.log(myImageTensor)
+    
+ // const myImageTensor = tf.browser.fromPixels(document.getElementById('myVideoCanvas'),1).reshape([307200]) ;  //  307200
+ // const myImageTensor = tf.browser.fromPixels(document.getElementById('myVideoCanvas'), 1) ;
+  //const input_tensor = await tf.data.webcam(myVideoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  });
+ //const input_tensor = await tf.data.webcam(myVideoSrc, {resizeWidth: 224, resizeHeight: 224, centerCrop : true,  }).expandDims(0);
+ //const myInputImage = await input_tensor.capture()
+     
+ // console.log('input_tensor')
+  //console.log(input_tensor)
+    
+  // just testing
+ // const zeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data
+        
+ // const myPredictions = await model.predict( zeros ).data();
+  //const myPredictions = await model.predict( myImageTensor ).data();
+  //const myPredictions = await model.predict( myImageTensor ).data();
+ // const myPredictions = await model.predict( getImage( myImageTensor) ).data();
+ // const myPredictions = await model.predict( preprocess( myImageTensor) ).data();
+ // console.log('myPredictions')
+ // console.log(myPredictions)
+    
+  //document.getElementById('myDiv01').innerHTML = ''
+   
+  //document.getElementById('myDiv01').innerHTML += JSON.stringify(myPredictions, null,'<br>')	 
+   
+ //tf.engine().startScope()
+// do your thing
+//tf.engine().endScope()
+  
+
+ tf.engine().startScope()
+     const myImageTensor = tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([-1, 224, 224, 3]).div(tf.scalar(255)) ; 
+
+    
+   //  console.log('numTensors (in tidy): ' + tf.memory().reasons);
+
+     const myPredictions = model.predict( myImageTensor );  
+     
+
+  
+   //const {values, indices} =  await tf.topk(myPredictions, 2);    // the number of outputs from your model
+  
+   const {values, indices} =  await tf.topk(myPredictions, 2);    // the number of outputs from your model
+
+
+   myValues = values.dataSync()                                                                              
+   myIndices = indices.dataSync() 
+  
+ values.print();
+  
+  
+  
+  
+  
+ //document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
+ //document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
+ //document.getElementById('myDivTest').innerHTML += myPredictions.data
+
+ //values.print();
+ //indices.print();     
+  
+                                                                                            
+                                                                                                                                                                                      
+ document.getElementById('myDiv01').innerHTML = ''   // clear the div    
+ for (let x=0; x< myIndices.length; x++){                                                                                           
+      document.getElementById('myDiv01').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+EDGE_LABELS[myIndices[x]] + '<br>'                                                                                         
+  }                     
+    
+  
+  
+  tf.engine().endScope()
+  
+ // myValues.dispose()
+ // myIndices.dispose()
+ // myPredictions.dispose()
+  
+  //console.log(`    Error: ${err.message}`); 
+ console.log('  Tensors after:', tf.memory().numTensors);   //,string  if unreliable is true
+
+
+  
+  // following does not seem to help. will have to use const y = tf.tidy(() => {
+  
+ // tf.dispose(myImageTensor)
+ // tf.dispose(myValues)
+ // tf.dispose(myIndices)
+ // tf.dispose(myPredictions)
+//  tf.disposeVariables() 
+  
+  /*  
+    
+  if (myPredictions.length > 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    try {
+          document.getElementById('myDiv01').innerHTML += 'myPredictions object output: <br>'+JSON.stringify(myPredictions, null, '<br>')
+        //  console.log(myPredictions[i])
+      }
+      catch(err){
+          document.getElementById('myDiv01').innerHTML = err.message
+      }
+     
+      ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+      ctx.fillRect(0, 10, 200, 200);
+
+      // ctx.fillStyle = "blue";
+      //  ctx.fillRect(x, y, 5, 5);
+        
+   // }
+  }
+
+*/
+    
+    
+  if (document.getElementById('myStop').value == 'Stop') {  // reverse logic
+      requestAnimationFrame(renderPrediction);
+  }
+};
+
+const setupPage = async function(){     
+  const state = { backend: 'wasm' }; 
+        
+  await tf.setBackend(state.backend);
+
+  await setupCamera();
+    
+  myVideoSrc.play();
+
+  videoWidth = myVideoSrc.videoWidth;
+  videoHeight = myVideoSrc.videoHeight;
+  myVideo.width = videoWidth;
+  myVideo.height = videoHeight;
+
+  canvas = document.getElementById('myVideoCanvas');
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+  ctx = canvas.getContext('2d');            // extra context for layers
+  ctx.fillStyle = "rgba(255, 0, 0, 0.5)";  // extra context for layers
+
+  //model = await blazeface.load();
+ /*   
+    
+model = await tf.loadGraphModel(
+    'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1',
+    { fromTFHub: true });
+ 
+    
+
+  const myFileName = document.getElementById('myInFile').value
+  if (myFileName != null){  
+    model = await tf.loadLayersModel(myFileName);     // should make the model a global variable
+    document.getElementById('myDivSummary').innerHTML = ''      
+    await model.summary(null,null,x => {document.getElementById('myDivSummary').innerHTML += x + '<br>'});
+   // await myPredict()
+  } 
+
+*/
+    
+    
+  await myLoadUrl()  
+  document.getElementById('myStop').value = 'Stop'   // button for if you want to stop it
+  await renderPrediction();
+};
+
+  
+// Run the main program  
+setupPage();
+
+</script>
+    
+          
+</body>
