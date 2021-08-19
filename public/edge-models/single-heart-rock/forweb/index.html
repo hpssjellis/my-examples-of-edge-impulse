@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.7.18    </h5>
+    <h5>  Version 0.7.19    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -186,7 +186,9 @@ const renderPrediction = async function(){
    
   //document.getElementById('myDiv01').innerHTML += JSON.stringify(myPredictions, null,'<br>')	 
    
- 
+ //tf.engine().startScope()
+// do your thing
+//tf.engine().endScope(
   
 
    const mySafePredictions = await tf.tidy(() => {
@@ -233,7 +235,9 @@ const renderPrediction = async function(){
  // myPredictions.dispose()
   
   //console.log(`    Error: ${err.message}`); 
-  console.log('  Tensors after:', tf.memory().numTensors);
+ // console.log('  Tensors after:', tf.memory().numTensors);
+  console.log('tf.memory()');
+  console.log(tf.memory() );
   
   // following does not seem to help. will have to use const y = tf.tidy(() => {
   
