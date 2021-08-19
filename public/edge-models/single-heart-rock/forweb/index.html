@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.7.17    </h5>
+    <h5>  Version 0.7.18    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -194,7 +194,7 @@ const renderPrediction = async function(){
      const myImageTensor = tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ; 
 
     
-     console.log('numTensors (in tidy): ' + tf.memory().numTensors);
+     console.log('numTensors (in tidy): ' + tf.memory().reasons);
 
      const myPredictions = model.predict( myImageTensor );  
      
