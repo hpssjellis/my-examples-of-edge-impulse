@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.7.1    </h5>
+    <h5>  Version 0.7.26    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -139,9 +139,14 @@ const renderPrediction = async function(){
    var myCanvasElement = document.getElementById('my224x224Canvas');
    var myCTX = myCanvasElement.getContext('2d');
    myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
+  
+  //  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     
-   const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([1, 224, 224, 3]) ;
+  
 
+  
+  
+  
    // const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).reshape([1, 224, 224, 3]) ;
    //const myImg = await myImageTensor.data()  
    //console.log('myImg')         
@@ -181,27 +186,70 @@ const renderPrediction = async function(){
    
   //document.getElementById('myDiv01').innerHTML += JSON.stringify(myPredictions, null,'<br>')	 
    
-    
- 
-  const myPredictions = await model.predict( myImageTensor );  
-  const {values, indices} = await tf.topk(myPredictions, myPredictions.shape.length);    // top 2 (last dimension) results 
- // const {values, indices} = await tf.topk(mymyPredictions, 2);    // top 2 (last dimension) results 
-                                                                                                     
- //document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
- //document.getElementById('myDivTest').innerHTML += mymyPredictions                                                                                      
- //document.getElementById('myDivTest').innerHTML += mymyPredictions.data
+ //tf.engine().startScope()
+// do your thing
+//tf.engine().endScope()
+  
 
+ tf.engine().startScope()
+     const myImageTensor = tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([-1, 224, 224, 3]).div(tf.scalar(255)) ; 
+
+    
+   //  console.log('numTensors (in tidy): ' + tf.memory().reasons);
+
+     const myPredictions = model.predict( myImageTensor );  
+     
+
+  
+   //const {values, indices} =  await tf.topk(myPredictions, 2);    // the number of outputs from your model
+  
+   const {values, indices} =  await tf.topk(myPredictions, 2);    // the number of outputs from your model
+
+
+   myValues = values.dataSync()                                                                              
+   myIndices = indices.dataSync() 
+  
  values.print();
- //indices.print();                                                                                           
- myValues = values.dataSync()                                                                              
- myIndices = indices.dataSync()                                                                                           
+  
+  
+  
+  
+  
+ //document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
+ //document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
+ //document.getElementById('myDivTest').innerHTML += myPredictions.data
+
+ //values.print();
+ //indices.print();     
+  
+                                                                                            
                                                                                                                                                                                       
  document.getElementById('myDiv01').innerHTML = ''   // clear the div    
  for (let x=0; x< myIndices.length; x++){                                                                                           
       document.getElementById('myDiv01').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+EDGE_LABELS[myIndices[x]] + '<br>'                                                                                         
   }                     
     
-       
+  
+  
+  tf.engine().endScope()
+  
+ // myValues.dispose()
+ // myIndices.dispose()
+ // myPredictions.dispose()
+  
+  //console.log(`    Error: ${err.message}`); 
+ console.log('  Tensors after:', tf.memory().numTensors);   //,string  if unreliable is true
+
+
+  
+  // following does not seem to help. will have to use const y = tf.tidy(() => {
+  
+ // tf.dispose(myImageTensor)
+ // tf.dispose(myValues)
+ // tf.dispose(myIndices)
+ // tf.dispose(myPredictions)
+//  tf.disposeVariables() 
+  
   /*  
     
   if (myPredictions.length > 0) {
