@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.7.23    </h5>
+    <h5>  Version 0.7.24a    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -209,7 +209,8 @@ const renderPrediction = async function(){
    myValues = values.dataSync()                                                                              
    myIndices = indices.dataSync() 
   
-  tf.engine().endScope()
+ values.print();
+  
   
   
   
@@ -228,6 +229,10 @@ const renderPrediction = async function(){
       document.getElementById('myDiv01').innerHTML += myIndices[x]+', <b>'+Math.round(myValues[x]*100)+'%</b>: '+EDGE_LABELS[myIndices[x]] + '<br>'                                                                                         
   }                     
     
+  
+  
+  tf.engine().endScope()
+  
  // myValues.dispose()
  // myIndices.dispose()
  // myPredictions.dispose()
