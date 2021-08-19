@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.7.23    </h5>
+    <h5>  Version 0.7.24    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -16,7 +16,10 @@
      <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a><br>
      This workspace <a href="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/index.html">here</a><br> <br>  
        
-    <input type="button" value="Load Vision TFJS Graph Model" id="myLoadButton" onclick="{myLoadUrl()}">: 
+    <input type="button" value="Load Vision TFJS Graph Model" id="myLoadButton" onclick="{
+         tf.dispose(model)                                                                                
+         myLoadUrl()
+    }">: 
     <input id="myInFile" size="100" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
     
     <!-- Top Left <input id="myTopLeft" type="text" size="120" value="mymyPredictions[i].topLeft" placeholder="mymyPredictions[i].topLeft" ><br>  
@@ -218,7 +221,7 @@ const renderPrediction = async function(){
  //document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
  //document.getElementById('myDivTest').innerHTML += myPredictions.data
 
- //values.print();
+ values.print();    // print to console. latest values
  //indices.print();     
   
                                                                                             
