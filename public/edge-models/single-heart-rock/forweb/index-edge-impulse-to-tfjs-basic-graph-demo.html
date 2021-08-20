@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.8.0    </h5>
+    <h5>  Version 0.8.1    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -154,10 +154,18 @@ const setupPage = async function(){
   canvas = document.getElementById('myVideoCanvas');
   canvas.width = videoWidth;
   canvas.height = videoHeight;
-  ctx = canvas.getContext('2d');          // extra context for canvas layers
+  
+  // Make an extra context to add overlays if wanted
+  ctx = canvas.getContext('2d');          
   ctx.fillStyle = "rgba(255, 0, 0, 0.5)";  
   
-  await myLoadUrl()  
+  // Load your https saved TFJS Graph model
+  model = await tf.loadGraphModel('https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json');     // should make the model a global variable
+  const myZeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data on for Graph vision model
+  console.log('Testing model with zeros');
+  model.predict(myZeros).print();                  // print to console
+  console.log('Zeros test done above')
+  
   await renderPrediction();
 };
 
