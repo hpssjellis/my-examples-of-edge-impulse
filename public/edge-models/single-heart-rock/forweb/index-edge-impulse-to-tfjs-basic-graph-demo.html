@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h5>  Version 0.8.12    </h5>
+<h5>  Version 0.8.14    </h5>
 
 <!-- When working make the display:none; below to hide it  -->
 <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:inline; " ></video>  
@@ -70,8 +70,7 @@ const setupCamera = async function(){
 // Main render function        
 const renderPrediction = async function(){   
     
-   var myCanvasElement = document.getElementById('my224x224Canvas');
-   var myCTX = myCanvasElement.getContext('2d');
+
    myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
   
   
@@ -125,6 +124,10 @@ const setupPage = async function(){
   canvas = document.getElementById('myVideoCanvas');
   canvas.width = videoWidth;
   canvas.height = videoHeight;
+  
+  // Make the smaller canvas context
+  var myCanvasElement = document.getElementById('my224x224Canvas');
+  var myCTX = myCanvasElement.getContext('2d');
   
   // Make an extra context to add overlays if wanted
   ctx = myCanvasElement.getContext('2d');          
