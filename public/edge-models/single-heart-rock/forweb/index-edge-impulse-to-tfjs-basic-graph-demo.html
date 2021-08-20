@@ -5,39 +5,18 @@
 </head>
 
 <body>
-    <h5>  Version 0.8.3    </h5>
+<h5>  Version 0.8.4    </h5>
         
-    <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
-    <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
-    <canvas id="my224x224Canvas" style="border: 1px solid #ddd; -webkit-transform: scaleX(-1); transform: scaleX(-1); " width="224" height="224"></canvas>
+<vid    eo id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
+<canvas id="myVideoCanvas" style=" display:none; "></canvas>    
+<canvas id="my224x224Canvas" style="border: 1px solid #ddd; -webkit-transform: scaleX(-1); transform: scaleX(-1); " width="224" height="224"></canvas>
      
-     <div style="font-size:30px">Load Vision basic Graph Model TensorflowJS WebCam Demo</div>
-     Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
-     <a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a><br>
-     This workspace <a href="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/index.html">here</a><br> <br>  
+<div style="font-size:30px">Load Vision basic Graph Model TensorflowJS WebCam Demo</div>
+Other Rocksetta Vanilla Javascript single page Tensorflowjs demos<br> 
+<a href="https://www.rocksetta.com/tensorflowjs/default.php#tfjs-models">www.rocksetta.com/tensorflowjs/default.php#tfjs-models</a><br>
+This workspace <a href="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/index.html">here</a><br> <br>  
        
-    <input type="button" value="Load Vision TFJS Graph Model" id="myLoadButton" onclick="{myLoadUrl()}">: 
-    <input id="myInFile" size="100" type="text" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json"><br>
     
-    <!-- Top Left <input id="myTopLeft" type="text" size="120" value="mymyPredictions[i].topLeft" placeholder="mymyPredictions[i].topLeft" ><br>  
-    Bottom Right <input id="myBottomRight" type="text" size="120" value="mymyPredictions[i].bottomRight"  placeholder="mymyPredictions[i].bottomRight"><br>  
-    -->
-    
- 
-    <input type=button id="myStop" value="Go" onclick="{                                                      
-       if( document.getElementById('myStop').value == 'Stop') {  // means it should be running but click button to stop it
-           document.getElementById('myStop').value = 'Go'        // if clicked button now says Go
-          // stream.getTracks().forEach(track => track.stop())     
-          //myVideoSrc.stop);
-       } else {                                                  // means it was stopped and now it needs to run
-           document.getElementById('myStop').value = 'Stop'      // button now says stop
-          // myVideoSrc.play()   // does this work??
-           renderPrediction();                                              
-       }                                        
-     }"> Stops only the predictions not yet the video stream yet<br>
-        
-     <div id="myDiv01">Output eventually goes here</div>
-  
 <!-- check latest version numbers at
 https://www.npmjs.com/package/@tensorflow/tfjs  
 https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
@@ -69,7 +48,7 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 
     }       
                    
-        
+// Camera setup        
 const setupCamera = async function(){  
   myVideoSrc = document.getElementById('myVideo');
   const stream = await navigator.mediaDevices.getUserMedia({
@@ -86,7 +65,7 @@ const setupCamera = async function(){
   });
 }
 
-        
+// Main render function        
 const renderPrediction = async function(){   
     
    var myCanvasElement = document.getElementById('my224x224Canvas');
@@ -99,8 +78,8 @@ const renderPrediction = async function(){
 
    const myPredictions = model.predict( myImageTensor );  
   
-   console.log('myPredictions.data')  
-   console.log(myPredictions.data)   
+   // console.log('myPredictions.data')  
+   // console.log(myPredictions.data)   
   
    document.getElementById('myDiv01').innerHTML = ''   // clear the div                                                                                              
    // document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
@@ -124,7 +103,7 @@ const renderPrediction = async function(){
 };
   
   
-
+// Main setup function
 const setupPage = async function(){     
   const state = { backend: 'wasm' }; 
         
