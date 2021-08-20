@@ -97,8 +97,11 @@ const renderPrediction = async function(){
      
     ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
     ctx.fillStyle = 'red';
-    ctx.fillText('cool', 30, 30)
-    ctx.fillRect(30, 10, 200, 100);
+    ctx.font = "30px Arial";
+    ctx.fillText('Cool', 10, 10)    // overlay text  
+    
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(50, 50, 70, 70);   // overlay a skinny rectangle
   }
 
   requestAnimationFrame(renderPrediction);
