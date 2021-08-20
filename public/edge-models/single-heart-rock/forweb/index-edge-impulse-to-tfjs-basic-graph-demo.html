@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h5>  Version 0.8.6    </h5>
+<h5>  Version 0.8.7    </h5>
         
 <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
 <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -79,8 +79,8 @@ const renderPrediction = async function(){
 
    const myPredictions = model.predict( myImageTensor );  
   
-   // console.log('myPredictions.data')  
-   // console.log(myPredictions.data)   
+   console.log('myPredictions')  
+   console.log(myPredictions)   
   
    document.getElementById('myDiv01').innerHTML = ''   // clear the div                                                                                              
    // document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
@@ -94,9 +94,10 @@ const renderPrediction = async function(){
   if (myPredictions.length > 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
      
-    ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-    ctx.fillStyle = "blue";
-    ctx.fillRect(30, 10, 100, 30);
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.5);
+    ctx.fillStyle = 'red';
+    ctx.fillText('cool', 30, 30)
+    ctx.fillRect(30, 10, 200, 100);
   }
 
   requestAnimationFrame(renderPrediction);
