@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h5>  Version 0.8.16    </h5>
+<h5>  Version 0.8.17    </h5>
 
 <!-- When working make the display:none; below to hide it  -->
 <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:inline; " ></video>  
@@ -85,24 +85,11 @@ const renderPrediction = async function(){
   
    document.getElementById('myDiv01').innerHTML = ''   // clear the div                                                                                              
    // document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
-   document.getElementById('myDiv01').innerHTML += await myPredictions
+   document.getElementById('myDiv01').innerHTML += 'Label[0]: '+myPredictions[0]
 
  tf.engine().endScope()
 
- console.log('  Tensors after:', tf.memory().numTensors);   //,string  if unreliable is true
 
-  // Just shows a possible layered canvas
-  if (myPredictions.length > 0) {
-    ctx.clearRect(0, 0, 224, 224);
-     
-    ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-    ctx.fillStyle = 'red';
-    ctx.font = "10px Arial";
-    ctx.fillText('Cool', 10, 10)    // overlay text  
-    
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(20, 20, 70, 5);   // overlay a skinny rectangle
-  }
 
   requestAnimationFrame(renderPrediction);
   
@@ -131,10 +118,7 @@ const setupPage = async function(){
   // Make the smaller canvas context
   myCanvasElement = document.getElementById('my224x224Canvas');
   myCTX = myCanvasElement.getContext('2d');
-  
-  // Make an extra context to add overlays if wanted
-  ctx = canvas.getContext('2d');          
-  ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';  
+
   
   // Load your https saved TFJS Graph model
   // must know input resolution in this case 224, 224
