@@ -5,8 +5,9 @@
 </head>
 
 <body>
-<h5>  Version 0.8.11    </h5>
-        
+<h5>  Version 0.8.12    </h5>
+
+<!-- When working make the display:none; below to hide it  -->
 <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:inline; " ></video>  
 <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
 <canvas id="my224x224Canvas" style="border: 1px solid #ddd; -webkit-transform: scaleX(-1); transform: scaleX(-1); " width="224" height="224"></canvas>
@@ -77,14 +78,15 @@ const renderPrediction = async function(){
  tf.engine().startScope()
    const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([-1, 224, 224, 3]).div(tf.scalar(255)) ; 
 
-   const myPredictions = await model.predict( myImageTensor );  
+ //  const myPredictions = await model.predict( myImageTensor );  
+   const myPredictions = await model.predict( myImageTensor ).data();  
   
    console.log('myPredictions')  
    console.log(myPredictions)   
   
    document.getElementById('myDiv01').innerHTML = ''   // clear the div                                                                                              
    // document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
-   document.getElementById('myDiv01').innerHTML += await myPredictions.data
+   document.getElementById('myDiv01').innerHTML += await myPredictions
 
  tf.engine().endScope()
 
@@ -92,7 +94,7 @@ const renderPrediction = async function(){
 
   // Just shows a possible layered canvas
   if (myPredictions.length > 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, 224, 224);
      
     ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
     ctx.fillStyle = 'red';
@@ -125,7 +127,7 @@ const setupPage = async function(){
   canvas.height = videoHeight;
   
   // Make an extra context to add overlays if wanted
-  ctx = canvas.getContext('2d');          
+  ctx = myCanvasElement.getContext('2d');          
   ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';  
   
   // Load your https saved TFJS Graph model
