@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h5>  Version 0.8.8    </h5>
+<h5>  Version 0.8.9    </h5>
         
 <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
 <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -94,7 +94,7 @@ const renderPrediction = async function(){
   if (myPredictions.length > 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
      
-    ctx.fillStyle = 'rgba(255, 0, 0, 0.5);
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
     ctx.fillStyle = 'red';
     ctx.fillText('cool', 30, 30)
     ctx.fillRect(30, 10, 200, 100);
@@ -126,7 +126,7 @@ const setupPage = async function(){
   
   // Make an extra context to add overlays if wanted
   ctx = canvas.getContext('2d');          
-  ctx.fillStyle = "rgba(255, 0, 0, 0.5)";  
+  ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';  
   
   // Load your https saved TFJS Graph model
   // must know input resolution in this case 224, 224
