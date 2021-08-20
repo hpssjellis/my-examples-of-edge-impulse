@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h5>  Version 0.8.10    </h5>
+<h5>  Version 0.8.11    </h5>
         
 <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:inline; " ></video>  
 <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -75,16 +75,16 @@ const renderPrediction = async function(){
   
   
  tf.engine().startScope()
-   const myImageTensor = tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([-1, 224, 224, 3]).div(tf.scalar(255)) ; 
+   const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([-1, 224, 224, 3]).div(tf.scalar(255)) ; 
 
-   const myPredictions = model.predict( myImageTensor );  
+   const myPredictions = await model.predict( myImageTensor );  
   
    console.log('myPredictions')  
    console.log(myPredictions)   
   
    document.getElementById('myDiv01').innerHTML = ''   // clear the div                                                                                              
    // document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
-   document.getElementById('myDiv01').innerHTML += myPredictions.data
+   document.getElementById('myDiv01').innerHTML += await myPredictions.data
 
  tf.engine().endScope()
 
