@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h5>  Version 0.8.7    </h5>
+<h5>  Version 0.8.8    </h5>
         
 <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
 <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -129,6 +129,7 @@ const setupPage = async function(){
   ctx.fillStyle = "rgba(255, 0, 0, 0.5)";  
   
   // Load your https saved TFJS Graph model
+  // must know input resolution in this case 224, 224
   model = await tf.loadGraphModel('https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json');     // should make the model a global variable
   const myZeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data on for Graph vision model
   console.log('Testing model with zeros');
