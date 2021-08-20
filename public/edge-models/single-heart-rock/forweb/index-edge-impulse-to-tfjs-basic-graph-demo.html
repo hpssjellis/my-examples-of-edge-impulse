@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.8.2    </h5>
+    <h5>  Version 0.8.3    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -102,9 +102,9 @@ const renderPrediction = async function(){
    console.log('myPredictions.data')  
    console.log(myPredictions.data)   
   
-   document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
+   document.getElementById('myDiv01').innerHTML = ''   // clear the div                                                                                              
    // document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
-   document.getElementById('myDivTest').innerHTML += myPredictions.data
+   document.getElementById('myDiv01').innerHTML += myPredictions.data
 
  tf.engine().endScope()
 
@@ -122,6 +122,8 @@ const renderPrediction = async function(){
   requestAnimationFrame(renderPrediction);
   
 };
+  
+  
 
 const setupPage = async function(){     
   const state = { backend: 'wasm' }; 
