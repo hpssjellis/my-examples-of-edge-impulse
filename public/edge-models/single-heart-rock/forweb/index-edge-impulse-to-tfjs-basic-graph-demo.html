@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h5>  Version 0.8.17    </h5>
+<h5>  Version 0.8.18    </h5>
 
 <!-- When working make the display:none; below to hide it  -->
 <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:inline; " ></video>  
@@ -84,8 +84,10 @@ const renderPrediction = async function(){
    console.log(myPredictions)   
   
    document.getElementById('myDiv01').innerHTML = ''   // clear the div                                                                                              
-   // document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
-   document.getElementById('myDiv01').innerHTML += 'Label[0]: '+myPredictions[0]
+   // document.getElementById('myDivTest').innerHTML += myPredictions  
+   for (myPredictionsLoop = 0; myPredictionsLoop <= myPredictions.length; myPredictions++){ 
+      document.getElementById('myDiv01').innerHTML += 'Label[' + myPredictionsLoop + ']: ' + myPredictions[myPredictionsLoop]
+   } 
 
  tf.engine().endScope()
 
