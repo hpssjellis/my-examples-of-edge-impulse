@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h5>  Version 0.8.1    </h5>
+    <h5>  Version 0.8.2    </h5>
         
     <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:none; " ></video>  
     <canvas id="myVideoCanvas" style=" display:none; "></canvas>    
@@ -56,8 +56,7 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
 // does not seem to help   
 //tfjsWasm.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@latest/dist/tfjs-backend-wasm.wasm');
   
- 
-    
+     
    //Global variables
    const EDGE_LABELS = {
       0: 'Unknown',
@@ -69,27 +68,13 @@ https://www.npmjs.com/package/@tensorflow/tfjs-backend-wasm
       6: '6 not set'   
 
     }       
-                
- myLoadUrl = async function(){
-  const myFileName = document.getElementById('myInFile').value
-  if (myFileName != null){  
-    model = await tf.loadGraphModel('https://hpssjellis.github.io/my-examples-of-edge-impulse/public/edge-models/single-heart-rock/forweb/model.json');     // should make the model a global variable
-    const myZeros = tf.zeros([1, 224, 224, 3]);   // test with fake zeros data on for Graph vision model
-    console.log('Testing model with zeros');
-    model.predict(myZeros).print();                  // print to console
-    console.log('Zeros test done above')
-   // document.getElementById('myDiv01').innerHTML = ''   
-    // below only works for layers models  
-   // await model.summary(null,null,x => {document.getElementById('myDiv01').innerHTML += x + '<br>'});      
-  }                                                                           
-}      
-    
-    
+                   
+        
 const setupCamera = async function(){  
   myVideoSrc = document.getElementById('myVideo');
   const stream = await navigator.mediaDevices.getUserMedia({
     'audio': false,
-    'video': { facingMode: 'user' },
+    'video': { facingMode: 'user' },  // 'user' front camera, other option is 'environment' for rear camera
   });
   myVideoSrc.srcObject = stream;
    
@@ -100,8 +85,6 @@ const setupCamera = async function(){
     };
   });
 }
-
-
 
         
 const renderPrediction = async function(){   
@@ -115,11 +98,14 @@ const renderPrediction = async function(){
    const myImageTensor = tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([-1, 224, 224, 3]).div(tf.scalar(255)) ; 
 
    const myPredictions = model.predict( myImageTensor );  
-          
+  
+   console.log('myPredictions.data')  
+   console.log(myPredictions.data)   
+  
    document.getElementById('myDivTest').innerHTML = ''   // clear the div                                                                                              
    // document.getElementById('myDivTest').innerHTML += myPredictions                                                                                      
    document.getElementById('myDivTest').innerHTML += myPredictions.data
- 
+
  tf.engine().endScope()
 
  console.log('  Tensors after:', tf.memory().numTensors);   //,string  if unreliable is true
