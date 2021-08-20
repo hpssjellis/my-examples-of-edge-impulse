@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h5>  Version 0.8.15    </h5>
+<h5>  Version 0.8.16    </h5>
 
 <!-- When working make the display:none; below to hide it  -->
 <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:inline; " ></video>  
@@ -97,11 +97,11 @@ const renderPrediction = async function(){
      
     ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
     ctx.fillStyle = 'red';
-    ctx.font = "30px Arial";
+    ctx.font = "10px Arial";
     ctx.fillText('Cool', 10, 10)    // overlay text  
     
     ctx.fillStyle = 'blue';
-    ctx.fillRect(50, 50, 70, 70);   // overlay a skinny rectangle
+    ctx.fillRect(20, 20, 70, 5);   // overlay a skinny rectangle
   }
 
   requestAnimationFrame(renderPrediction);
@@ -133,7 +133,7 @@ const setupPage = async function(){
   myCTX = myCanvasElement.getContext('2d');
   
   // Make an extra context to add overlays if wanted
-  ctx = myCanvasElement.getContext('2d');          
+  ctx = canvas.getContext('2d');          
   ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';  
   
   // Load your https saved TFJS Graph model
