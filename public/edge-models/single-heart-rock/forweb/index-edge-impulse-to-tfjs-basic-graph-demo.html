@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h5>  Version 0.8.21    </h5>
+<h5>  Version 0.8.22   </h5>
 
 <!-- When working make the display:none; below to hide it  -->
 <video id="myVideo" playsinline="" style="-webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto; display:inline; " ></video>  
@@ -58,10 +58,8 @@ const setupCamera = async function(){
 
 // Main render function        
 const renderPrediction = async function(){   
-    
-
-   myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
-  
+ 
+ myCTX.drawImage(myVideoSrc, 0, 0, myCanvasElement.width, myCanvasElement.height);
   
  tf.engine().startScope()
    const myImageTensor = await tf.browser.fromPixels(document.getElementById('my224x224Canvas')).toFloat().reshape([-1, 224, 224, 3]).div(tf.scalar(255)) ; 
@@ -80,9 +78,7 @@ const renderPrediction = async function(){
   document.getElementById('myDiv01').innerHTML = JSON.stringify( myPredictions, null, '<br>')
 
  tf.engine().endScope()
-
-
-
+  
   requestAnimationFrame(renderPrediction);
   
 };
@@ -126,6 +122,15 @@ const setupPage = async function(){
   
 // Run the main program  
 setupPage();
+  
+ /*
+ 
+    (async function() {                                                                
+       
+      
+      }  )()
+  
+  */
 
 </script>
     
