@@ -170,11 +170,13 @@ void loop()
 
     
     
-    u8g2.drawBox(0,0,240,240);                      //draw the rectangle
-   // u8g2.drawLine();  // horizontal bottom
+    //u8g2.drawBox(0,0,240,240);                      //draw the rectangle
     
-   // u8g2.drawLine();                       // vertical left
-    //u8g2.drawLine();        // vertical right
+   u8g2.drawLine(0,0,240,0);                                          // horizontal top
+   u8g2.drawLine(0,240,240,240);  // horizontal bottom
+    
+   u8g2.drawLine(0,0,0,240);                       // vertical left
+   u8g2.drawLine(240,0,240,240);        // vertical right
 
     
    //u8g2.drawLine((int)cutout_row_start,0,  (int)CUTOUT_ROWS, 0);                                          // horizontal top
