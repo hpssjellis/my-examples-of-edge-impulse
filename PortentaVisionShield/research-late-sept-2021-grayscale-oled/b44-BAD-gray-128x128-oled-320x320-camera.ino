@@ -110,11 +110,11 @@ CameraClass myCam;
 
 // raw frame buffer from the camera
 #define FRAME_BUFFER_COLS          320   // 160
-#define FRAME_BUFFER_ROWS          240   // 120
+#define FRAME_BUFFER_ROWS          320   // 240   // 120
 
 //uint16_t frame_buffer[FRAME_BUFFER_COLS * FRAME_BUFFER_ROWS] = { 0 };
 
-uint8_t frame_buffer[320*240] __attribute__((aligned(32)));
+uint8_t frame_buffer[320*320] __attribute__((aligned(32)));
 
 // cutout that we want (this does not do a resize, which would also be an option, but you'll need some resize lib for that)
 #define CUTOUT_COLS                 EI_CLASSIFIER_INPUT_WIDTH
@@ -216,11 +216,11 @@ void setup()
    // int y1 = (int)cutout_row_start;  
    // int y2 = (int)CUTOUT_ROWS; 
 
-    //   map cutout of the 320 x 240 model to OLED 128 x 64 screen
+    //   map cutout of the 320 x 320 model to OLED 128 x 128 screen
     x1Map = map((int)cutout_col_start, 0, 320, 0, 127);  
     x2Map = map((int)CUTOUT_COLS, 0, 320, 0, 127);
-    y1Map = map((int)cutout_row_start, 0, 240, 0, 63);
-    y2Map = map((int)CUTOUT_ROWS, 0, 240, 0, 63);
+    y1Map = map((int)cutout_row_start, 0, 320, 0, 63);
+    y2Map = map((int)CUTOUT_ROWS, 0, 320, 0, 63);
 
     Serial.begin(115200);
      
@@ -230,7 +230,7 @@ void setup()
       
 
     // Init the cam
-    myCam.begin(CAMERA_R320x240, 30);
+    myCam.begin(CAMERA_R320x320, 30);
 
    // Serial.println("Edge Impulse Inferencing Demo");
 }
@@ -337,7 +337,7 @@ void loop()
     Serial.println();
 
       for (int x=0; x < FRAME_BUFFER_COLS; x++){     // FRAME_BUFFER_COLS = 320
-        for (int y=0; y < FRAME_BUFFER_ROWS; y++){       //FRAME_BUFFER_ROWS = 240
+        for (int y=0; y < FRAME_BUFFER_ROWS; y++){       //FRAME_BUFFER_ROWS = 232
           //frame_buffer[FRAME_BUFFER_COLS * FRAME_BUFFER_ROWS]
           
           uint8_t myGRAY = frame_buffer[(y * (int)FRAME_BUFFER_COLS) + x];  
@@ -345,7 +345,7 @@ void loop()
 
             int myGrayMap = map(myGRAY, 0, 255, 0, 15);  
             int xMap = map(x, 0, 320, 0, 127);
-            int yMap = map(y, 0, 240, 0, 127);
+            int yMap = map(y, 0, 320, 0, 127);
            display.drawPixel(xMap, yMap, myGrayMap );   // grayscale 0-255, 128x128  //128 x 64
           //}
       } 
