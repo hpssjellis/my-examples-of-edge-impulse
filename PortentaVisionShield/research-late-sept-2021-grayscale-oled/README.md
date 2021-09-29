@@ -24,4 +24,11 @@ https://github.com/arduino/ArduinoCore-mbed/issues/336
 
 
 
+So now I need help from EdgeImpulse I think this is a good as I can hope at the moment.
+
+96x96 Edge Impulse model using a Portenta vision shield 320x240 camera shown on an 128x128 Grayscale OLED by waveshare.
+
+![OLED and microcontroller model](20210929_145249.jpg)
+
+
 
