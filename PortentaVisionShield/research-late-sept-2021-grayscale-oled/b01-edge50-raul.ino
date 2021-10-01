@@ -52,6 +52,8 @@
  */
  
 #include <Arduino.h>  // only needed for https://platformio.org/
+//#include <SD.h>
+#include <SDRAM.h>
 
 #include <Adafruit_SSD1327.h>
 
