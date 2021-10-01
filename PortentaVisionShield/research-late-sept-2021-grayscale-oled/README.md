@@ -8,7 +8,7 @@ looking into squish instead of cutout ways to look at the image
 https://www.waveshare.com/1.5inch-oled-module.htm
 
 
-WORKING   b01-edge48-96x96-model-regular-gray-128x128-oled-count-results.ino
+WORKING   [works](b01-edge48-96x96-model-regular-gray-128x128-oled-count-results.ino)
 
 
 https://github.com/hpssjellis/my-examples-of-edge-impulse/blob/main/PortentaVisionShield/research-late-sept-2021-grayscale-oled/b01-edge48-96x96-model-regular-gray-128x128-oled-count-results.ino
