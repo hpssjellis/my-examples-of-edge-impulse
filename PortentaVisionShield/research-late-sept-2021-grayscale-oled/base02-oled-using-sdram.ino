@@ -1,10 +1,5 @@
 /*
  * 
- * Must use portenta with Vision camerera and Grove OLED 
- * Should be implemented with MBED version greater than 1.4.2
- * Until then needs the 2 main library folders Portenta_Camera and Himax_HM01B0
- * 
- * 
  *
  * Purchase here https://www.waveshare.com/1.5inch-OLED-Module.htm about $29 USD
  *
@@ -29,16 +24,8 @@
  */
 
 
-
-
- // IN PROCESS, NOT YET WORKING OR EVEN CODED
-
-
-
-
- 
 #include <Arduino.h>  // only needed for https://platformio.org/
-
+#include <SDRAM.h>
 #include <Adafruit_SSD1327.h>
 
 // Used for software SPI
@@ -56,22 +43,24 @@
 Adafruit_SSD1327 display(128, 128, &SPI, OLED_DC, OLED_RESET, OLED_CS);
 
 
-
-
 #include "camera.h"
 
 CameraClass cam;
-uint8_t frame_buffer[320*320];
+
+SDRAMClass mySDRAM;
+
+uint8_t *sdram_frame_buffer;
+//uint8_t frame_buffer[320*320];
 
 void setup() {
   //Serial.begin(921600);  
   Serial.begin(115200);  
-
+ 
+  mySDRAM.begin();
+  sdram_frame_buffer = (uint8_t *)mySDRAM.malloc(320 * 320 * sizeof(uint8_t));
+ 
   // Init the cam QVGA, 30FPS
   cam.begin(CAMERA_R320x320, 30);
-
- // display.clearDisplay();                 // clear the internal memory
-
 
     if ( ! display.begin(0x3D) ) {
      Serial.println("Unable to initialize OLED");
@@ -82,8 +71,6 @@ void setup() {
 
     display.setRotation(0);
     display.setCursor(0,0);
-
-
 
     
 }
@@ -98,14 +85,14 @@ void loop() {
   //while(Serial.read() != 1){};
   
   // Grab frame and write to serial
-  if (cam.grab(frame_buffer) == 0) {
+  if (cam.grab(sdram_frame_buffer) == 0) {
      //Serial.write(frame_buffer, 320*320);     
 
 
     for (int x=0; x < 320; x++){     // FRAME_BUFFER_COLS = 320
        for (int y=0; y < 320; y++){       //FRAME_BUFFER_ROWS = 320
 
-          uint16_t myGRAY = frame_buffer[(y * 320) + x] ;  
+          uint16_t myGRAY = sdram_frame_buffer[(y * 320) + x] ;  
         //  int myGRAY = frame_buffer[(y * 320) + x] ;  
           int xMap = map(x, 0, 320, 0, 127);
           int yMap = map(y, 0, 320, 0, 127);
@@ -129,37 +116,3 @@ void loop() {
 
 
 
-/*
-
-
-      for (int x=0; x < FRAME_BUFFER_COLS; x++){     // FRAME_BUFFER_COLS = 320
-        for (int y=0; y < FRAME_BUFFER_ROWS; y++){       //FRAME_BUFFER_ROWS = 320
-          //frame_buffer[FRAME_BUFFER_COLS * FRAME_BUFFER_ROWS]
-          
-          uint8_t myGRAY = frame_buffer[(y * (int)FRAME_BUFFER_COLS) + x];  
-         // if (myGRAY > 100){  // if brightish then put pixel on OLED 0 to 255
-          //  u8g2.SetDrawColor(myGRAY)
-            int xMap = map(x, 0, 320, 0, 127);
-            int yMap = map(y, 0, 320, 0, 127);
-            display.drawPixel(xMap, yMap, myGRAY);   // grayscale 0-255, 128x128  //128 x 64
-          //  display.drawPixel(xMap, yMap, (int)myGRAY*255);   // grayscale 0-255, 128x128  //128 x 64
-           // display.drawPixel(x, y, (int)myGRAY);   // grayscale 0-255, 128x128  //128 x 64
-           // display.drawPixel(xMap, yMap, SSD1327_WHITE);   // grayscale 0-255, 128x128  //128 x 64
-            
-           // display.drawRect(xMap, yMap, xMap+1, yMap+1, SSD1327_WHITE );
-         //}
-      } 
-   }
-
-   // display.display();
-
-    //u8g2.setDrawColor(2);  // XOR OLED  
-    display.drawRect(x1Map, y1Map, x2Map, y2Map, SSD1327_WHITE );
-
-   // u8g2.setDrawColor(1);               // regular OLED
-  //  u8g2.drawStr(20,10,"Rocksetta");    // write something to the internal memory
-    display.setCursor(0,0);
-    display.println("Rocksetta");
-
-
-    */
