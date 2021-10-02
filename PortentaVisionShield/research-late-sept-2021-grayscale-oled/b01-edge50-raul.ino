@@ -223,6 +223,16 @@ void setup()
 
 
 
+   //  SDRAM.free(ei_camera_frame_mem);   // free old framebuffer?
+
+    ei_camera_frame_mem = (uint8_t *) SDRAM.malloc(EI_CAMERA_RAW_FRAME_BUFFER_COLS * EI_CAMERA_RAW_FRAME_BUFFER_ROWS + 32 /*alignment*/);
+    if(ei_camera_frame_mem == NULL) {
+        ei_printf("failed to create ei_camera_frame_mem\r\n");
+        return false;
+    }
+    ei_camera_frame_buffer = (uint8_t *)ALIGN_PTR((uintptr_t)ei_camera_frame_mem, 32);
+
+
 
 
   
@@ -310,16 +320,6 @@ void loop()
     ei_impulse_result_t result = { 0 };
 
 
-  // raul addon
-
-     SDRAM.free(ei_camera_frame_mem);   // free old framebuffer?
-
-      ei_camera_frame_mem = (uint8_t *) SDRAM.malloc(EI_CAMERA_RAW_FRAME_BUFFER_COLS * EI_CAMERA_RAW_FRAME_BUFFER_ROWS + 32 /*alignment*/);
-    if(ei_camera_frame_mem == NULL) {
-        ei_printf("failed to create ei_camera_frame_mem\r\n");
-        return false;
-    }
-    ei_camera_frame_buffer = (uint8_t *)ALIGN_PTR((uintptr_t)ei_camera_frame_mem, 32);
 
 
 
