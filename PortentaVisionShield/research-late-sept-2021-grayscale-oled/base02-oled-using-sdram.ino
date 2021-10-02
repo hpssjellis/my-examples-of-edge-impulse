@@ -56,7 +56,11 @@ void setup() {
   //Serial.begin(921600);  
   Serial.begin(115200);  
  
-  mySDRAM.begin();
+  //mySDRAM.begin();
+  
+  mySDRAM.begin(SDRAM_START_ADDRESS);
+
+  
   sdram_frame_buffer = (uint8_t *)mySDRAM.malloc(320 * 320 * sizeof(uint8_t));
  
   // Init the cam QVGA, 30FPS
@@ -94,11 +98,14 @@ void loop() {
 
           uint16_t myGRAY = sdram_frame_buffer[(y * 320) + x] ;  
         //  int myGRAY = frame_buffer[(y * 320) + x] ;  
+
+        
+          int myGrayMap = map(myGRAY, 0, 255, 0, 15);  
           int xMap = map(x, 0, 320, 0, 127);
           int yMap = map(y, 0, 320, 0, 127);
      //     display.drawPixel(xMap, yMap, myGRAY); 
-           display.drawPixel(xMap, yMap, (int)myGRAY);   // grayscale 0-255, 128x128  //128 x 64
-         // delay(1);
+           display.drawPixel(xMap, yMap, (int)myGrayMap);   // grayscale 0-16, 128x128  //128 x 64
+         // delayMicroseconds(10);
       } 
     }     
   }
@@ -113,6 +120,3 @@ void loop() {
         
  // delay(100); 
 }
-
-
-
