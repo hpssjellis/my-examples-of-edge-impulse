@@ -1,3 +1,11 @@
+
+
+#define DL_IMAGE_MIN(A, B) ((A) < (B) ? (A) : (B))
+#define DL_IMAGE_MAX(A, B) ((A) < (B) ? (B) : (A))
+
+
+
+
 void image_resize_linear(uint8_t *dst_image, uint8_t *src_image, int dst_w, int dst_h, int dst_c, int src_w, int src_h)
 { /*{{{*/
     float scale_x = (float)src_w / dst_w;
