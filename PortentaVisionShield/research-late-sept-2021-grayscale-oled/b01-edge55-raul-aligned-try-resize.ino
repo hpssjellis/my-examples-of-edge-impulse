@@ -144,6 +144,15 @@ void print_memory_info() {
 *  supplied by Raul Edge Impulse
 *
 */
+// This include file works in the Arduino environment
+// to define the Cortex-M intrinsics
+#ifdef __ARM_FEATURE_SIMD32
+#include <device.h>
+#endif
+// This needs to be < 16 or it won't fit. Cortex-M4 only has SIMD for signed multiplies
+#define FRAC_BITS 14
+#define FRAC_VAL (1<<FRAC_BITS)
+#define FRAC_MASK (FRAC_VAL - 1)
 
 // Resize
 //
@@ -298,51 +307,6 @@ int ei_camera_cutout_get_data(size_t offset, size_t length, float *out_ptr) {
 
 
 
-/**
- * This function is called by the classifier to get data
- * We don't want to have a separate copy of the cutout here, so we'll read from the frame buffer dynamically
- */
-int cutout_get_data(size_t offset, size_t length, float *out_ptr) {
-    // so offset and length naturally operate on the *cutout*, so we need to cut it out from the real framebuffer
-    size_t bytes_left = length;
-    size_t out_ptr_ix = 0;
-
-    // read byte for byte
-    while (bytes_left != 0) {
-        // find location of the byte in the cutout
-        size_t cutout_row = floor(offset / CUTOUT_COLS);
-        size_t cutout_col = offset - (cutout_row * CUTOUT_COLS);
-
-        // then read the value from the real frame buffer
-        size_t frame_buffer_row = cutout_row + cutout_row_start;
-        size_t frame_buffer_col = cutout_col + cutout_col_start;
-
-        // grab the value and convert to r/g/b
-        uint8_t pixel = ei_camera_frame_buffer[(frame_buffer_row * FRAME_BUFFER_COLS) + frame_buffer_col];
-
-
-        //uint8_t pixel = (pixelTemp>>8) | (pixelTemp<<8);
-        //uint8_t pixel = 255-pixelTemp;
-        
-        uint8_t r = pixel;
-        uint8_t g = pixel;
-        uint8_t b = pixel;
-
-        // then convert to out_ptr format
-        float pixel_f = (r << 16) + (g << 8) + b;
-        out_ptr[out_ptr_ix] = pixel_f;
-
-        // and go to the next pixel
-        out_ptr_ix++;
-        offset++;
-        bytes_left--;
-    }
-
-    // and done!
-    return 0;
-}
-
-
 
 /**
  * @brief      Arduino setup function
@@ -437,7 +401,8 @@ void loop()
       } 
    }
 
-    display.drawRect(x1Map, y1Map,   x2Map, y2Map, SSD1327_WHITE );
+    //display.drawRect(x1Map, y1Map,   x2Map, y2Map, SSD1327_WHITE );
+    display.drawRect(2, 2,   126, 126, SSD1327_WHITE );  // rectangle around outside of OLED
 
     display.setCursor(10,10);
     display.println("Rocksetta");
@@ -471,12 +436,12 @@ void loop()
  
  
     // the features are stored into flash, and we don't want to load everything into RAM
-    signal_t features_signal;
-    features_signal.total_length = CUTOUT_COLS * CUTOUT_ROWS;
-    features_signal.get_data = &cutout_get_data;
+   // signal_t features_signal;
+   // features_signal.total_length = CUTOUT_COLS * CUTOUT_ROWS;
+   // features_signal.get_data = &cutout_get_data;
 
     // invoke the impulse
-    EI_IMPULSE_ERROR res = run_classifier(&features_signal, &result, false /* debug */);
+    EI_IMPULSE_ERROR res = run_classifier(&signal, &result, false /* debug */);
     ei_printf("run_classifier returned: %d\n", res);
 
     if (res != 0) return;
@@ -518,7 +483,7 @@ void loop()
       myClassCount += 1;
       
       display.setCursor(10,110);
-      display.println("Microcontroller!");
+      display.println("Microcontroller(s)!");
 
     } 
     
