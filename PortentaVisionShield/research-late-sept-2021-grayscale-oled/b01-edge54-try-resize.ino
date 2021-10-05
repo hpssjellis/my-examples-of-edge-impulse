@@ -140,13 +140,12 @@ void print_memory_info() {
 
 
 
+
 #define DL_IMAGE_MIN(A, B) ((A) < (B) ? (A) : (B))
 #define DL_IMAGE_MAX(A, B) ((A) < (B) ? (B) : (A))
 
-// trying this ESP32 function to resize the data 
-// from https://github.com/espressif/esp-dl/blob/420fc7e219ba98e40a5493b9d4be270db2f2d724/image_util/image_util.c
 
-//note: int dst_c is 1 for GRAYSCALE and 3 for RGB
+
 
 void image_resize_linear(uint8_t *dst_image, uint8_t *src_image, int dst_w, int dst_h, int dst_c, int src_w, int src_h)
 { /*{{{*/
@@ -156,8 +155,8 @@ void image_resize_linear(uint8_t *dst_image, uint8_t *src_image, int dst_w, int 
     int dst_stride = dst_c * dst_w;
     int src_stride = dst_c * src_w;
 
-  
-  /*  // what is fabs????
+
+/*
     if (fabs(scale_x - 2) <= 1e-6 && fabs(scale_y - 2) <= 1e-6)
     {
         image_zoom_in_twice(
@@ -169,9 +168,10 @@ void image_resize_linear(uint8_t *dst_image, uint8_t *src_image, int dst_w, int 
             src_w,
             dst_c);
     }
-  */
-  //  else
-   // {
+    else
+    {
+
+      */
         for (int y = 0; y < dst_h; y++)
         {
             float fy[2];
@@ -205,10 +205,9 @@ void image_resize_linear(uint8_t *dst_image, uint8_t *src_image, int dst_w, int 
                     dst_image[y * dst_stride + x * dst_c + c] = round(src_image[src_y * src_stride + src_x * dst_c + c] * fx[1] * fy[1] + src_image[src_y * src_stride + (src_x + 1) * dst_c + c] * fx[0] * fy[1] + src_image[(src_y + 1) * src_stride + src_x * dst_c + c] * fx[1] * fy[0] + src_image[(src_y + 1) * src_stride + (src_x + 1) * dst_c + c] * fx[0] * fy[0]);
                 }
             }
-        //}
-    }
+        }
+    //}   // image zoom in twice not needed
 } /*}}}*/
-
 
 
 
@@ -378,7 +377,29 @@ void loop()
     // the features are stored into flash, and we don't want to load everything into RAM
     signal_t features_signal;
     features_signal.total_length = CUTOUT_COLS * CUTOUT_ROWS;
-    features_signal.get_data = &cutout_get_data;
+    float model_input_buffer[features_signal.total_length];
+   
+    //features_signal.get_data = &cutout_get_data;
+
+    // somehow activate resize???
+    // void image_resize_linear(uint8_t *dst_image, uint8_t *src_image, int dst_w, int dst_h, int dst_c, int src_w, int src_h)
+
+
+    //uint8_t * tmp_buffer = (uint8_t *) malloc(features_signal.total_length);
+    
+    uint8_t * tmp_buffer = (uint8_t *) malloc(features_signal.total_length);
+
+    image_resize_linear(  tmp_buffer,  sdram_frame_buffer,  96,96,    1  /* 1 = GRAYSCALE */,    320,320 );
+    
+    for (int i=0; i < features_signal.total_length; i++){
+       model_input_buffer[i] = tmp_buffer[i] / 255.0f;
+    }
+
+  
+
+    features_signal.get_data((unsigned int)sizeof(uint8_t), (unsigned int)features_signal.total_length, model_input_buffer);
+    
+    free(tmp_buffer);
 
     // invoke the impulse
     EI_IMPULSE_ERROR res = run_classifier(&features_signal, &result, false /* debug */);
