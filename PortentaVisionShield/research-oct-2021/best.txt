@@ -1,0 +1,8 @@
+  let myBestClassificationNumber = -1  
+  let myBestClassificationValue = 0.25   // lowest best allowable value 
+  for (let j = 0;  j < results.results.length; j++){  
+      if (results.results[j].value > myBestClassificationValue ){
+           myBestClassificationNumber = j;                      // find the biggest array value
+           myBestClassificationValue = results.results[j].value  
+        }
+  }
