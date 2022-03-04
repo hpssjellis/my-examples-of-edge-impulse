@@ -22,7 +22,7 @@
   
     
     
-Version 0.10.0.54 special only one image <br>
+Version 0.10.1.55 special only one image <br>
 
     
     <div id="description">
@@ -203,8 +203,8 @@ const myPictureNow  = async function(){
   
 
  // console.log('results.results[0]')
-  console.log('results.bonding_boxes')
-  console.log(results.bonding_boxes)
+  console.log('results.bounding_boxes')
+  console.log(results.bounding_boxes)
  // console.log('results.results[1]')
 //  console.log('results.results[1]')
 //  console.log(results.results[1])
@@ -306,10 +306,10 @@ ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)
     
 ctxOverlap.lineWidth = "3";
 ctxOverlap.strokeStyle = "red";
-ctxOverlap.rect(results.bonding_boxes[0].x, results.bonding_boxes[0].y, results.bonding_boxes[0].x+results.bonding_boxes[0].width, results.bonding_boxes[0].y+results.bonding_boxes[0].height); // rectangle x,y,width,height
+ctxOverlap.rect(results.bounding_boxes[0].x, results.bounding_boxes[0].y, results.bounding_boxes[0].x+results.bounding_boxes[0].width, results.bounding_boxes[0].y+results.bounding_boxes[0].height); // rectangle x,y,width,height
 ctxOverlap.stroke();
 ctxOverlap.font = "30px Arial";
-ctxOverlap.fillText(results.bonding_boxes[0].label, results.bonding_boxes[0].x, results.bonding_boxes[0].y-20);   // Text, x, y
+ctxOverlap.fillText(results.bounding_boxes[0].label, results.bounding_boxes[0].x, results.bounding_boxes[0].y-20);   // Text, x, y
     
  //  }  
        
@@ -319,7 +319,7 @@ ctxOverlap.fillText(results.bonding_boxes[0].label, results.bonding_boxes[0].x, 
     
  // document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
     
-  document.getElementById('myDiv01').innerHTML = '<table border=1  style="font-size:30px"><tr><td>'+ results.bonding_boxes[0].label + '</td><td>' + results.bonding_boxes[0].value.toFixed(3) +'</td></tr></table>'
+  document.getElementById('myDiv01').innerHTML = '<table border=1  style="font-size:30px"><tr><td>'+ results.bounding_boxes[0].label + '</td><td>' + results.bounding_boxes[0].value.toFixed(3) +'</td></tr></table>'
 }
   
 //   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp 
