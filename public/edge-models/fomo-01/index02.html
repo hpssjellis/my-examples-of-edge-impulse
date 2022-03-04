@@ -306,10 +306,10 @@ ctxOverlap.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)
     
 ctxOverlap.lineWidth = "3";
 ctxOverlap.strokeStyle = "red";
-ctxOverlap.rect(results.results[0].x, results.results[0].y, results.results[0].x+results.results[0].width, results.results[0].y+results.results[0].height); // rectangle x,y,width,height
+ctxOverlap.rect(results.bonding_boxes[0].x, results.bonding_boxes[0].y, results.bonding_boxes[0].x+results.bonding_boxes[0].width, results.bonding_boxes[0].y+results.bonding_boxes[0].height); // rectangle x,y,width,height
 ctxOverlap.stroke();
 ctxOverlap.font = "30px Arial";
-ctxOverlap.fillText(results.results[0].label, results.results[0].x, results.results[0].y-20);   // Text, x, y
+ctxOverlap.fillText(results.bonding_boxes[0].label, results.bonding_boxes[0].x, results.bonding_boxes[0].y-20);   // Text, x, y
     
  //  }  
        
@@ -319,7 +319,7 @@ ctxOverlap.fillText(results.results[0].label, results.results[0].x, results.resu
     
  // document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
     
-  document.getElementById('myDiv01').innerHTML = '<table border=1  style="font-size:30px"><tr><td>'+ results.results[0].label + '</td><td>' + results.results[0].value.toFixed(3) +'</td></tr></table>'
+  document.getElementById('myDiv01').innerHTML = '<table border=1  style="font-size:30px"><tr><td>'+ results.bonding_boxes[0].label + '</td><td>' + results.bonding_boxes[0].value.toFixed(3) +'</td></tr></table>'
 }
   
 //   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp 
