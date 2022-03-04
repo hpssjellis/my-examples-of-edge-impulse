@@ -22,7 +22,7 @@
   
     
     
-Version 0.10.1.55 special only one image <br>
+Version 0.10.2.56 special only one image <br>
 
     
     <div id="description">
@@ -141,6 +141,30 @@ const myPictureNow  = async function(){
   
    var classifier = new EdgeImpulseClassifier();
    await classifier.init(); 
+  
+              let project = classifier.getProjectInfo();
+            document.querySelector('h1').textContent = project.owner + ' / ' + project.name + ' (version ' + project.deploy_version + ')';
+
+            document.querySelector('#run-inference').onclick = () => {
+                try {
+                    let features = document.querySelector('#features').value.split(',').map(x => Number(x.trim()));
+                    let res = classifier.classify(features);
+                    document.querySelector('#results').textContent = JSON.stringify(res, null, 4);
+                }
+                catch (ex) {
+                    alert('Failed to classify: ' + (ex.message || ex.toString()));
+                }
+  
+  
+  
+     /*         
+              
+              
+              
+              
+              
+              
+              
     
    let props = classifier.getProperties();
     
@@ -320,7 +344,12 @@ ctxOverlap.fillText(results.bounding_boxes[0].label, results.bounding_boxes[0].x
  // document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
     
   document.getElementById('myDiv01').innerHTML = '<table border=1  style="font-size:30px"><tr><td>'+ results.bounding_boxes[0].label + '</td><td>' + results.bounding_boxes[0].value.toFixed(3) +'</td></tr></table>'
-}
+
+            
+            
+          
+            
+      }
   
 //   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp 
   
