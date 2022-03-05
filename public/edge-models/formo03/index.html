@@ -4,14 +4,14 @@
   <div id="main">
 
   
-<canvas id="myGrowCanvas" style="position:absolute; left:0px; top:0px; width:1000px; height:1000px; " ></canvas> <br>  
+<canvas id="myGrowCanvas" style="position:absolute; left:0px; top:0px; width:1200px; height:1000px; " ></canvas> <br>  
    
- <canvas id="myOverlap2" style="position:absolute; left:0px; top:0px; width:640px; height:480px; background:transparent;  " ></canvas>  
+ <canvas id="myOverlap2" style="position:absolute; left:0px; top:0px; width:120px; height:1000px; background:transparent;  " ></canvas>  
     
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.14.4.77 <br>
+Version 0.14.5.78 <br>
   
   
 <div id="description">
@@ -267,7 +267,16 @@ const myPictureNow  = async function(){
   //  console.log(results.results[i].y)
   //  console.log(results.results[i].height)
    // console.log(results.results[i].width)
-
+    
+   ctxOverlap2.beginPath();
+   ctxOverlap2.clearRect(0, 0, ctxOverlap.canvas.width, ctxOverlap.canvas.height)   
+    
+   ctxOverlap2.lineWidth = "3";
+   ctxOverlap2.strokeStyle = "red";
+  // ctxOverlap2.rect(results.results[i].x, results.results[i].y, results.results[i].x + results.results[i].width, results.results[i].y + results.results[i].height); // rectangle x,y,width,height
+   ctxOverlap2.stroke();
+   ctxOverlap2.font = "30px Arial";
+   ctxOverlap2.fillText(results.results[i].label, results.results[i].x, results.results[i].y-20);   // Text, x, y
     
     if (myBestClassificationNumber == i){   // check if this is the best one
       
