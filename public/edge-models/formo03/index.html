@@ -11,7 +11,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.14.2.75 <br>
+Version 0.14.3.76 <br>
   
   
 <div id="description">
@@ -273,12 +273,12 @@ const myPictureNow  = async function(){
       
           
       document.getElementById('mySpecialDiv').innerHTML = "Top Result: " //+ results.timing
+      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].label: " + results.results[i].label
+      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].value: " + results.results[i].value 
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].x: " + results.results[i].x
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].y: " + results.results[i].y
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].width: " + results.results[i].width
-      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].height: " + results.results[i].height
-      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].label: " + results.results[i].label
-      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].value: " + results.results[i].value + "<br><br>"
+      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].height: " + results.results[i].height + "<br><br>"
       document.getElementById('mySpecialDiv').innerHTML +=  JSON.stringify(results, null, 4);   // might as well show everything
       
       
