@@ -9,7 +9,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.12.2.68 <br>
+Version 0.12.4.70 <br>
   
   
 <div id="description">
@@ -47,9 +47,9 @@ Version 0.12.2.68 <br>
         Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br><br>
       
        <textarea id="myTextArea01" style="display:none; " rows=10 cols=70>...</textarea> <br> <br> <br>
-  
-  </td></tr></table>
        <div id="mySpecialDiv">...</div> 
+  </td></tr></table>
+
         
 
       
@@ -257,14 +257,19 @@ const myPictureNow  = async function(){
   for (let i = 0;  i < results.results.length; i++){  
     
     
-    console.log(results.results[i].label)
-    console.log(results.results[i].value)
-    console.log(results.results[i].x)
-    console.log(results.results[i].y)
-    console.log(results.results[i].height)
-    console.log(results.results[i].width)
+  //  console.log(results.results[i].label)
+  //  console.log(results.results[i].value)
+  //  console.log(results.results[i].x)
+  //  console.log(results.results[i].y)
+  //  console.log(results.results[i].height)
+   // console.log(results.results[i].width)
     
       document.getElementById('mySpecialDiv').innerHTML = "results.results[i].x: " + results.results[i].x
+      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].y: " + results.results[i].y
+      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].width: " + results.results[i].width
+      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].height: " + results.results[i].height
+      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].label: " + results.results[i].label
+      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].value: " + results.results[i].value + "<br><br>"
     
     if (myBestClassificationNumber == i){   // check if this is the best one
         if (! document.getElementById('myCheckbox02sounds').checked){
