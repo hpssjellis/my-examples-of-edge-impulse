@@ -9,7 +9,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.11.7.65 <br>
+Version 0.12.0.66 <br>
   
   
 <div id="description">
@@ -255,7 +255,14 @@ const myPictureNow  = async function(){
   
     
   for (let i = 0;  i < results.results.length; i++){  
-    console.log("Cool")
+    
+    
+    console.log(results.results[i].label)
+    console.log(results.results[i].value)
+    console.log(results.results[i].x)
+    console.log(results.results[i].y)
+    console.log(results.results[i].height)
+    console.log(results.results[i].width)
     if (myBestClassificationNumber == i){   // check if this is the best one
         if (! document.getElementById('myCheckbox02sounds').checked){
           
@@ -279,10 +286,7 @@ const myPictureNow  = async function(){
    }  
        
   myTemp += '</table>'   
-  console.log("results.results[0]") 
-  console.log(await results.results[0]) 
-  console.log("await results.results[0].bounding_boxes.x") 
-  console.log(await results.results[0].bounding_boxes.x) 
+
   
     
     
