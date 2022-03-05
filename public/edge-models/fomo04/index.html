@@ -272,13 +272,14 @@ const myPictureNow  = async function(){
     
  
     
-   ctxOverlap2.lineWidth = "3";
-   ctxOverlap2.strokeStyle = "red";
-   ctxOverlap2.strokeStyle = 'blue';
-   ctxOverlap2.font = "60pt Calibri";   //bold 48px serif 30px Arial  60pt Calibri
+   ctxOverlap2.lineWidth = "5";
+   ctxOverlap2.strokeStyle = 'yellow';
+   ctxOverlap2.font = "20pt Calibri";   //bold 48px serif 30px Arial  60pt Calibri
    ctxOverlap2.strokeText(results.results[i].label, results.results[i].x, results.results[i].y-10);   // Text, x, y
-    
-   ctxOverlap2.rect(results.results[i].x, results.results[i].y, parseInt(results.results[i].x) + parseInt(results.results[i].width), parseInt(results.results[i].y) + parseInt(results.results[i].height)   ); // rectangle x,y,width,height
+
+    // I think the width is not working correctly so trying fixed width height
+   //ctxOverlap2.rect(results.results[i].x, results.results[i].y, parseInt(results.results[i].x) + parseInt(results.results[i].width), parseInt(results.results[i].y) + parseInt(results.results[i].height)   ); // rectangle x,y,width,height    
+   ctxOverlap2.rect(results.results[i].x, results.results[i].y, parseInt(results.results[i].x) + 80), parseInt(results.results[i].y) + 80)   ); // rectangle x,y,width,height
    ctxOverlap2.stroke();
 
     
