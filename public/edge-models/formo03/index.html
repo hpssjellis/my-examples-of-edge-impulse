@@ -4,14 +4,14 @@
   <div id="main">
 
   
-<canvas id="myGrowCanvas" style="position:absolute; left:0px; top:0px; width:640px; height:640px; " ></canvas> <br>  
+<canvas id="myGrowCanvas" style="position:absolute; left:0px; top:0px; width:640px; height:480px; " ></canvas> <br>  
    
- <canvas id="myOverlap2" style="position:absolute; top:0; left:0;  width:640px; height:480px; background:transparent;  " ></canvas>  
+ <canvas id="myOverlap2" style="position:absolute; left:0px; top:0px; width:640px; height:480px; background:transparent;  " ></canvas>  
     
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.14.0.73 <br>
+Version 0.14.1.74 <br>
   
   
 <div id="description">
@@ -364,7 +364,7 @@ const setupPage = async function(){
 //ctxOverlap2.lineWidth = "2";
 //ctxOverlap2.strokeStyle = "red"; 
   //      context.strokeStyle = '#ff0000';
-ctxOverlap2.rect(160, 120, 320, 240); // rectangle x,y,width,height
+ctxOverlap2.rect(0,0,100,80); // rectangle x,y,width,height
 
 ctxOverlap2.stroke();
   
