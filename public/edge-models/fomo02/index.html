@@ -9,7 +9,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.12.4.70 <br>
+Version 0.12.5.71 <br>
   
   
 <div id="description">
@@ -264,7 +264,8 @@ const myPictureNow  = async function(){
   //  console.log(results.results[i].height)
    // console.log(results.results[i].width)
     
-      document.getElementById('mySpecialDiv').innerHTML = "results.results[i].x: " + results.results[i].x
+      document.getElementById('mySpecialDiv').innerHTML = "Last result: results.timing.classification: " + results.timing.classification
+      document.getElementById('mySpecialDiv').innerHTML += "results.results[i].x: " + results.results[i].x
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].y: " + results.results[i].y
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].width: " + results.results[i].width
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].height: " + results.results[i].height
