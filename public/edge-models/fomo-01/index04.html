@@ -49,5 +49,236 @@
             };
         })();
     </script>
+    
+      <div id="main">
+      
+    <video id="video" playsinline="" style="     
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      width: auto;
+      height: auto;
+    "></video>
+    
+       <canvas id="myOverlap2" style="position:absolute; top:0; left:0;  width:640px; height:480px; background:transparent;  " ></canvas>  
+    
+    <canvas id="myOnTopOutput" style=" background-color:white; border:black 3px solid; display:none;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
+    
+    <canvas id="output"   style=" display:none; "></canvas>  
+    
+    <canvas id="myColorCanvas"  style=" display:none; " ></canvas>   <br>
+  
+    
+    
+Version 0.11.0.56 special only one image <br>
+
+    
+    <div id="description">
+        <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM: Cup or Pen</div>
+        Frequency ms <input type=text id="myText01" value=100 onChange="{
+             myFrequencyMs = this.value
+             clearInterval(myTimer01)
+            myTimer01 = setInterval(myPictureNow, myFrequencyMs);
+          }"><br>
+      (square) width/height: <input type=text value="96" size=5 id="myWidthHeight" READONLY>  <br>    
+
+      
+        <div id="myDiv01" style="font-size:30px">...</div>
+        Use data from chart below <input type=checkbox id="myCheckbox01"><br>
+        Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
+        Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br>
+      
+        <canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:640px; height:480px; " ></canvas> 
+      
+        <canvas id="myOverlap" style="position:relative; top:-160px; left:-640px;  width:320px; height:320px; background:transparent;  border:black 3px solid;  " ></canvas>  
+      
+        <textarea id="myTextArea01" rows=10 cols=70    style=" display:none; ">...</textarea> <br> <br> <br>
+      
+
+    </div>
+      
+
+        
+          
+          
+          
+    
+  
 </body>
+    
+    
+  <script> 
+
+let myTimer01 = 0;
+let myOutputString = ''
+let myFrequencyMs = document.getElementById('myText01').value
+let myWidthHeightSquare = document.getElementById('myWidthHeight').value
+
+// to check persistence
+let myLabelOldX ;
+let myLabelOldY ;
+  
+  
+  function RGBAToHex(r,g,b,a) {
+  r = r.toString(16);
+  g = g.toString(16);
+  b = b.toString(16);
+
+  if (r.length == 1)
+    r = "0" + r;
+  if (g.length == 1)
+    g = "0" + g;
+  if (b.length == 1)
+    b = "0" + b;
+
+ // return "#" + r + g + b + ", " ;
+  return "0x" + r + g + b + ", " ;
+       
+}
+  
+  
+  
+  
+const setupCamera = async function(){   
+  
+  video = document.getElementById('video');
+  const stream = await navigator.mediaDevices.getUserMedia({
+    'audio': false,
+    'video': { facingMode: 'user' },
+  });
+  video.srcObject = stream;
+
+  return new Promise((resolve) => {
+    video.onloadedmetadata = () => {
+      resolve(video);
+    };
+  });
+}
+
+ 
+
+  
+ const renderPrediction = async function(){   
+
+   document.ctx.clearRect(0, 0, document.ctx.canvas.width, document.ctx.canvas.width);
+ 
+ 
+   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+   ctxColor.drawImage(video, 0, 0, videoWidth, videoHeight);
+  
+  
+  let imgData = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
+  let pixels = imgData.data;
+  for (var i = 0; i < pixels.length; i += 4) {
+
+    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+
+    pixels[i] = lightness;
+    pixels[i + 1] = lightness;
+    pixels[i + 2] = lightness;
+  }
+   
+  document.ctx.scale(-1, 1);  // mirror image
+  document.ctx.putImageData(imgData, 0, 0);
+       
+  requestAnimationFrame(renderPrediction);
+     
+   
+}; 
+    
+    
+      
+      
+      
+const myPictureNow  = async function(){ 
+  console.log("myPictureNow")   
+    
+}
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   
+  const setupPage = async function(){   
+
+  await setupCamera();
+  video.play();
+
+  videoWidth = video.videoWidth;
+  videoHeight = video.videoHeight;
+  console.log('videoWidth')
+  console.log(videoWidth)
+  console.log('videoHeight')
+  console.log(videoHeight)
+  
+  video.width = videoWidth;
+  video.height = videoHeight;
+
+
+  canvasOnTop = document.getElementById('myOnTopOutput');
+  canvasOnTop.width = videoWidth;
+  canvasOnTop.height = videoHeight;
+  ctxOnTop = canvasOnTop.getContext('2d'); 
+  
+  
+  
+  canvasColor = document.getElementById('myColorCanvas');
+  canvasColor.width = videoWidth;
+  canvasColor.height = videoHeight;
+  ctxColor = canvasColor.getContext('2d'); 
+  
+    
+  canvasGrow = document.getElementById('myGrowCanvas');
+  canvasGrow.width = videoWidth;
+  canvasGrow.height = videoHeight;
+  ctxGrow = canvasGrow.getContext('2d'); 
+  
+  canvas = document.getElementById('output');
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+  document.ctx = canvas.getContext('2d'); 
+  
+  canvasOverlap = document.getElementById('myOverlap');
+  canvasOverlap.width = videoWidth;
+  canvasOverlap.height = videoHeight;
+  ctxOverlap = canvasOverlap.getContext('2d'); 
+    
+  canvasOverlap2 = document.getElementById('myOverlap2');
+  canvasOverlap2.width = videoWidth;
+  canvasOverlap2.height = videoHeight;
+  ctxOverlap2 = canvasOverlap2.getContext('2d'); 
+  
+  
+ // myOverlap
+  
+ // setInterval(function(){ alert("Hello"); }, 3000);
+  myTimer01 = setInterval(myPictureNow, myFrequencyMs);
+ // myTimer01 = setInterval('myPictureNow', 3000); 
+  renderPrediction();
+ 
+  
+ctxOverlap2.beginPath();  
+//ctxOverlap2.lineWidth = "2";
+//ctxOverlap2.strokeStyle = "red"; 
+  //      context.strokeStyle = '#ff0000';
+ctxOverlap2.rect(160, 120, 320, 240); // rectangle x,y,width,height
+
+ctxOverlap2.stroke();
+  
+};    
+      
+      
+  
+// main program!    
+      setupPage();
+
+
+</script> 
+    
 </html>
