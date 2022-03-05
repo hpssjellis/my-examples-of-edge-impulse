@@ -279,7 +279,7 @@ const myPictureNow  = async function(){
 
     // I think the width is not working correctly so trying fixed width height
    //ctxOverlap2.rect(results.results[i].x, results.results[i].y, parseInt(results.results[i].x) + parseInt(results.results[i].width), parseInt(results.results[i].y) + parseInt(results.results[i].height)   ); // rectangle x,y,width,height    
-   ctxOverlap2.rect(results.results[i].x, results.results[i].y, parseInt(results.results[i].x) + 80), parseInt(results.results[i].y) + 80)   ); // rectangle x,y,width,height
+   ctxOverlap2.rect(results.results[i].x, results.results[i].y, results.results[i].x + 60, results.results[i].y + 100   ); // rectangle x,y,width,height
    ctxOverlap2.stroke();
 
     
