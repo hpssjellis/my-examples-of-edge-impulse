@@ -4,14 +4,14 @@
   <div id="main">
 
   
-<canvas id="myGrowCanvas" style="position:absolute; left:0px; top:0px; width:640px; height:480px; " ></canvas> <br>  
+<canvas id="myGrowCanvas" style="position:absolute; left:0px; top:0px; width:1000px; height:1000px; " ></canvas> <br>  
    
  <canvas id="myOverlap2" style="position:absolute; left:0px; top:0px; width:640px; height:480px; background:transparent;  " ></canvas>  
     
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.14.1.74 <br>
+Version 0.14.2.75 <br>
   
   
 <div id="description">
@@ -57,7 +57,9 @@ Version 0.14.1.74 <br>
       
       
       
-    <video id="video" playsinline="" style="display:none; -webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>
+    <video id="video" playsinline="" style="display:none; -webkit-transform: scaleX(1); transform: scaleX(1); width: auto; height: auto;"></video>
+    
+ <!--   <video id="video" playsinline="" style="display:none; -webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>  -->
       
     <canvas id="myOnTopOutput" style="display:none; background-color:white; border:black 3px solid;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
     
@@ -265,17 +267,21 @@ const myPictureNow  = async function(){
   //  console.log(results.results[i].y)
   //  console.log(results.results[i].height)
    // console.log(results.results[i].width)
+
     
-      document.getElementById('mySpecialDiv').innerHTML = "Last result: results.timing.classification: " //+ results.timing
-      document.getElementById('mySpecialDiv').innerHTML += "results.results[i].x: " + results.results[i].x
+    if (myBestClassificationNumber == i){   // check if this is the best one
+      
+          
+      document.getElementById('mySpecialDiv').innerHTML = "Top Result: " //+ results.timing
+      document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].x: " + results.results[i].x
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].y: " + results.results[i].y
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].width: " + results.results[i].width
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].height: " + results.results[i].height
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].label: " + results.results[i].label
       document.getElementById('mySpecialDiv').innerHTML += "<br>results.results[i].value: " + results.results[i].value + "<br><br>"
-      document.getElementById('mySpecialDiv').innerHTML +=  JSON.stringify(results, null, 4);
-    
-    if (myBestClassificationNumber == i){   // check if this is the best one
+      document.getElementById('mySpecialDiv').innerHTML +=  JSON.stringify(results, null, 4);   // might as well show everything
+      
+      
         if (! document.getElementById('myCheckbox02sounds').checked){
           
            if (! document.getElementById('myCheckbox03lable0').checked){         
