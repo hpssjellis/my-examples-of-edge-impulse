@@ -9,7 +9,7 @@
 <table border=1 style="position:absolute; left:800px; top:0px;  ">
 <tr><td>
   
-Version 0.12.1.67 <br>
+Version 0.12.2.68 <br>
   
   
 <div id="description">
@@ -49,7 +49,7 @@ Version 0.12.1.67 <br>
        <textarea id="myTextArea01" style="display:none; " rows=10 cols=70>...</textarea> <br> <br> <br>
   
   </td></tr></table>
-    
+       <div id="mySpecialDiv">...</div> 
         
 
       
@@ -264,7 +264,7 @@ const myPictureNow  = async function(){
     console.log(results.results[i].height)
     console.log(results.results[i].width)
     
-      document.getElementById('mySpecialDiv').innerHTML = results.results[i].x
+      document.getElementById('mySpecialDiv').innerHTML = "results.results[i].x: " + results.results[i].x
     
     if (myBestClassificationNumber == i){   // check if this is the best one
         if (! document.getElementById('myCheckbox02sounds').checked){
@@ -291,7 +291,7 @@ const myPictureNow  = async function(){
   myTemp += '</table>'   
 
   
-   <div id="mySpecialDiv">...</div> 
+
     
   document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
 }
