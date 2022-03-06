@@ -183,7 +183,9 @@ const myPictureNow  = async function(){
    await classifier.init(); 
     
    let props = classifier.getProperties();
-    
+   let project = classifier.getProjectInfo();
+  
+   myProjectName =  project.name
    myWidthHeightSquare = props.input_width 
    document.getElementById('myWidthHeight').value = props.input_width
     
@@ -323,7 +325,7 @@ const myPictureNow  = async function(){
   
 
     
-  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
+  document.getElementById('myDiv01').innerHTML = 'Project Name: ' + myProjectName + ', results.anomaly: '+ results.anomaly + '<br>' +  myTemp
 }
   
   
