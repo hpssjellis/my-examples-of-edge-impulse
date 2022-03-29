@@ -56,7 +56,7 @@
 // Used for software or hardware SPI
 #define OLED_CS D7
 #define OLED_DC D6
-*
+
 // Used for I2C or SPI
 #define OLED_RESET -1
 
