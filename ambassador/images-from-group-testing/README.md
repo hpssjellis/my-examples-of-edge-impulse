@@ -1,6 +1,6 @@
 Location for group trained image files
 
-![](https://github.com/hpssjellis/my-examples-of-edge-impulse/blob/main/ambassador/images-from-group-testing/edge01b.png)
+![](https://github.com/hpssjellis/my-examples-of-edge-impulse/blob/main/ambassador/images-from-group-testing/edge01c.png)
 
 
 
