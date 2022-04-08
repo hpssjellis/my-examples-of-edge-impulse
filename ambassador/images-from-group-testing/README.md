@@ -5,9 +5,9 @@
 
 Summary with filtered counts and image count
 
-March 5th, 2022
+March 6th, 2022
 
-![image](https://user-images.githubusercontent.com/5605614/162357042-2d2acad4-29ce-4267-acf2-21332df0878b.png)
+![image](https://user-images.githubusercontent.com/5605614/162357103-59536517-d887-4cb5-bea5-ad507f2c0f0c.png)
 
 
 
