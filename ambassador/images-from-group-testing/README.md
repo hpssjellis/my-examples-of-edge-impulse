@@ -1,13 +1,13 @@
 
 # Training Images for the Group project
 
-ei-rocksetta-anyone-from-above-fomo-kitchen-items
+## ei-rocksetta-anyone-from-above-fomo-kitchen-items
 
-Note: Image does not show how many images and bounding boxes were in the dataset
+Summary with filtered counts and image count
 
 March 5th, 2022
 
-![image](https://user-images.githubusercontent.com/5605614/162274567-e8e50b01-1f17-46be-abb4-262a385ea9ba.png)
+![image](https://user-images.githubusercontent.com/5605614/162357042-2d2acad4-29ce-4267-acf2-21332df0878b.png)
 
 
 
