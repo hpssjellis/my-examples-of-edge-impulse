@@ -1,0 +1,802 @@
+/* NO DATA SENDING TO M4 CORE YET!
+ * Base RC car FOMO 96x96 with DC motor, servo and OLED all on the M7 core
+ * 
+ * 
+ * NOTE: i SWITCHED THE pwm FROM D5 TO D0 TO ALLOW SERIAL TRANSFER D5 TO D6
+ * 
+ * 
+ * 
+ * Note 1:  To get more than 10 detections
+ * 
+ * go into the edgeimpulse library you installed for this project find the file
+ * \src\model-parameters\model_metadata.h
+ * 
+ * and change the line from
+ * #define EI_CLASSIFIER_OBJECT_DETECTION_COUNT       10
+ * to
+ * #define EI_CLASSIFIER_OBJECT_DETECTION_COUNT       30
+ * another reference here 
+ * https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives
+ *
+ *
+ *
+ *
+ * Note 2: Should work with any Edge Impulse model just change the below include to your model name
+ * 
+ * 
+ * 
+ * 
+ * Note 3: I you are getting the error  "TFLITE arena allocation"  
+ * AppData\Local\Arduino15\packages\arduino\hardware\mbed_portenta\3.0.1
+ * copy the boards.txt file, rename to boards.local.txt delete everything in this file except the followoing line.
+ * 
+         envie_m7.build.extra_flags=-DEI_CLASSIFIER_ALLOCATION_STATIC
+ *
+ * 
+ * 
+ * 
+ * Use at your own risk!
+ * by Jeremy Ellis Twitter @rocksetta
+ * 
+ * 
+ *  FOR the GRAYSCALE Waveshare OLED 128 x 128 using library Adafruit_SSD1327.h
+ *   
+ *   blue  DIN (mosi) D8
+ *   yellow (sck) D9                                                                                                                                                             
+ *   orange (cs) D7
+ *   green (dc)  D6
+ *   white (reset) not needed but D14 if you did
+ *
+ * another reference here 
+ * https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives
+ *
+ */
+
+#ifdef CORE_CM7  
+
+
+ 
+/* Includes ---------------------------------------------------------------- */
+
+#include <ei-v1-1-3-rocksetta-rc-car-1-road-lines-fomo-96x96_inferencing.h>
+
+
+#include "SerialTransfer.h"
+
+
+
+
+
+//#include <ei-v6-0-1-fomo-2.8.0mbed-96x96-vision-1pop_inferencing.h>
+
+
+#include "edge-impulse-advanced-v2.h"
+#include <Servo.h>
+#include "mbed.h"
+#include "rtos.h"
+//using namespace mbed;  // sometimes needed
+using namespace rtos;
+
+#include <Adafruit_SSD1327.h>
+
+// Used for software SPI
+#define OLED_CLK D9
+#define OLED_MOSI D8
+
+// Used for software or hardware SPI
+#define OLED_CS D7
+#define OLED_DC D6
+
+// Used for I2C or SPI
+#define OLED_RESET -1
+
+// hardware SPI
+Adafruit_SSD1327 display(128, 128, &SPI, OLED_DC, OLED_RESET, OLED_CS);
+
+// Global Variables
+int myDelay = 0;  // delay between readings, can be zero, default 2000 = 2 seconds
+int x1Map, x2Map, y1Map, y2Map;
+//int myClassCount[EI_CLASSIFIER_LABEL_COUNT]; // not yet used
+
+// the OLED uses these
+#define CUTOUT_COLS                 EI_CLASSIFIER_INPUT_WIDTH
+#define CUTOUT_ROWS                 EI_CLASSIFIER_INPUT_HEIGHT
+const int cutout_row_start = (EI_CAMERA_RAW_FRAME_BUFFER_ROWS - CUTOUT_ROWS) / 2;
+const int cutout_col_start = (EI_CAMERA_RAW_FRAME_BUFFER_COLS - CUTOUT_COLS) / 2;
+
+
+
+// main thread for the servo and dc motor to keep their operation away from the analysis
+Thread myThread01;
+
+int myGlobalD0 = 0; // the Big Motor PWM speed
+
+Servo myServo_D2;
+
+bool myLoRaStop = false;
+
+
+
+
+const int  MY_THREAD_SLEEP = 10;   // default 10, ms the motor thread sleeps, lower the number faster the response
+const int  MY_INTENT_COUNT = 200;   // >= 2 how many threads until the intent kicks in. Higher more mellow, lower more intense
+
+const float MY_FOMO_CUTOFF = 0.75;
+const int MY_MIDDLE_X = 40; //38;  //44;    //  (98 pixels / 2) - 4
+const int MY_SERVO_STRAIGHT_RANGE = 20;  // middle location allowable error
+const int  MY_SERVO_JUMP = 10;   // 3 if increasing but +-10 if fixed for INTENT matching
+
+const int MY_SERVO_MIN = 70;
+const int MY_SERVO_STRAIGHT = 90;
+const int MY_SERVO_MAX = 110;
+const int MY_LOST_COUNT_MAX = 30;  // how many loops do you wait when lost to start slowly turning to the right
+
+
+int myServoNow = MY_SERVO_STRAIGHT;    // start going straight
+int myServoOld = MY_SERVO_STRAIGHT;    // start going straight
+
+
+const int  HEIGHT_WIDTH_PWM = 25; //30
+
+const int MY_PWM_MIN = 25;  // 30
+const int MY_PWM_MAX = 60; //50;  // careful this is the max speed for the car and can be up to 255!
+int myPwmNow = 0;                 // start with it stopped!
+int myPwmOld = 0;      
+
+int myGlobalCount; // countof all relevant objects
+int myIntentGoal = 0; // 0=stop, 1=go right, 2=go left, 3=straight, 4=lost look for objects
+int myIntentServo = MY_SERVO_STRAIGHT; // go straight  
+int myIntentPWM = 0;   // cars intent to go a certain speed 0=stop slow=MY_PWM_MIN  fast=MY_PWM_MAX
+int myThreadCount = 0; // how many times the thread has ran since the last intent
+int myLostCount = 0;
+
+
+
+
+
+
+
+
+int myMaxHeight = 0;
+int myMaxHeightOld = 0;
+int myConnectedX = 0;
+int myConnectedY = 0;
+int myConnectedWidth = 0;
+
+
+//////////////////////////////////////////////////////////
+
+/*
+* * UART Information for the PortentaH7 
+* 
+* UART myUART0(PA_0,  PI_9,  NC, NC);  // TX, RX, RTS, CTC  NOTE: NC means not connected
+* UART myUART1(PA_9,  PA_10, NC, NC);   // pin D14 TX, pin D13 RX same as pre-defined Serial1
+* UART myUART2(PG_14, PG_9,  NC, NC);
+* UART myUART3(PJ_8,  PJ_9,  NC, NC);
+* UART myUART6(PC_6,  PC_7, NC, NC);    // pin D5 TX, pin D4 RX
+* UART myUART8(NC,    PA_8, NC, NC);    // pin D6 RX only can receive
+* 
+*/
+
+UART myUART6(PC_6,  NC, NC, NC);    // pin D5 TX, not D4 pin D4 RX
+
+//UART myUART6(PC_7,  NC, NC, NC);    // D4 pin D4 TX
+
+SerialTransfer myTransfer;
+
+// want to send the FOMO result data
+
+/*
+struct STRUCT {
+  char z;
+  float y;
+} testStruct;
+
+char arr[] = "hello";
+*/
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////
+
+
+// Thread to change the motor and servo away from the other code
+// Testing myIntentGoal a concept that the intent of the car is to 0=stop, 1=go right, 2=go left, 3=straight, 4=lost look for objects
+// myIntentServo should be globablly set to match the global intent 90 = straight 
+// Testing later myIntentPWM should be globablly set to match the global intent 0 = stop, min and max  255  = way to fast!
+// The problem is, how to change the intent based on the incoming data 
+
+void myLedBlue_myThread01(){
+  // don't do display or ei_printf commands here as it goes to fast
+   while (true) {
+      myThreadCount += 1;
+      if (myThreadCount >= MY_INTENT_COUNT ) {
+        myThreadCount = 0;   // reset threadCount
+          analogWrite(D0, myIntentPWM); 
+          myServo_D2.write(myIntentServo);   
+      } else {
+        analogWrite(D0, myGlobalD0); 
+        myServo_D2.write(myServoNow);  
+      }
+      ThisThread::sleep_for(MY_THREAD_SLEEP);   
+   }
+}
+
+
+
+
+
+/**
+* @brief      Arduino setup function
+*/
+void setup(){
+   
+     myThread01.start(myLedBlue_myThread01);
+    // put your setup code here, to run once:
+  bootM4();
+  Serial.begin(115200);
+  myUART6.begin(9600);
+  myTransfer.begin(myUART6);
+
+  //testStruct.z = '$';
+    Serial.println("Edge Impulse Inferencing Demo");
+
+   // put on M4
+   // pinMode(LEDR, OUTPUT); 
+   // pinMode(LEDG, OUTPUT);   // this is LED_BUILTIN
+   // pinMode(LEDB, OUTPUT); 
+
+    myServo_D2.attach(D2);   // D2 should do PWM on Portenta
+    
+
+    pinMode(D3, OUTPUT);   // digital 0 to 1 
+    pinMode(D0, OUTPUT);   // PWM 0 to 255
+
+  //  digitalWrite(D10, 0);    // set one direction   // best just to not use this one as it seems to overload the portenta.
+    digitalWrite(D3, 1);    // set one direction 
+
+
+
+
+
+    
+#ifdef EI_CAMERA_FRAME_BUFFER_SDRAM
+    // initialise the SDRAM
+    SDRAM.begin(SDRAM_START_ADDRESS);
+#endif
+
+    if (ei_camera_init()) {
+        Serial.println("Failed to initialize Camera!");
+    }
+    else {
+        Serial.println("Camera initialized");
+    }
+
+    for (size_t ix = 0; ix < ei_dsp_blocks_size; ix++) {
+        ei_model_dsp_t block = ei_dsp_blocks[ix];
+        if (block.extract_fn == &extract_image_features) {
+            ei_dsp_config_image_t config = *((ei_dsp_config_image_t*)block.config);
+            int16_t channel_count = strcmp(config.channels, "Grayscale") == 0 ? 1 : 3;
+            if (channel_count == 3) {
+                Serial.println("WARN: You've deployed a color model, but the Arduino Portenta H7 only has a monochrome image sensor. Set your DSP block to 'Grayscale' for best performance.");
+                break; // only print this once
+            }
+        }
+    }
+    
+    // Following for the Grayscale OLED
+
+   if ( ! display.begin(0x3D) ) {   // start Grayscale OLED
+     Serial.println("Unable to initialize OLED");
+     while (1) yield();
+  }    
+    display.setTextSize(1);
+    display.setTextColor(SSD1327_WHITE);
+
+    display.setRotation(0);
+    display.setCursor(0,0);
+
+    //   map cutout of the 320 x 320   // 240 model to OLED 128 x 64 screen
+    x1Map = map((int)cutout_col_start, 0, 320, 0, 127);  
+    x2Map = map((int)CUTOUT_COLS, 0, 320, 0, 127);
+    y1Map = map((int)cutout_row_start, 0, 320, 0, 127);
+    y2Map = map((int)CUTOUT_ROWS, 0, 320, 0, 127);
+
+    
+}
+
+/**
+* @brief      Get data and run inferencing
+*
+* @param[in]  debug  Get debug info if true
+*/
+void loop(){
+  
+    // instead of wait_ms, we'll wait on the signal, this allows threads to cancel us...
+    if (ei_sleep(myDelay) != EI_IMPULSE_OK) {
+        return;
+    }
+    
+   // Serial.println("Starting inferencing in "+String(myDelay)+" microseconds...");
+
+    // Put the image on the OLED
+    display.clearDisplay();                 // clear the internal memory for OLED
+    for (int x=0; x < EI_CAMERA_RAW_FRAME_BUFFER_COLS; x++){     // EI_CAMERA_RAW_FRAME_BUFFER_COLS = 320
+      for (int y=0; y < EI_CAMERA_RAW_FRAME_BUFFER_ROWS; y++){       //EI_CAMERA_RAW_FRAME_BUFFER_ROWS = 320   //240
+      
+        uint8_t myGRAY = ei_camera_frame_buffer[(y * (int)EI_CAMERA_RAW_FRAME_BUFFER_COLS) + x];  
+
+          int myGrayMap = map(myGRAY, 0, 255, 0, 15);  
+          int xMap = map(x, 0, 320, 0, 127);
+          int yMap = map(y, 0, 320, 0, 127);
+          display.drawPixel(xMap, yMap, myGrayMap );   // grayscale 0-255, 128x128  //128 x 64
+      } 
+    }
+
+    display.drawRect(0,0,128,128, SSD1327_WHITE );  // rectangle around outside of OLED
+
+
+
+
+    myGlobalCount = 0;
+    myPwmOld = myPwmNow; 
+    myPwmNow = 0;   //  iF no objects we want the car to stay stopped
+    //myServoOld = myServoNow; 
+    //myServoNow = 0;    // global so don't touch here
+
+    myMaxHeightOld = myMaxHeight;
+    myMaxHeight = 0;
+    myConnectedX = 0;
+    myConnectedY = 0;
+    myConnectedWidth = 0;
+    
+
+    ei::signal_t signal;
+    signal.total_length = EI_CLASSIFIER_INPUT_WIDTH * EI_CLASSIFIER_INPUT_HEIGHT;
+    signal.get_data = &ei_camera_cutout_get_data;
+
+    if (ei_camera_capture((size_t)EI_CLASSIFIER_INPUT_WIDTH, (size_t)EI_CLASSIFIER_INPUT_HEIGHT, NULL) == false) {
+        Serial.println("Failed to capture image\r\n");
+        return;
+    }
+
+    // Run the classifier
+    ei_impulse_result_t result = { 0 };
+
+    EI_IMPULSE_ERROR err = run_classifier(&signal, &result, debug_nn);
+    if (err != EI_IMPULSE_OK) {
+        Serial.println("ERR: Failed to run classifier, error number: " + String(err));
+        return;
+    }
+
+
+    bool bb_found = result.bounding_boxes[0].value > 0;
+    for (size_t ix = 0; ix < EI_CLASSIFIER_OBJECT_DETECTION_COUNT; ix++) {
+        auto bb = result.bounding_boxes[ix];
+        if (bb.value == 0) {
+            continue;
+        }
+
+        myGlobalCount += 1;
+        ei_printf("    %s (", bb.label);
+        ei_printf_float(bb.value);
+        ei_printf(") [ x: %u, y: %u, width: %u, height: %u ]\n", bb.x, bb.y, bb.width, bb.height);
+
+        
+        // fake mapping
+       // display.drawRect(bb.x/2, bb.y/2, bb.width*3, bb.height*3, SSD1327_WHITE ); 
+
+
+        int xMap = map(bb.x, 0,96, 0,127);
+        int yMap = map(bb.y, 0,96, 0,127);
+        int widthMap = map(bb.width, 0,96, 0,127);
+        int heightMap = map(bb.height, 0,96, 0,127);
+        display.setCursor(xMap+2, yMap);
+        display.println(bb.label);
+
+        
+        if ((float)bb.value > MY_FOMO_CUTOFF){
+           // Determine the largest Height and the connected x,y,width
+           if (myMaxHeight < (int)bb.height + (int)bb.y){ 
+             myMaxHeight =  (int)bb.height;      
+             myConnectedX = (int)bb.x; 
+             myConnectedY = (int)bb.y; 
+             myConnectedWidth = (int)bb.width; 
+           } 
+           ei_printf("Good, ");
+           display.drawRect(xMap, yMap, widthMap, heightMap, SSD1327_WHITE ); // good value
+        } else {
+          ei_printf("Bad,  ");
+           display.drawRect(xMap, yMap, widthMap, heightMap, SSD1327_BLACK ); // bad value        
+        }
+
+
+
+        
+    }        // END of analysis loop!
+
+    if (!bb_found) {
+        ei_printf("    No objects found\n");
+    }
+
+
+
+    
+#if EI_CLASSIFIER_HAS_ANOMALY == 1
+    Serial.println("    anomaly score: " + String(result.anomaly, 5));
+#endif
+   
+
+
+   if (bb_found) {    // if objects are found lets load some l
+
+     // Show some color on the onboard LED
+/*
+     if (myGlobalCount  == 1) { digitalWrite(LEDR, HIGH); digitalWrite(LEDG, HIGH);  digitalWrite(LEDB, LOW); }
+     if (myGlobalCount  == 2) { digitalWrite(LEDR, HIGH); digitalWrite(LEDG, LOW);   digitalWrite(LEDB, HIGH);}
+     if (myGlobalCount  > 2 && myGlobalCount  <= 5) {   digitalWrite(LEDR, HIGH); digitalWrite(LEDG, LOW);   digitalWrite(LEDB, LOW); }
+     if (myGlobalCount  > 5 && myGlobalCount  <= 8) {   digitalWrite(LEDR, LOW);  digitalWrite(LEDG, HIGH);  digitalWrite(LEDB, HIGH);}
+     if (myGlobalCount  > 8 && myGlobalCount  <= 11) {  digitalWrite(LEDR, LOW);  digitalWrite(LEDG, HIGH);  digitalWrite(LEDB, LOW); }
+     if (myGlobalCount  > 11 && myGlobalCount  <= 14) { digitalWrite(LEDR, LOW);  digitalWrite(LEDG, LOW);   digitalWrite(LEDB, HIGH);}
+*/
+   //  Leave full white to show LORA stop if we implement that.
+   //  if (myGlobalCount  > 14) { digitalWrite(LEDR, LOW);  digitalWrite(LEDG, LOW);   digitalWrite(LEDB, LOW); }
+
+   }
+
+       // LET'S TRY SOME FUZZY LOGIC
+        
+        // RC car speed!
+       // if (myMaxHeight > myMaxHeightOld ) {myPwmNow += 1;}  //If bounding box taller them make car go faster  
+       // else { myPwmNow -= 1; }
+       
+      //  myPwmNow = (myMaxHeight * 5) - (myConnectedWidth * 3)  ;   // taller the bounding box faster the car
+
+          
+            
+         if (myMaxHeight == 0 ) {  // ignore no objects if LOST intent
+             myPwmNow = 0;  // MY_PWM_MIN;  // 0;  // stop or go slow
+             myIntentGoal = 0;
+             myServoNow = MY_SERVO_STRAIGHT;  // MY_SERVO_MAX;   // so turn   MY_SERVO_STRAIGHT;   // wheels straight
+             display.setCursor(50, 50);
+             display.println("STOP-slow-right");
+          } else {
+               myPwmNow = (myMaxHeight/myConnectedWidth) * HEIGHT_WIDTH_PWM  ;   // taller the bounding box faster the car
+              // change later
+              //myPwmNow =   MY_PWM_MIN;                                          // wider the bounding box slower the car
+   
+              // check max and mins for PWM (SPEED)
+              if (myPwmNow >  MY_PWM_MAX )  {
+                 myPwmNow = MY_PWM_MAX; 
+              }
+              if (myPwmNow < MY_PWM_MIN  )  {
+                 myPwmNow = MY_PWM_MIN;   
+              }
+      
+      
+
+
+
+        
+                // RC car Direction! Based on x location of tallest bounding box
+                if (myConnectedX + (myConnectedWidth/2) > MY_MIDDLE_X + MY_SERVO_STRAIGHT_RANGE) {
+                   myServoNow = MY_SERVO_STRAIGHT + MY_SERVO_JUMP;   //   += for increasing but worse for intent
+                   myLostCount =  0;  // about the intent
+                  /// digitalWrite(LEDG, LOW);      // green right 
+                   ei_printf("Green go Right: %d", myServoNow );
+                   myIntentGoal = 1;
+                   display.setCursor(50, 50);
+                   display.println("Green Right");
+                  }  //If bounding box taller them make car go faster  
+                else if (myConnectedX + (myConnectedWidth/2) < MY_MIDDLE_X - MY_SERVO_STRAIGHT_RANGE) {
+                 
+                   myLostCount =  0;  // about the intent
+                   myServoNow = MY_SERVO_STRAIGHT - MY_SERVO_JUMP; //   -= for increasing but worse for intent
+                  /// digitalWrite(LEDB, LOW);      // Blue left  
+                   myIntentGoal = 2;
+                   display.setCursor(70, 50);
+                   display.println("blue left");
+                   ei_printf("Blue go Left: %d", myServoNow );
+                 } else {
+                  myLostCount =  0;  // about the intent
+                  myServoNow = MY_SERVO_STRAIGHT;
+                ///  digitalWrite(LEDB, LOW);      // Blue 
+                ///  digitalWrite(LEDG, LOW);      // green  
+                  myIntentGoal = 3;
+                  display.setCursor(10, 50);
+                  display.println("Straight");
+                  ei_printf("Cyan go Straight: %d", myServoNow );
+                  }  
+
+
+       
+                  // PANIC servo override if long box, always go right
+                  if (myConnectedWidth > 30) {
+                    
+                   myServoNow = MY_SERVO_MAX; 
+                  /// digitalWrite(LEDR, LOW);       
+                  /// digitalWrite(LEDG, LOW);       
+                  /// digitalWrite(LEDB, HIGH);      // white panic go right 
+                   
+                   display.setCursor(20, 80);
+                   display.println("redish panic right"); 
+                   ei_printf("redish panic right: %d", myServoNow );
+                    }
+        
+        
+        
+        
+                
+                // check max and mins for the servo
+                if (myServoNow >  MY_SERVO_MAX )  {myServoNow = MY_SERVO_MAX;}
+                if (myServoNow < MY_SERVO_MIN  )  {myServoNow = MY_SERVO_MIN;}
+
+
+
+
+
+
+
+
+
+
+
+        
+               // use this to show a variable in the middle of the screen 
+               // display.setCursor(50, 50);
+               // display.println(String(myConnectedX));
+
+
+
+          }  // End STOP
+
+  
+
+                display.setCursor(20,10);
+                display.println("Rocksetta-Drive");  
+                
+                display.setCursor(2, 2);
+                display.println(String(myIntentGoal));
+                display.setCursor(50, 110);
+                display.println(String(myIntentServo));
+                display.setCursor(100, 110);
+                display.println(String(myIntentPWM));
+
+                
+                
+                display.setCursor(10,120);
+                display.println("Servo:");
+                display.setCursor(50, 120);
+                display.println(String(myServoNow));
+                display.setCursor(70, 120);
+                display.println("PWM:");
+                display.setCursor(100, 120);
+                display.println(String(myPwmNow));
+
+
+
+
+
+
+
+
+          // Check if we need to change the Intent speed!
+          if (myPwmNow == myPwmOld) {
+            myIntentPWM = myPwmNow; 
+                
+          }
+
+                    // Check if we need to change the Intent direction!
+          if (myServoNow == myServoOld) {
+            myIntentServo = myServoNow;
+          }
+
+
+/*        // if car is stopped this code was suppossed to make it look for objects 
+ *        // by continuously turning! 
+          if (myIntentPWM == 0 || myIntentGoal < 4 ) { 
+            myLostCount += 1;
+            if (myLostCount > MY_LOST_COUNT_MAX ){   // we have been lost for a while so turn in right hand circles
+               // myLostCount =  0;  // make it last longer
+                myIntentGoal = 4; // 0=stop, 1=right, 2= left, 3= faster, 4=LOST
+                myIntentServo =  MY_SERVO_MAX;
+                myIntentPWM =  MY_PWM_MIN;
+              }
+          }
+
+
+*/
+          myPwmOld = myPwmNow;   // reset the old value for next loop
+          myServoOld = myServoNow;   // reset the old value for next loop
+          
+         // ACTIVATE THE Main MOTOR
+         myGlobalD0 = myPwmNow;     // this is updated in the thread   
+         ei_printf("\n" );
+
+
+
+
+
+
+
+
+
+
+
+     // Last thing is to show the 128x128 GRAYSCALE OLED
+     display.display();  // OLED 4 bit 16 color GRAYSCALE update
+
+
+
+
+  // use this variable to keep track of how many
+  // bytes we're stuffing in the transmit buffer
+  
+  //testStruct.y = random(1,900)/10.0;
+  uint16_t sendSize = 0;
+
+  ///////////////////////////////////////// Stuff buffer with struct
+  sendSize = myTransfer.txObj(result, sendSize);
+
+
+  ///////////////////////////////////////// Send buffer
+  myTransfer.sendData(sendSize);
+
+  // no blocking delay
+
+
+
+
+     
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#endif      //   end all M7 core programming
+
+
+
+
+
+
+
+
+
+
+// For simplicity and speed copy this to it's own instance of the OLD Arduino IDE
+// Not new window, new instance, that will speed up compiling after the first compile
+
+#ifdef CORE_CM4  
+
+
+#ifdef CORE_CM4  
+
+
+#include "SerialTransfer.h"
+
+UART myUART8(NC, PA_8, NC, NC);    // pin D6 RX only can receive
+
+SerialTransfer myTransfer;
+
+
+typedef struct {
+    const char *label;
+    uint32_t x;
+    uint32_t y;
+    uint32_t width;
+    uint32_t height;
+    float value;
+} ei_impulse_result_bounding_box_t;
+
+typedef struct {
+    int sampling;
+    int dsp;
+    int classification;
+    int anomaly;
+    int64_t dsp_us;
+    int64_t classification_us;
+    int64_t anomaly_us;
+} ei_impulse_result_timing_t;
+
+typedef struct {
+//#if EI_CLASSIFIER_OBJECT_DETECTION == 1
+   // ei_impulse_result_bounding_box_t bounding_boxes[EI_CLASSIFIER_OBJECT_DETECTION_COUNT];
+    ei_impulse_result_bounding_box_t bounding_boxes[10];
+//#else
+//    ei_impulse_result_classification_t classification[EI_CLASSIFIER_LABEL_COUNT];
+//#endif
+    float anomaly;
+    ei_impulse_result_timing_t timing;
+    int32_t label_detected;
+} ei_impulse_result_t;
+
+
+
+
+
+/*
+
+struct STRUCT {
+  char  z;
+  float y;
+} testStruct;
+
+*/
+
+  //  ei_impulse_result_bounding_box_t bounding_boxes[EI_CLASSIFIER_OBJECT_DETECTION_COUNT];
+
+
+  
+// The big result coming from the M7 core
+ei_impulse_result_t resultM4;
+
+
+
+
+void setup()
+{
+ // Serial.begin(115200);
+ 
+  myUART8.begin(9600);  
+
+    myTransfer.begin(myUART8);
+
+    pinMode(LEDR, OUTPUT); 
+    pinMode(LEDG, OUTPUT);   // this is LED_BUILTIN
+    pinMode(LEDB, OUTPUT); 
+    digitalWrite(LEDB, HIGH);   //on board LED's are turned off by HIGH    
+    digitalWrite(LEDG, HIGH);   
+    digitalWrite(LEDR, HIGH); 
+
+}
+
+
+void loop(){
+
+
+    if(myTransfer.available())
+  {
+
+
+    
+    // use this variable to keep track of how many
+    // bytes we've processed from the receive buffer
+    uint16_t recSize = 0;
+
+    recSize = myTransfer.rxObj(resultM4, recSize);
+    // Can't print from M4 without RPC
+    // Serial.print(testStruct.z);
+   // Serial.print(testStruct.y);
+    //Serial.print(" | ");
+
+  
+    digitalWrite(LEDB, LOW);   //on board LED's are turned off by HIGH    
+    digitalWrite(LEDG, HIGH);   
+    digitalWrite(LEDR, HIGH); 
+   
+   
+
+  } else {
+    
+    digitalWrite(LEDB, HIGH);   //on board LED's are turned off by HIGH    
+    digitalWrite(LEDG, HIGH);   
+    digitalWrite(LEDR, LOW); 
+   
+    }
+
+}
+     
+#endif
