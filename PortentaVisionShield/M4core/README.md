@@ -6,7 +6,9 @@ FOMO Vision on M4 works but can be tricky.
 In the middle of research so no instructions yet.
 
 
+[vision-fomo-m4-rpc01.ino](vision-fomo-m4-rpc01.ino)   works with 64x64 FOMO and RPC
 
+[fomo-80x80-rpc-led.ino](fomo-80x80-rpc-led.ino) works with RPC, LED and 80x80 FOMO
 
 
 
