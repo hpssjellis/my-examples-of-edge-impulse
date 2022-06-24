@@ -44,6 +44,7 @@ void setup()
 {
     // put your setup code here, to run once:
     Serial.begin(115200);
+  //  Serial.begin();   // For RPC I used to have to do this but I think the line above wsaa fine.
     Serial.println("Edge Impulse Inferencing Demo");
     pinMode(LEDR, OUTPUT);   // try on Portenta LEDB = blue, LEDG or LED_BUILTIN = green, LEDR = red 
     pinMode(LEDG, OUTPUT); 
