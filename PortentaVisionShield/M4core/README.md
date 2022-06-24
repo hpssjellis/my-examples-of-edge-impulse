@@ -1,3 +1,34 @@
+###  June 2022
+
+
+FOMO Vision on M4 works but can be tricky.
+
+
+
+
+
+
+
+
+
+.
+
+
+
+
+.
+
+
+
+
+
+
+### 17 months ago!
+
+
+
+
+
 Problem. My Impulse does not work on the M4 innerr core. Also my sound impulse does not work.
 
 First lets test if the issue is an arduino issue. Need to get the camera and microphone working on the inner core.
