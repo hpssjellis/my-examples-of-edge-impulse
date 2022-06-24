@@ -3,6 +3,7 @@
 
 FOMO Vision on M4 works but can be tricky.
 
+In the middle of research so no instructions yet.
 
 
 
