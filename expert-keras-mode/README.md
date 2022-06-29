@@ -1,0 +1,10 @@
+A location for files EdgeImpulse example expert mode Keras files (.txt) format unless we can think of a better format.
+
+Hopefully add a few comments, and name the file with the main type of model fomo, classify, sound, motion or something else relevant to what the model does.
+
+examples
+
+fomo-3-extra-layers.txt
+
+
+
