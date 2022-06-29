@@ -7,4 +7,10 @@ examples
 fomo-3-extra-layers.txt
 
 
+Reminder to post the enitre Keras file, not just the relevant parts.
+
+
+Best reference is probably here https://docs.edgeimpulse.com/docs/edge-impulse-studio/learning-blocks/object-detection/fomo-object-detection-for-constrained-devices#expert-mode-tips
+
+
 
