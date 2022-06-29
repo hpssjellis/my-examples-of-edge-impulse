@@ -1,3 +1,5 @@
+# I think this is the default vision fomo code
+
 sys.path.append('./resources/libraries')
 import os
 import tensorflow as tf
