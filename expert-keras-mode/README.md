@@ -47,7 +47,7 @@ model.add(Dense(classes, activation='softmax', name='y_pred'))
 
 ```
 
-Sound-deafult
+Sound-default
 ```
 model.add(Reshape((int(input_length / 13), 13), input_shape=(input_length, )))
 model.add(Conv1D(8, kernel_size=3, activation='relu', padding='same'))
@@ -91,7 +91,7 @@ model.add(Dense(classes, activation='softmax', name='y_pred'))
 
 
 
-FOMO-default (Note: A fair bit more complex than the above mode3ls!)
+FOMO-default (Note: A fair bit more complex than the above models!)
 
 ```
     mobile_net_v2 = MobileNetV2(input_shape=input_shape, weights=weights, alpha=alpha, include_top=True)
