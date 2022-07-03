@@ -26,7 +26,7 @@ best sensor attempt so far- this is the default Keras Classifier
 
 Which happens to be exactly the same as the deafult motion model
 
-Any sensor model?
+Any sensor model using RAW data and Keras Expert Mode Classification?
 
 ```
 model.add(Dense(20, activation='relu', activity_regularizer=tf.keras.regularizers.l1(0.00001)))
@@ -37,7 +37,6 @@ model.add(Dense(classes, activation='softmax', name='y_pred'))
 
 
 
-The meat of the above files:
 
 Motion-default
 ```
