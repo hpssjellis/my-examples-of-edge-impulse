@@ -117,8 +117,26 @@ The EON turner will deffinitely help determine the best architecture, however I 
 
 
 
+.
+
+
+
+.
 
 
 
 
-not really related but just found out about custom DSP blocks  see tutorial herre https://docs.edgeimpulse.com/docs/edge-impulse-studio/organizations/hosting-custom-dsp-block
+
+.
+
+
+
+
+
+.
+
+
+
+
+
+Not really related but just found out about custom DSP blocks  see tutorial herre https://docs.edgeimpulse.com/docs/edge-impulse-studio/organizations/hosting-custom-dsp-block, looking at it. I don't think this will be a part of my program as the topic seems much too advanced.
