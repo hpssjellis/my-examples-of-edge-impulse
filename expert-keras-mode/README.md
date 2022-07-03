@@ -109,5 +109,16 @@ FOMO-default (Note: A fair bit more complex than the above mode3ls!)
     return Model(inputs=mobile_net_v2.input, outputs=logits)
 ```
 
+The EON turner will deffinitely help determine the best architecture, however I would still prefer a great starting point.
+
+
+![image](https://user-images.githubusercontent.com/5605614/177057111-ecaedddc-2f7c-49fd-a90f-581b403f673a.png)
+
+
+
+
+
+
+
 
 not really related but just found out about custom DSP blocks  see tutorial herre https://docs.edgeimpulse.com/docs/edge-impulse-studio/organizations/hosting-custom-dsp-block
