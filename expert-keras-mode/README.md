@@ -2,6 +2,23 @@
 ### Started June 29th, 2022
 
 
+
+Not having much lubk with EdgeImpulse so I downloaded the tensorflow saved file 
+
+
+
+
+Used Gitpod explained here https://github.com/hpssjellis/my-examples-for-the-arduino-portentaH7/tree/master/m09-Tensoflow/tfjs-convert-to-arduino-header 
+
+and the pre-made gitpod here   https://gitpod.io/#github.com/hpssjellis/Gitpod-auto-tensorflowJS-to-arduino
+
+to convert the saved_model to a TFJS model with JSON file and SHARD files
+
+
+
+
+
+
 # A location for files EdgeImpulse example expert mode Keras files (.txt) 
 
 Use .txt format unless we can think of a better format.
