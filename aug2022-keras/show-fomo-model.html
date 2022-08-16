@@ -24,17 +24,7 @@ Data Shape <input id="myInShape" type=text value="4,2"><br>
 			
    // const loadedModel6 = await   tf.loadLayersModel(document.getElementById('myInFile').value)
     const loadedModel6 = await	   tf.loadGraphModel(document.getElementById('myInFile').value)
-	/*
-												     
-tf.GraphModel
-												     
- tf.loadGraphModel:
 
-The loaded model only supports only inference, but the speed of inference is generally faster than that of a tfjs_layers_model source
-
-When referring to the function which loads a layers model, tf.loadLayersModel:
-												     
- */
 												     
 												     
     loadedModel6.summary()
