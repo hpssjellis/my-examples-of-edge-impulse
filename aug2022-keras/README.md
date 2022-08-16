@@ -20,7 +20,9 @@ A html link to that folder is
 
 https://hpssjellis.github.io/my-examples-of-edge-impulse/aug2022-keras/for_tfjs_fomo/model.json
 
-Which might load up on a browser tensorflowjs webpage using this pagehttps://hpssjellis.github.io/my-examples-of-edge-impulse/aug2022-keras/show-fomo-model.html
+Which might load up on a browser tensorflowjs webpage using this page 
+
+https://hpssjellis.github.io/my-examples-of-edge-impulse/aug2022-keras/show-fomo-model.html
 
 
 running https://netron.app/ on the new TFJS model gave this diagram, but trying to load the model in the browswer seems to have issues.
