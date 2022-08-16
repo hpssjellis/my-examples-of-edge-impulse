@@ -16,6 +16,8 @@ The pre-designed gitpod for converting tensorflow to tensorflowjs is here   http
 
 The bash file I used is ```edge-to-tfjs.sh``` and the output folder is ```tfjs-layers``` which has the SHARD file and the JSON file
 
+note: I actually used the tensorflowjs_wizard to make the layers files
+
 A html link to that folder is 
 
 https://hpssjellis.github.io/my-examples-of-edge-impulse/aug2022-keras/tfjs-layers/model.json
