@@ -1,7 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.19.0"> </script> 
 
  
-<h6> Started Aug 15, 2022 Version 0.0.2-2</h6>
+<h6> Started Aug 15, 2022 Version 0.0.2-3</h6>
 
 
 LOAD URL <input id="myInFile" type="text" size="120" value="https://hpssjellis.github.io/my-examples-of-edge-impulse/aug2022-keras/for_tfjs_fomo/model.json"><br>  
@@ -22,9 +22,19 @@ Data Shape <input id="myInShape" type=text value="4,2"><br>
                                                                                                                                                         
   async function myGo6() {
 			
-   // const loadedModel6 = await	 tf.loadLayersModel(document.getElementById('myInFile').value)
-    const loadedModel6 = await	 tf.GraphModel(document.getElementById('myInFile').value)
-												     										     
+   // const loadedModel6 = await   tf.loadLayersModel(document.getElementById('myInFile').value)
+    const loadedModel6 = await	   tf.loadGraphModel(document.getElementById('myInFile').value)
+	/*
+												     
+tf.GraphModel
+												     
+ tf.loadGraphModel:
+
+The loaded model only supports only inference, but the speed of inference is generally faster than that of a tfjs_layers_model source
+
+When referring to the function which loads a layers model, tf.loadLayersModel:
+												     
+ */
 												     
 												     
     loadedModel6.summary()
