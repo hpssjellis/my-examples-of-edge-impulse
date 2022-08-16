@@ -14,11 +14,11 @@ https://github.com/hpssjellis/my-examples-for-the-arduino-portentaH7/tree/master
 
 The pre-designed gitpod for converting tensorflow to tensorflowjs is here   https://gitpod.io/#github.com/hpssjellis/Gitpod-auto-tensorflowJS-to-arduino
 
-The bash file I used is ```edge-to-tfjs.sh``` and the output folder is ```for_tfjs_fomo``` which has the SHARD file and the JSON file
+The bash file I used is ```edge-to-tfjs.sh``` and the output folder is ```tfjs-layers``` which has the SHARD file and the JSON file
 
 A html link to that folder is 
 
-https://hpssjellis.github.io/my-examples-of-edge-impulse/aug2022-keras/for_tfjs_fomo/model.json
+https://hpssjellis.github.io/my-examples-of-edge-impulse/aug2022-keras/tfjs-layers/model.json
 
 Which might load up on a browser tensorflowjs webpage using this page 
 
